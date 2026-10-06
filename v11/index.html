@@ -1,0 +1,1042 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>v11 · First Winter Club Field Catalog, Fall/Winter 2026</title>
+<style>
+  :root {
+    --paper: #f4efe4; --oat: #e7dcc6; --oat2: #d8c9ab; --forest: #2e4636; --forest-d: #1f3227;
+    --rust: #b0502a; --rust-d: #8c3c1c; --slate: #56636c; --ink: #1f2421; --mute: #6a675c; --line: #cdbfa3;
+    --sans: "Avenir Next", Avenir, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --serif: "Hoefler Text", "Iowan Old Style", Georgia, "Times New Roman", serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+  em { font-family: var(--serif); font-style: italic; font-weight: 400; }
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+  .kicker { font-size: 11px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--rust); }
+  .pg { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--mute); }
+  .code { font-size: 11px; font-weight: 600; letter-spacing: .12em; color: var(--mute); }
+
+  /* utility bar */
+  .util { background: var(--forest-d); color: var(--oat); font-size: 12px; letter-spacing: .06em; }
+  .util .wrap { display: flex; justify-content: space-between; align-items: center; height: 36px; }
+  .util a { text-decoration: none; font-weight: 600; }
+  .util a:hover { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
+  .util .ver { font-weight: 600; border: 1px solid rgba(231,220,198,.5); padding: 1px 8px; border-radius: 2px; letter-spacing: .1em; }
+
+  /* masthead */
+  .mast { border-bottom: 1px solid var(--line); background: var(--paper); position: sticky; top: 0; z-index: 10; }
+  .mast .wrap { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 28px; height: 72px; }
+  .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+  .logo b { display: block; font-size: 15px; letter-spacing: .22em; font-weight: 700; }
+  .logo small { display: block; font-family: var(--serif); font-style: italic; font-size: 13px; color: var(--mute); letter-spacing: 0; }
+  .mast nav { display: flex; gap: 26px; justify-content: center; font-size: 13px; font-weight: 500; }
+  .mast nav a { text-decoration: none; padding: 4px 0; border-bottom: 2px solid transparent; }
+  .mast nav a:hover { border-color: var(--rust); }
+  .bag { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-size: 13px; font-weight: 600; background: var(--forest); color: var(--paper); padding: 9px 14px; border-radius: 2px; }
+  .bag:hover { background: var(--rust); }
+  .bag i { font-style: normal; background: var(--paper); color: var(--forest); border-radius: 50%; width: 18px; height: 18px; display: inline-grid; place-items: center; font-size: 11px; }
+
+  /* cover */
+  .cover { display: grid; grid-template-columns: 1.25fr 1fr; gap: 48px; padding: 40px 0 48px; align-items: stretch; }
+  .cover figure { margin: 0; position: relative; background: #9aa8af; border-radius: 2px; overflow: hidden; min-height: 520px; }
+  .cover figure svg { display: block; width: 100%; height: 100%; }
+  .cover figcaption { position: absolute; left: 0; bottom: 0; right: 0; padding: 12px 16px; font-size: 12px; color: var(--paper); background: rgba(31,50,39,.82); display: flex; justify-content: space-between; gap: 12px; }
+  .cover figcaption em { font-size: 14px; }
+  .cover .copy { display: flex; flex-direction: column; justify-content: space-between; padding: 6px 0; }
+  .cover h1 { font-family: var(--serif); font-weight: 400; font-size: 64px; line-height: 1.0; letter-spacing: -.01em; margin: 14px 0 18px; }
+  .cover h1 em { color: var(--forest); }
+  .cover p.lede { font-size: 17px; line-height: 1.6; max-width: 46ch; margin: 0 0 24px; color: #36392f; }
+  .btns { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn { display: inline-block; text-decoration: none; font-weight: 600; font-size: 14px; padding: 14px 20px; border-radius: 2px; letter-spacing: .02em; border: 1.5px solid var(--forest); }
+  .btn.primary { background: var(--rust); border-color: var(--rust); color: #fff; }
+  .btn.primary:hover { background: var(--rust-d); border-color: var(--rust-d); }
+  .btn.ghost { color: var(--forest); }
+  .btn.ghost:hover { background: var(--forest); color: var(--paper); }
+  .chips { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--ink); margin-top: 34px; }
+  .chips div { padding: 14px 14px 0 0; }
+  .chips div + div { padding-left: 14px; border-left: 1px solid var(--line); }
+  .chips b { display: block; font-family: var(--serif); font-size: 30px; font-weight: 400; line-height: 1.05; }
+  .chips span { font-size: 12px; color: var(--mute); line-height: 1.4; display: block; margin-top: 4px; }
+
+  /* price-tag band */
+  .band { background: var(--forest); color: var(--paper); }
+  .band .wrap { display: grid; grid-template-columns: auto 1fr auto; gap: 40px; align-items: center; padding-top: 30px; padding-bottom: 30px; }
+  .band .tag { width: 92px; height: 92px; }
+  .band p { margin: 0; font-family: var(--serif); font-size: 30px; line-height: 1.25; }
+  .band p em { color: #e9b48f; }
+  .band .ex { font-size: 13px; line-height: 1.6; border-left: 1px solid rgba(244,239,228,.3); padding-left: 24px; max-width: 300px; }
+  .band .ex b { color: #fff; }
+
+  /* section heads */
+  section { padding: 72px 0; }
+  .sh { display: grid; grid-template-columns: 1fr auto; align-items: end; border-bottom: 1px solid var(--ink); padding-bottom: 14px; margin-bottom: 36px; }
+  .sh h2 { font-family: var(--serif); font-weight: 400; font-size: 46px; line-height: 1.05; margin: 8px 0 0; }
+  .sh h2 em { color: var(--rust); }
+
+  /* layering system */
+  .system { display: grid; grid-template-columns: 1.15fr 1fr; gap: 48px; align-items: start; }
+  .diagram { background: var(--oat); border-radius: 2px; padding: 14px; position: relative; }
+  .diagram svg { display: block; width: 100%; height: auto; }
+  .diagram .fig { position: absolute; left: 18px; bottom: 14px; font-size: 11px; color: var(--mute); letter-spacing: .08em; text-transform: uppercase; }
+  .layer { display: grid; grid-template-columns: 56px 1fr; gap: 18px; padding: 20px 0; border-bottom: 1px solid var(--line); }
+  .layer:first-child { padding-top: 4px; }
+  .layer .no { font-family: var(--serif); font-size: 40px; line-height: 1; color: var(--rust); }
+  .layer h3 { margin: 0; font-size: 19px; font-weight: 600; }
+  .layer h3 small { font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 16px; color: var(--mute); margin-left: 6px; }
+  .layer p { margin: 6px 0 10px; color: #3a3d34; }
+  .specs { display: grid; grid-template-columns: 110px 1fr; gap: 3px 12px; font-size: 13px; margin: 0; }
+  .specs dt { color: var(--mute); text-transform: uppercase; letter-spacing: .1em; font-size: 10.5px; padding-top: 2px; }
+  .specs dd { margin: 0; }
+  .note { margin-top: 22px; background: var(--paper); border: 1px solid var(--line); border-left: 4px solid var(--forest); padding: 14px 16px; font-size: 14px; }
+  .note b { color: var(--forest); }
+
+  /* kit */
+  .kit { background: #efe8da; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .grid6 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+  .card { background: var(--paper); border: 1px solid var(--line); border-radius: 2px; display: flex; flex-direction: column; }
+  .card .ph { background: var(--oat); position: relative; aspect-ratio: 4 / 3; display: grid; place-items: center; border-bottom: 1px solid var(--line); }
+  .card .ph svg { width: 78%; height: auto; }
+  .card .badge { position: absolute; top: 12px; left: 12px; font-size: 10.5px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; background: var(--paper); padding: 3px 8px; border-radius: 2px; }
+  .card .badge.r { background: var(--rust); color: #fff; }
+  .card .sw { position: absolute; bottom: 12px; right: 12px; display: flex; gap: 5px; }
+  .card .sw i { width: 12px; height: 12px; border-radius: 50%; border: 1.5px solid var(--paper); box-shadow: 0 0 0 1px var(--line); }
+  .card .bd { padding: 16px 18px 18px; display: flex; flex-direction: column; flex: 1; }
+  .card h3 { font-family: var(--serif); font-weight: 400; font-size: 25px; line-height: 1.1; margin: 4px 0 6px; }
+  .card .desc { margin: 0 0 14px; font-size: 14px; color: #3a3d34; }
+  .card table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: auto; }
+  .card td { padding: 7px 0; border-top: 1px solid var(--line); vertical-align: top; }
+  .card td:first-child { color: var(--mute); text-transform: uppercase; letter-spacing: .1em; font-size: 10.5px; width: 92px; padding-top: 9px; }
+  .dots { letter-spacing: .14em; color: var(--forest); font-size: 14px; }
+  .dots s { text-decoration: none; color: var(--oat2); }
+  .budget b { color: var(--ink); }
+  .budget s { text-decoration: none; color: var(--oat2); }
+  .card .fine { font-family: var(--serif); font-style: italic; font-size: 14px; color: var(--rust-d); margin: 10px 0 0; }
+  .legend { display: flex; gap: 24px; flex-wrap: wrap; font-size: 12px; color: var(--mute); margin-top: 24px; }
+  .legend b { color: var(--ink); }
+
+  /* rated to */
+  .rated { display: grid; grid-template-columns: 1fr 330px; gap: 44px; align-items: start; }
+  .scale-wrap { overflow-x: auto; }
+  .scale { min-width: 640px; position: relative; padding: 0 4px; }
+  .track-labels, .fb, .ticks { position: relative; height: 44px; }
+  .ticks { height: 22px; }
+  .mk { position: absolute; bottom: 0; transform: translateX(-50%); font-size: 12px; text-align: center; white-space: nowrap; line-height: 1.25; color: var(--ink); }
+  .mk b { display: block; font-size: 15px; font-weight: 600; }
+  .mk::after { content: ""; display: block; width: 1px; height: 8px; background: var(--ink); margin: 3px auto 0; }
+  .mk.end { transform: translateX(-100%); text-align: right; }
+  .mk.end::after { margin-right: 0; }
+  .bands { display: flex; gap: 2px; height: 46px; }
+  .bands div { height: 100%; display: flex; align-items: center; padding: 0 10px; font-size: 11.5px; font-weight: 600; letter-spacing: .02em; color: var(--ink); white-space: nowrap; overflow: hidden; }
+  .bands div:first-child { border-radius: 4px 0 0 4px; }
+  .bands div:last-child { border-radius: 0 4px 4px 0; }
+  .fb .mk { top: 0; bottom: auto; color: var(--rust-d); }
+  .fb .mk::after { display: none; }
+  .fb .mk::before { content: ""; display: block; width: 2px; height: 10px; background: var(--rust); margin: 0 auto 3px; }
+  .fb .mk.end::before { margin-right: 0; }
+  .fb .mk.low::before { height: 26px; }
+  .fb { height: 50px; }
+  .ticks span { position: absolute; top: 4px; transform: translateX(-50%); font-size: 11px; color: var(--mute); font-variant-numeric: tabular-nums; }
+  .axis { font-size: 11px; color: var(--mute); letter-spacing: .1em; text-transform: uppercase; display: flex; justify-content: space-between; border-top: 1px solid var(--line); padding-top: 6px; margin-top: 2px; }
+  .kitrows { margin-top: 30px; border-top: 1px solid var(--ink); }
+  .kr { display: grid; grid-template-columns: 1fr; gap: 6px; padding: 10px 0 12px; border-bottom: 1px solid var(--line); }
+  .kr .lbl { font-size: 13.5px; line-height: 1.3; display: flex; gap: 10px; align-items: baseline; }
+  .kr .lbl b { font-weight: 600; }
+  .kr .lbl span { color: var(--mute); font-size: 12px; }
+  .kr .lane { position: relative; height: 16px; background: repeating-linear-gradient(90deg, transparent 0 calc(11.111% - 1px), var(--line) calc(11.111% - 1px) 11.111%); }
+  .kr .lane i { position: absolute; top: 3px; height: 10px; background: var(--forest); border-radius: 4px; }
+  .kr .lane i.hatch { background: repeating-linear-gradient(135deg, var(--forest) 0 3px, transparent 3px 7px); border: 1.5px solid var(--forest); top: 2px; height: 12px; }
+  .kr .lane i:hover { outline: 2px solid var(--rust); outline-offset: 2px; }
+  .rated .caveat { font-size: 12px; color: var(--mute); margin-top: 14px; font-style: italic; font-family: var(--serif); font-size: 14px; }
+
+  .notes { background: #e9dfc9; border-radius: 2px; padding: 26px 24px 22px; position: relative; transform: rotate(.8deg);
+    background-image: repeating-linear-gradient(180deg, transparent 0 27px, rgba(86,99,108,.18) 27px 28px); background-position: 0 72px; }
+  .notes::before { content: ""; position: absolute; top: -12px; left: 50%; width: 96px; height: 24px; transform: translateX(-50%) rotate(-3deg); background: rgba(176,80,42,.35); }
+  .notes .kicker { color: var(--forest); }
+  .notes h3 { font-family: var(--serif); font-weight: 400; font-size: 26px; margin: 4px 0 2px; line-height: 1.1; }
+  .notes .who { font-size: 12px; color: var(--mute); margin-bottom: 14px; }
+  .notes blockquote { margin: 0; font-family: var(--serif); font-style: italic; font-size: 17px; line-height: 28px; color: #2d2f27; }
+  .notes blockquote p { margin: 0 0 14px; }
+  .notes ul { list-style: none; padding: 0; margin: 4px 0 0; font-size: 13px; line-height: 28px; }
+  .notes li { display: flex; justify-content: space-between; border-bottom: 1px dotted var(--slate); }
+  .notes li b { font-weight: 600; }
+  .notes .sig { font-size: 11px; color: var(--mute); margin-top: 12px; }
+
+  /* care label */
+  .care { padding: 0 0 72px; }
+  .label { display: grid; grid-template-columns: 220px repeat(4, 1fr); background: #fbf8f1; border: 1px solid var(--line); border-radius: 2px; position: relative; }
+  .label::after { content: ""; position: absolute; inset: 6px; border: 1px dashed var(--oat2); pointer-events: none; }
+  .label > div { padding: 22px 20px; }
+  .label > div + div { border-left: 1px solid var(--line); }
+  .label .t { background: var(--slate); color: var(--paper); }
+  .label .t h3 { font-size: 13px; letter-spacing: .2em; text-transform: uppercase; margin: 6px 0 8px; font-weight: 700; }
+  .label .t p { margin: 0; font-family: var(--serif); font-style: italic; font-size: 15px; line-height: 1.4; }
+  .label svg { width: 34px; height: 34px; display: block; margin-bottom: 10px; }
+  .label h4 { margin: 0 0 4px; font-size: 14px; font-weight: 600; }
+  .label p { margin: 0; font-size: 13px; color: #3a3d34; }
+
+  /* gear swap */
+  .swap { padding: 0; }
+  .spread { display: grid; grid-template-columns: 1fr 1fr; min-height: 560px; }
+  .spread .l { background: var(--rust); color: #fff6ec; padding: 56px 56px 48px; display: flex; flex-direction: column; }
+  .spread .l .kicker { color: #ffd9bf; }
+  .spread h2 { font-family: var(--serif); font-weight: 400; font-size: 82px; line-height: .95; margin: 14px 0 6px; letter-spacing: -.01em; }
+  .spread h2 + em { font-size: 26px; color: #ffe3cf; }
+  .spread .l p { font-size: 16px; line-height: 1.65; max-width: 46ch; margin: 22px 0 0; }
+  .spread dl { display: grid; grid-template-columns: 90px 1fr; gap: 10px 16px; margin: 30px 0 0; padding-top: 22px; border-top: 1px solid rgba(255,246,236,.35); font-size: 14px; }
+  .spread dt { text-transform: uppercase; letter-spacing: .14em; font-size: 10.5px; font-weight: 700; padding-top: 3px; color: #ffd9bf; }
+  .spread dd { margin: 0; }
+  .spread .r { background: var(--oat); position: relative; display: grid; place-items: center; padding: 30px; }
+  .spread .r svg { width: 100%; max-width: 520px; height: auto; }
+  .spread .r .pg { position: absolute; bottom: 16px; right: 20px; }
+  .spread .r .cap { position: absolute; top: 20px; left: 24px; font-family: var(--serif); font-style: italic; font-size: 15px; color: var(--slate); }
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-bottom: 1px solid var(--line); }
+  .steps div { padding: 24px 28px; }
+  .steps div + div { border-left: 1px solid var(--line); }
+  .steps b { font-family: var(--serif); font-weight: 400; font-size: 34px; color: var(--rust); display: block; line-height: 1; margin-bottom: 6px; }
+  .steps h4 { margin: 0 0 4px; font-size: 15px; }
+  .steps p { margin: 0; font-size: 14px; color: #3a3d34; }
+
+  /* order form */
+  .order-wrap { display: grid; grid-template-columns: 1fr 1.5fr; gap: 48px; align-items: start; }
+  .order-intro h2 { font-family: var(--serif); font-weight: 400; font-size: 50px; line-height: 1.02; margin: 10px 0 16px; }
+  .order-intro h2 em { color: var(--forest); }
+  .order-intro p { font-size: 16px; color: #3a3d34; max-width: 40ch; }
+  .order-intro ul { padding: 0; list-style: none; margin: 20px 0 0; font-size: 14px; }
+  .order-intro li { padding: 8px 0 8px 26px; border-top: 1px solid var(--line); position: relative; }
+  .order-intro li::before { content: ""; position: absolute; left: 2px; top: 13px; width: 12px; height: 12px; border: 1.5px solid var(--forest); border-radius: 2px; }
+  .order-intro li.ck::after { content: ""; position: absolute; left: 6px; top: 14px; width: 4px; height: 8px; border: solid var(--rust); border-width: 0 2px 2px 0; transform: rotate(45deg); }
+
+  .ofm { background: #fbf8f1; border: 2px solid var(--ink); border-radius: 2px; }
+  .ofm .hd { display: flex; justify-content: space-between; align-items: center; background: var(--ink); color: var(--paper); padding: 10px 18px; font-size: 12px; letter-spacing: .16em; text-transform: uppercase; font-weight: 700; }
+  .ofm .hd span:last-child { font-weight: 500; letter-spacing: .08em; }
+  .ofm table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+  .ofm th { text-align: left; font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--mute); font-weight: 600; padding: 10px 12px 6px; border-bottom: 1px solid var(--ink); }
+  .ofm td { padding: 11px 12px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+  .ofm td.num, .ofm th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .ofm td:first-child { font-weight: 600; font-size: 12px; letter-spacing: .06em; white-space: nowrap; }
+  .ofm td small { display: block; color: var(--mute); font-size: 12px; }
+  .ofm input[type=checkbox] { accent-color: var(--forest); width: 16px; height: 16px; vertical-align: middle; }
+  .ofm .tot td { border-bottom: 0; padding: 5px 12px; }
+  .ofm .tot td:first-child { font-weight: 400; letter-spacing: 0; font-size: 13.5px; text-align: right; color: var(--mute); }
+  .ofm .tot.big td { font-size: 17px; font-weight: 700; color: var(--ink); padding-top: 9px; padding-bottom: 14px; border-top: 1px solid var(--ink); }
+  .ship { padding: 18px 18px 22px; border-top: 2px solid var(--ink); display: grid; grid-template-columns: 1fr 1fr; gap: 14px 18px; }
+  .ship .full { grid-column: 1 / -1; }
+  .ship h4 { grid-column: 1 / -1; margin: 0; font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--mute); font-weight: 700; }
+  .fld label { display: block; font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--mute); font-weight: 600; margin-bottom: 2px; }
+  .fld input, .fld select { width: 100%; font: inherit; font-size: 15px; color: var(--ink); background: transparent; border: 0; border-bottom: 1.5px solid var(--ink); padding: 7px 0; border-radius: 0; }
+  .fld select { -webkit-appearance: none; appearance: none; background-image: linear-gradient(45deg, transparent 50%, var(--ink) 50%), linear-gradient(135deg, var(--ink) 50%, transparent 50%); background-position: calc(100% - 12px) 55%, calc(100% - 7px) 55%; background-size: 5px 5px; background-repeat: no-repeat; }
+  .fld input:focus, .fld select:focus { outline: none; border-bottom-color: var(--rust); box-shadow: 0 1.5px 0 var(--rust); }
+  .pay { display: flex; gap: 18px; align-items: center; font-size: 13px; color: var(--mute); }
+  .pay span { display: inline-flex; align-items: center; gap: 6px; }
+  .pay .box { width: 14px; height: 14px; border: 1.5px solid var(--mute); border-radius: 2px; display: inline-block; }
+  .pay .box.on { background: var(--forest); border-color: var(--forest); box-shadow: inset 0 0 0 2px #fbf8f1; }
+  .pay s { color: #a7a08f; }
+  .submit { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-top: 6px; }
+  .submit button { font: inherit; font-weight: 600; font-size: 15px; letter-spacing: .02em; background: var(--rust); color: #fff; border: 0; padding: 15px 24px; border-radius: 2px; cursor: pointer; }
+  .submit button:hover { background: var(--rust-d); }
+  .submit small { font-size: 11.5px; color: var(--mute); max-width: 28ch; line-height: 1.4; }
+  .err { grid-column: 1 / -1; color: var(--rust-d); font-size: 13px; margin: 0; min-height: 1px; }
+
+  .slip { display: none; background: #fbf8f1; border: 2px solid var(--ink); border-radius: 2px; }
+  .slip.on { display: block; }
+  .slip .hd { background: var(--forest); color: var(--paper); padding: 10px 18px; font-size: 12px; letter-spacing: .16em; text-transform: uppercase; font-weight: 700; display: flex; justify-content: space-between; }
+  .slip .in { padding: 26px 24px; }
+  .slip h3 { font-family: var(--serif); font-weight: 400; font-size: 36px; margin: 0 0 6px; line-height: 1.1; }
+  .slip p { margin: 0 0 14px; color: #3a3d34; }
+  .slip ol { margin: 10px 0 18px; padding: 0; list-style: none; counter-reset: c; columns: 2; column-gap: 28px; font-size: 13.5px; }
+  .slip li { counter-increment: c; padding: 6px 0; border-bottom: 1px solid var(--line); break-inside: avoid; }
+  .slip li::before { content: "FW-0" counter(c) "  "; font-size: 11px; font-weight: 700; color: var(--mute); letter-spacing: .06em; white-space: pre; }
+  .slip .stamp { display: inline-block; border: 2px solid var(--rust); color: var(--rust); font-weight: 700; letter-spacing: .16em; text-transform: uppercase; font-size: 12px; padding: 5px 10px; transform: rotate(-3deg); margin-bottom: 14px; }
+  .slip .fine { font-size: 12px; color: var(--mute); margin: 0; }
+
+  /* footer */
+  footer { background: var(--forest-d); color: var(--oat); padding: 48px 0 28px; margin-top: 0; font-size: 13px; }
+  footer .cols { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 32px; }
+  footer h5 { margin: 0 0 10px; font-size: 10.5px; letter-spacing: .18em; text-transform: uppercase; color: #a9b8a8; }
+  footer p { margin: 0; line-height: 1.6; }
+  footer .big { font-family: var(--serif); font-size: 26px; line-height: 1.2; color: var(--paper); }
+  footer .bot { display: flex; justify-content: space-between; border-top: 1px solid rgba(231,220,198,.25); margin-top: 36px; padding-top: 16px; font-size: 12px; }
+  footer a { color: var(--paper); font-weight: 600; text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  @media (max-width: 900px) {
+    .wrap { padding: 0 18px; }
+    .mast { position: static; }
+    .mast .wrap { grid-template-columns: 1fr auto; height: auto; padding-top: 12px; padding-bottom: 12px; }
+    .mast nav { display: none; }
+    .cover, .system, .rated, .order-wrap, .spread { grid-template-columns: 1fr; }
+    .cover figure { min-height: 0; }
+    .cover figure svg { aspect-ratio: 700 / 560; height: auto; }
+    .cover figcaption { position: static; }
+    .util .wrap > span:nth-child(2) { display: none; }
+    .cover h1 { font-size: 44px; }
+    .band .wrap { grid-template-columns: 1fr; gap: 16px; }
+    .band .ex { border-left: 0; padding-left: 0; }
+    .band p { font-size: 24px; }
+    .grid6 { grid-template-columns: 1fr; }
+    .sh h2 { font-size: 34px; }
+    .label { grid-template-columns: 1fr 1fr; }
+    .label .t { grid-column: 1 / -1; }
+    .label > div + div { border-left: 0; border-top: 1px solid var(--line); }
+    .spread .l { padding: 36px 22px; }
+    .spread h2 { font-size: 56px; }
+    .steps { grid-template-columns: 1fr; }
+    .steps div + div { border-left: 0; border-top: 1px solid var(--line); }
+    .ship { grid-template-columns: 1fr; }
+    .ofm table { font-size: 12.5px; }
+    .slip ol { columns: 1; }
+    footer .cols { grid-template-columns: 1fr 1fr; }
+    .notes { transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="util">
+  <div class="wrap">
+    <a href="../">← Gallery</a>
+    <span>Everything in this catalog ships free. Mostly because none of it is for sale.</span>
+    <span class="ver">v11</span>
+  </div>
+</div>
+
+<header class="mast">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="First Winter Club">
+      <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true">
+        <rect x="1" y="1" width="38" height="38" rx="2" fill="#2e4636"/>
+        <path d="M6 29 L15 15 L20 22 L24 17 L34 29 Z" fill="#e7dcc6"/>
+        <path d="M15 15 L18 19.5 L16.5 19 L15 21 L13.6 19 L12.4 19.4 Z" fill="#fff"/>
+        <rect x="6" y="31" width="28" height="2" fill="#b0502a"/>
+      </svg>
+      <span><b>FIRST WINTER CLUB</b><small>Field Catalog · Fall/Winter 2026</small></span>
+    </a>
+    <nav>
+      <a href="#system">The Layering System</a>
+      <a href="#kit">The Kit</a>
+      <a href="#rated">Rated To</a>
+      <a href="#swap">Gear Swap</a>
+      <a href="#order">Checklist</a>
+    </nav>
+    <a class="bag" href="#order">Order form <i>1</i></a>
+  </div>
+</header>
+
+<main id="top">
+<div class="wrap">
+  <div class="cover">
+    <figure>
+      <svg viewBox="0 0 700 560" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustration: a student in a rust parka, hat, neck gaiter, mittens and boots standing on a snowy lakefront in winter">
+        <rect width="700" height="560" fill="#9aa8af"/>
+        <circle cx="560" cy="150" r="40" fill="#e7dcc6" opacity=".55"/>
+        <circle cx="560" cy="150" r="26" fill="#f4efe4" opacity=".8"/>
+        <!-- generic distant skyline -->
+        <g fill="#7a8890">
+          <rect x="20" y="268" width="26" height="62"/><rect x="50" y="250" width="18" height="80"/><rect x="72" y="282" width="30" height="48"/>
+          <rect x="106" y="232" width="16" height="98"/><rect x="126" y="262" width="34" height="68"/><rect x="164" y="290" width="22" height="40"/>
+          <rect x="470" y="276" width="24" height="54"/><rect x="498" y="256" width="16" height="74"/><rect x="518" y="286" width="40" height="44"/>
+          <rect x="562" y="266" width="20" height="64"/><rect x="586" y="294" width="40" height="36"/><rect x="630" y="280" width="22" height="50"/>
+        </g>
+        <rect x="0" y="330" width="700" height="70" fill="#c3ccce"/>
+        <g stroke="#e9eeee" stroke-width="2" stroke-linecap="round" opacity=".8">
+          <line x1="40" y1="350" x2="140" y2="350"/><line x1="420" y1="362" x2="560" y2="362"/><line x1="200" y1="376" x2="300" y2="376"/><line x1="590" y1="384" x2="670" y2="384"/>
+        </g>
+        <path d="M0 400 Q180 384 350 398 T700 392 L700 560 L0 560 Z" fill="#f4efe4"/>
+        <path d="M0 470 Q200 456 380 470 T700 466" stroke="#e1d8c6" stroke-width="3" fill="none"/>
+        <!-- bare tree -->
+        <g stroke="#56636c" stroke-width="3" stroke-linecap="round" fill="none">
+          <path d="M96 420 L100 300"/><path d="M99 340 L72 312"/><path d="M99 326 L126 296"/><path d="M100 308 L88 286"/><path d="M76 316 L66 306"/>
+        </g>
+        <!-- wind -->
+        <g stroke="#f4efe4" stroke-width="2.5" stroke-linecap="round" fill="none" opacity=".85">
+          <path d="M680 240 Q600 236 540 250 Q510 258 520 270"/><path d="M690 300 Q610 296 470 314"/><path d="M660 214 Q620 212 590 220"/>
+        </g>
+        <!-- figure -->
+        <g>
+          <ellipse cx="310" cy="522" rx="86" ry="10" fill="#d9cfbc"/>
+          <rect x="276" y="430" width="26" height="70" fill="#3d4a52"/>
+          <rect x="318" y="430" width="26" height="70" fill="#3d4a52"/>
+          <path d="M268 492 L304 492 L306 512 Q306 520 298 520 L262 520 Q258 520 260 512 Z" fill="#3b2f28"/>
+          <path d="M316 492 L352 492 L360 512 Q362 520 354 520 L318 520 Q314 520 314 512 Z" fill="#3b2f28"/>
+          <rect x="264" y="488" width="42" height="7" fill="#e7dcc6"/><rect x="314" y="488" width="42" height="7" fill="#e7dcc6"/>
+          <path d="M266 300 Q236 340 236 404 L258 406 Q262 350 284 322 Z" fill="#9c4522"/>
+          <path d="M354 300 Q384 340 384 404 L362 406 Q358 350 336 322 Z" fill="#9c4522"/>
+          <path d="M262 288 Q310 270 358 288 L374 446 Q310 458 246 446 Z" fill="#b0502a"/>
+          <line x1="310" y1="282" x2="310" y2="452" stroke="#7e3517" stroke-width="2.5"/>
+          <path d="M262 392 L292 392 M328 392 L358 392" stroke="#7e3517" stroke-width="2"/>
+          <path d="M250 436 Q310 448 370 436" stroke="#7e3517" stroke-width="2" fill="none"/>
+          <ellipse cx="247" cy="414" rx="13" ry="16" fill="#2e4636"/><ellipse cx="373" cy="414" rx="13" ry="16" fill="#2e4636"/>
+          <circle cx="310" cy="252" r="42" fill="#9c4522"/>
+          <circle cx="310" cy="254" r="32" fill="none" stroke="#e7dcc6" stroke-width="9"/>
+          <circle cx="310" cy="256" r="24" fill="#c89574"/>
+          <path d="M286 252 Q286 226 310 224 Q334 226 334 252 Z" fill="#2e4636"/>
+          <rect x="285" y="244" width="50" height="10" rx="2" fill="#24382b"/>
+          <circle cx="301" cy="262" r="2.2" fill="#1f2421"/><circle cx="319" cy="262" r="2.2" fill="#1f2421"/>
+          <path d="M287 268 L333 268 L336 290 Q310 298 284 290 Z" fill="#56636c"/>
+          <path d="M290 276 L330 276 M290 283 L330 283" stroke="#46525a" stroke-width="1.5"/>
+        </g>
+        <!-- snow -->
+        <g fill="#fff" opacity=".9">
+          <circle cx="60" cy="90" r="2.5"/><circle cx="160" cy="150" r="2"/><circle cx="240" cy="60" r="3"/><circle cx="420" cy="110" r="2"/><circle cx="470" cy="200" r="2.5"/>
+          <circle cx="630" cy="60" r="2"/><circle cx="380" cy="40" r="2"/><circle cx="120" cy="220" r="3"/><circle cx="660" cy="350" r="2"/><circle cx="210" cy="300" r="2"/>
+        </g>
+        <!-- shop the look callouts -->
+        <g font-family="Avenir Next, Avenir, Helvetica Neue, Arial, sans-serif" font-size="12" font-weight="600" fill="#1f2421">
+          <g><line x1="320" y1="232" x2="440" y2="186" stroke="#f4efe4" stroke-width="1.5"/><circle cx="320" cy="232" r="5" fill="#f4efe4"/><rect x="440" y="174" width="96" height="24" rx="2" fill="#f4efe4"/><text x="450" y="190">FW-02 · Hat</text></g>
+          <g><line x1="330" y1="282" x2="440" y2="258" stroke="#f4efe4" stroke-width="1.5"/><circle cx="330" cy="282" r="5" fill="#f4efe4"/><rect x="440" y="246" width="112" height="24" rx="2" fill="#f4efe4"/><text x="450" y="262">FW-04 · Gaiter</text></g>
+          <g><line x1="356" y1="360" x2="440" y2="330" stroke="#f4efe4" stroke-width="1.5"/><circle cx="356" cy="360" r="5" fill="#f4efe4"/><rect x="440" y="318" width="104" height="24" rx="2" fill="#f4efe4"/><text x="450" y="334">FW-05 · Parka</text></g>
+          <g><line x1="244" y1="414" x2="210" y2="452" stroke="#f4efe4" stroke-width="1.5"/><circle cx="244" cy="414" r="5" fill="#f4efe4"/><rect x="92" y="452" width="120" height="24" rx="2" fill="#f4efe4"/><text x="102" y="468">FW-03 · Mittens</text></g>
+          <g><line x1="340" y1="506" x2="440" y2="488" stroke="#1f2421" stroke-width="1.5"/><circle cx="340" cy="506" r="5" fill="#1f2421"/><rect x="440" y="476" width="104" height="24" rx="2" fill="#1f2421"/><text x="450" y="492" fill="#f4efe4">FW-06 · Boots</text></g>
+        </g>
+      </svg>
+      <figcaption><span><em>Shown:</em> the full system, lakefront, January. Air 8°F, wind chill −12°F.</span><span>Cover · p. 01</span></figcaption>
+    </figure>
+
+    <div class="copy">
+      <div>
+        <span class="kicker">The First Winter Collection · Catalog No. 01</span>
+        <h1>Dressed for your first <em>−20°.</em><br>Built on a student budget.</h1>
+        <p class="lede">Everything a UChicago international student from somewhere warm needs to walk to a 9 AM in a Chicago January. Curated and field-tested by First Winter Club, a student-run peer support group. Nothing here is for sale. All of it is findable for cheap.</p>
+        <div class="btns">
+          <a class="btn primary" href="#order">Get the free First Winter Checklist</a>
+          <a class="btn ghost" href="#system">Shop the system →</a>
+        </div>
+      </div>
+      <div class="chips">
+        <div><b>31° / 18°</b><span>January average high / low, °F. Before the wind.</span></div>
+        <div><b>−30°</b><span>Wind chill can hit −30°F or lower. Below 0°F is routine.</span></div>
+        <div><b>4:20 PM</b><span>Sunset on Dec 21. About 9 h 08 m of daylight.</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="band">
+  <div class="wrap">
+    <svg class="tag" viewBox="0 0 92 92" aria-hidden="true">
+      <path d="M30 8 L84 8 L84 84 L30 84 L8 46 Z" fill="#e7dcc6"/>
+      <circle cx="26" cy="46" r="5" fill="#2e4636"/>
+      <text x="56" y="44" text-anchor="middle" font-family="Hoefler Text, Georgia, serif" font-size="22" fill="#1f2421">−19°</text>
+      <text x="56" y="62" text-anchor="middle" font-family="Avenir Next, Arial, sans-serif" font-size="8.5" font-weight="700" letter-spacing="1" fill="#b0502a">FEELS LIKE</text>
+    </svg>
+    <p>The temperature is the price tag. <em>The wind chill is what you actually pay.</em></p>
+    <div class="ex">0°F air plus a 15 mph lake wind feels like <b>−19°F</b> on bare skin. At that wind chill, frostbite can set in within about 30 minutes. Always check the “feels like” number.</div>
+  </div>
+</div>
+
+<section id="system">
+  <div class="wrap">
+    <div class="sh">
+      <div><span class="kicker">The Layering System</span><h2>Three thin layers beat <em>one big coat.</em></h2></div>
+      <span class="pg">pp. 02–03</span>
+    </div>
+    <div class="system">
+      <div class="diagram">
+        <svg viewBox="0 0 700 600" role="img" aria-label="Exploded-view diagram of three layers: 01 base layer, 02 mid layer, 03 shell parka, offset diagonally along a dashed axis">
+          <defs>
+            <pattern id="fleece" width="8" height="8" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.1" fill="#3f5a48"/><circle cx="6" cy="6" r="1.1" fill="#3f5a48"/></pattern>
+          </defs>
+          <!-- axis -->
+          <path d="M175 96 L325 176 L478 246" stroke="#56636c" stroke-width="1.5" stroke-dasharray="5 6" fill="none"/>
+          <!-- 01 base -->
+          <g transform="translate(175 110) scale(.78)" stroke="#1f2421" stroke-width="2.4" stroke-linejoin="round">
+            <path d="M-38 0 Q0 26 38 0 L92 14 L146 150 L120 162 L76 72 L76 240 L-76 240 L-76 72 L-120 162 L-146 150 L-92 14 Z" fill="#f4efe4"/>
+            <path d="M-76 226 L76 226 M146 150 L120 162 M-146 150 L-120 162" fill="none"/>
+            <path d="M136 128 L112 140 M-136 128 L-112 140" fill="none" stroke-width="1.5"/>
+            <path d="M-30 6 Q0 26 30 6" fill="none" stroke-width="1.5"/>
+          </g>
+          <!-- 02 mid -->
+          <g transform="translate(325 188) scale(.82)" stroke="#1f3227" stroke-width="2.4" stroke-linejoin="round">
+            <path d="M-40 -6 L40 -6 L42 6 L96 16 L150 156 L122 168 L80 74 L80 246 L-80 246 L-80 74 L-122 168 L-150 156 L-96 16 L-42 6 Z" fill="#2e4636"/>
+            <path d="M-40 -6 L40 -6 L42 6 L96 16 L150 156 L122 168 L80 74 L80 246 L-80 246 L-80 74 L-122 168 L-150 156 L-96 16 L-42 6 Z" fill="url(#fleece)" stroke="none"/>
+            <path d="M0 -6 L0 92" stroke="#e7dcc6" stroke-width="2.5"/>
+            <rect x="-5" y="86" width="10" height="14" rx="2" fill="#e7dcc6" stroke="none"/>
+            <path d="M-80 232 L80 232" stroke="#e7dcc6" stroke-width="1.5" opacity=".6"/>
+          </g>
+          <!-- 03 shell -->
+          <g transform="translate(478 258) scale(.86)" stroke="#5e2a12" stroke-width="2.4" stroke-linejoin="round">
+            <path d="M-50 6 Q-56 -74 0 -80 Q56 -74 50 6 Z" fill="#8c3c1c"/>
+            <path d="M-34 0 Q-38 -56 0 -60 Q38 -56 34 0" fill="none" stroke="#e7dcc6" stroke-width="7"/>
+            <path d="M-42 0 Q0 18 42 0 L102 16 L152 172 L124 184 L86 82 L92 304 L-92 304 L-86 82 L-124 184 L-152 172 L-102 16 Z" fill="#b0502a"/>
+            <path d="M0 10 L0 304" stroke-width="2"/>
+            <path d="M-70 178 L-30 178 L-30 222 L-70 222 Z M30 178 L70 178 L70 222 L30 222 Z" fill="none" stroke-width="1.8"/>
+            <path d="M-92 290 L92 290" stroke-width="1.5"/>
+            <circle cx="-12" cy="40" r="3" fill="#5e2a12"/><circle cx="-12" cy="90" r="3" fill="#5e2a12"/><circle cx="-12" cy="140" r="3" fill="#5e2a12"/>
+          </g>
+          <!-- wind hitting shell -->
+          <g stroke="#56636c" stroke-width="2" stroke-linecap="round" fill="none">
+            <path d="M694 330 L640 330"/><path d="M694 352 L632 352"/><path d="M694 374 L640 374"/>
+            <path d="M640 330 l8 -5 M640 330 l8 5 M632 352 l8 -5 M632 352 l8 5 M640 374 l8 -5 M640 374 l8 5"/>
+          </g>
+          <!-- sweat arrows from base -->
+          <g stroke="#56636c" stroke-width="1.6" fill="none" stroke-linecap="round">
+            <path d="M120 180 q-10 -14 0 -28 t0 -28"/><path d="M140 186 q-10 -14 0 -28 t0 -28"/>
+          </g>
+          <!-- labels -->
+          <g font-family="Avenir Next, Avenir, Helvetica Neue, Arial, sans-serif" fill="#1f2421">
+            <line x1="68" y1="64" x2="112" y2="118" stroke="#1f2421" stroke-width="1"/>
+            <circle cx="56" cy="52" r="16" fill="#b0502a"/><text x="56" y="57" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">01</text>
+            <text x="80" y="44" font-size="14" font-weight="700" letter-spacing="1.5">BASE</text>
+            <text x="80" y="62" font-size="12" fill="#56636c">moves sweat off skin</text>
+
+            <line x1="410" y1="198" x2="470" y2="150" stroke="#1f2421" stroke-width="1"/>
+            <circle cx="484" cy="140" r="16" fill="#b0502a"/><text x="484" y="145" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">02</text>
+            <text x="508" y="134" font-size="14" font-weight="700" letter-spacing="1.5">MID</text>
+            <text x="508" y="152" font-size="12" fill="#56636c">traps warm air</text>
+
+            <line x1="400" y1="500" x2="232" y2="526" stroke="#1f2421" stroke-width="1"/>
+            <circle cx="216" cy="528" r="16" fill="#b0502a"/><text x="216" y="533" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">03</text>
+            <text x="64" y="522" font-size="14" font-weight="700" letter-spacing="1.5">SHELL</text>
+            <text x="64" y="540" font-size="12" fill="#56636c">blocks wind &amp; snow</text>
+
+            <text x="694" y="400" font-size="11" fill="#56636c" text-anchor="end" letter-spacing="1">LAKE WIND</text>
+            <text x="102" y="108" font-size="11" fill="#56636c" letter-spacing="1" text-anchor="middle">SWEAT</text>
+          </g>
+        </svg>
+        <span class="fig">Fig. 1 · Exploded view, inside → out</span>
+      </div>
+
+      <div>
+        <div class="layer">
+          <div class="no">01</div>
+          <div>
+            <h3>Base layer <small>next to skin</small></h3>
+            <p>A thin, snug top and leggings that pull sweat away from your skin so it can't chill you. <b>Never cotton:</b> it soaks up moisture and stays wet.</p>
+            <dl class="specs"><dt>Material</dt><dd>Merino wool or synthetic</dd><dt>Get it cheap</dt><dd>Uniqlo HEATTECH, Costco multipacks</dd></dl>
+          </div>
+        </div>
+        <div class="layer">
+          <div class="no">02</div>
+          <div>
+            <h3>Mid layer <small>the warmth</small></h3>
+            <p>Fleece or a light down jacket. It holds a pocket of warm air around you. Unzip or take it off in an overheated lecture hall.</p>
+            <dl class="specs"><dt>Material</dt><dd>Fleece or light down</dd><dt>Get it cheap</dt><dd>Thrift stores, the November gear swap</dd></dl>
+          </div>
+        </div>
+        <div class="layer">
+          <div class="no">03</div>
+          <div>
+            <h3>Shell <small>the weather</small></h3>
+            <p>A windproof, waterproof parka with a hood that reaches past your hips. This is what stops the lake wind.</p>
+            <dl class="specs"><dt>Material</dt><dd>Windproof, waterproof outer</dd><dt>Fit</dt><dd>Past the hips, room for layers underneath</dd></dl>
+          </div>
+        </div>
+        <div class="note"><b>System note:</b> three layers trap more air than one heavy coat, and you can adjust them. Cold outside, hot inside: take off a layer instead of sweating through your only one.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="kit" id="kit">
+  <div class="wrap">
+    <div class="sh">
+      <div><span class="kicker">The Kit · Six essentials</span><h2>Everything you need. <em>Nothing you don't.</em></h2></div>
+      <span class="pg">pp. 04–09</span>
+    </div>
+    <div class="grid6">
+
+      <article class="card">
+        <div class="ph">
+          <span class="badge r">Start here</span>
+          <svg viewBox="0 0 200 150" aria-hidden="true">
+            <g transform="translate(76 26) scale(.42)" stroke="#1f2421" stroke-width="4" stroke-linejoin="round"><path d="M-38 0 Q0 26 38 0 L92 14 L146 150 L120 162 L76 72 L76 240 L-76 240 L-76 72 L-120 162 L-146 150 L-92 14 Z" fill="#f4efe4"/></g>
+            <g transform="translate(150 30)" stroke="#1f2421" stroke-width="1.7" stroke-linejoin="round"><path d="M-22 0 L22 0 L26 100 L8 100 L0 30 L-8 100 L-26 100 Z" fill="#56636c"/><path d="M-22 8 L22 8" /></g>
+          </svg>
+          <span class="sw"><i style="background:#1f2421"></i><i style="background:#56636c"></i><i style="background:#f4efe4"></i></span>
+        </div>
+        <div class="bd">
+          <span class="code">FW-01 · LAYER 01</span>
+          <h3>The Base Layer Set</h3>
+          <p class="desc">Thermal top and leggings, worn under everything, every day from December to March.</p>
+          <table>
+            <tr><td>Warmth</td><td><span class="dots" aria-label="2 of 4">●●<s>●●</s></span> <small>on its own</small></td></tr>
+            <tr><td>Wear when</td><td>Below freezing</td></tr>
+            <tr><td>Get it cheap</td><td>Uniqlo HEATTECH, Costco multipacks, thrifted wool</td></tr>
+            <tr><td>Budget</td><td class="budget"><b>$</b><s>$$</s></td></tr>
+          </table>
+          <p class="fine">Merino or synthetic. Never cotton.</p>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="ph">
+          <svg viewBox="0 0 200 150" aria-hidden="true">
+            <circle cx="100" cy="30" r="13" fill="#e7dcc6" stroke="#1f2421" stroke-width="1.7"/>
+            <path d="M48 104 Q48 42 100 40 Q152 42 152 104 Z" fill="#2e4636" stroke="#1f2421" stroke-width="1.7"/>
+            <path d="M74 50 Q66 76 66 104 M100 40 L100 104 M126 50 Q134 76 134 104" stroke="#24382b" stroke-width="1.5" fill="none"/>
+            <rect x="44" y="96" width="112" height="30" rx="3" fill="#24382b" stroke="#1f2421" stroke-width="1.7"/>
+            <g stroke="#3f5a48" stroke-width="2"><path d="M54 100 v22 M64 100 v22 M74 100 v22 M84 100 v22 M94 100 v22 M104 100 v22 M114 100 v22 M124 100 v22 M134 100 v22 M144 100 v22"/></g>
+          </svg>
+          <span class="sw"><i style="background:#2e4636"></i><i style="background:#b0502a"></i><i style="background:#56636c"></i></span>
+        </div>
+        <div class="bd">
+          <span class="code">FW-02 · HEAD</span>
+          <h3>The Over-the-Ears Hat</h3>
+          <p class="desc">A knit hat that pulls all the way down over both ears. Not perched on top. Ears are the first thing to go.</p>
+          <table>
+            <tr><td>Warmth</td><td><span class="dots" aria-label="3 of 4">●●●<s>●</s></span></td></tr>
+            <tr><td>Wear when</td><td>Below 40°F</td></tr>
+            <tr><td>Get it cheap</td><td>Thrift stores, Costco, the gear swap</td></tr>
+            <tr><td>Budget</td><td class="budget"><b>$</b><s>$$</s></td></tr>
+          </table>
+          <p class="fine">Fleece-lined if you can find it.</p>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="ph">
+          <span class="badge">Staff pick</span>
+          <svg viewBox="0 0 200 150" aria-hidden="true">
+            <g transform="translate(28 18)" stroke="#1f2421" stroke-width="1.7" stroke-linejoin="round">
+              <path d="M20 96 L20 40 Q20 10 44 10 Q66 10 66 40 L66 96 Z" fill="#b0502a"/>
+              <path d="M20 58 Q2 52 4 36 Q8 26 20 36" fill="#b0502a"/>
+              <rect x="16" y="90" width="54" height="22" rx="2" fill="#e7dcc6"/>
+              <path d="M24 94 v14 M32 94 v14 M40 94 v14 M48 94 v14 M56 94 v14 M64 94 v14" stroke="#cdbfa3" stroke-width="1.5"/>
+            </g>
+            <g transform="translate(172 18) scale(-1 1)" stroke="#1f2421" stroke-width="1.7" stroke-linejoin="round">
+              <path d="M20 96 L20 40 Q20 10 44 10 Q66 10 66 40 L66 96 Z" fill="#b0502a"/>
+              <path d="M20 58 Q2 52 4 36 Q8 26 20 36" fill="#b0502a"/>
+              <rect x="16" y="90" width="54" height="22" rx="2" fill="#e7dcc6"/>
+              <path d="M24 94 v14 M32 94 v14 M40 94 v14 M48 94 v14 M56 94 v14 M64 94 v14" stroke="#cdbfa3" stroke-width="1.5"/>
+            </g>
+          </svg>
+          <span class="sw"><i style="background:#b0502a"></i><i style="background:#1f2421"></i></span>
+        </div>
+        <div class="bd">
+          <span class="code">FW-03 · HANDS</span>
+          <h3>Mittens, Not Gloves</h3>
+          <p class="desc">Fingers kept together share heat, so mittens stay warmer than gloves. Wear thin liner gloves inside for your phone.</p>
+          <table>
+            <tr><td>Warmth</td><td><span class="dots" aria-label="4 of 4">●●●●</span></td></tr>
+            <tr><td>Wear when</td><td>Below 20°F, or any wind</td></tr>
+            <tr><td>Get it cheap</td><td>Costco, thrift stores, the gear swap</td></tr>
+            <tr><td>Budget</td><td class="budget"><b>$</b><s>$$</s></td></tr>
+          </table>
+          <p class="fine">Warmer than gloves, and they cost less.</p>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="ph">
+          <svg viewBox="0 0 200 150" aria-hidden="true">
+            <path d="M58 34 Q100 22 142 34 L146 116 Q100 130 54 116 Z" fill="#56636c" stroke="#1f2421" stroke-width="1.7" stroke-linejoin="round"/>
+            <ellipse cx="100" cy="32" rx="42" ry="9" fill="#3d4a52" stroke="#1f2421" stroke-width="1.7"/>
+            <path d="M56 70 Q100 82 144 70 M56 82 Q100 94 144 82" stroke="#e7dcc6" stroke-width="3" fill="none"/>
+            <path d="M80 44 Q78 80 80 120 M120 44 Q122 80 120 120" stroke="#46525a" stroke-width="1.3" fill="none"/>
+          </svg>
+          <span class="sw"><i style="background:#56636c"></i><i style="background:#2e4636"></i><i style="background:#e7dcc6"></i></span>
+        </div>
+        <div class="bd">
+          <span class="code">FW-04 · FACE &amp; NECK</span>
+          <h3>The Neck Gaiter</h3>
+          <p class="desc">A fleece tube (or a long scarf) that seals your collar and pulls up over your nose and mouth when the wind bites.</p>
+          <table>
+            <tr><td>Warmth</td><td><span class="dots" aria-label="3 of 4">●●●<s>●</s></span></td></tr>
+            <tr><td>Wear when</td><td>Wind chill below 0°F</td></tr>
+            <tr><td>Get it cheap</td><td>Uniqlo, Costco, thrift-store scarves</td></tr>
+            <tr><td>Budget</td><td class="budget"><b>$</b><s>$$</s></td></tr>
+          </table>
+          <p class="fine">Cover your nose. It's exposed skin.</p>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="ph">
+          <span class="badge r">Biggest buy</span>
+          <svg viewBox="0 0 200 150" aria-hidden="true">
+            <g transform="translate(100 36) scale(.34)" stroke="#5e2a12" stroke-width="5" stroke-linejoin="round">
+              <path d="M-50 6 Q-56 -74 0 -80 Q56 -74 50 6 Z" fill="#8c3c1c"/>
+              <path d="M-34 0 Q-38 -56 0 -60 Q38 -56 34 0" fill="none" stroke="#e7dcc6" stroke-width="14"/>
+              <path d="M-42 0 Q0 18 42 0 L102 16 L152 172 L124 184 L86 82 L92 304 L-92 304 L-86 82 L-124 184 L-152 172 L-102 16 Z" fill="#b0502a"/>
+              <path d="M0 10 L0 304"/>
+              <path d="M-70 178 L-30 178 L-30 222 L-70 222 Z M30 178 L70 178 L70 222 L30 222 Z" fill="none" stroke-width="4"/>
+            </g>
+          </svg>
+          <span class="sw"><i style="background:#b0502a"></i><i style="background:#2e4636"></i><i style="background:#1f2421"></i></span>
+        </div>
+        <div class="bd">
+          <span class="code">FW-05 · LAYER 03</span>
+          <h3>The Past-the-Hips Parka</h3>
+          <p class="desc">Windproof, waterproof, hooded, and long enough to cover your hips. Leave room for a fleece underneath.</p>
+          <table>
+            <tr><td>Warmth</td><td><span class="dots" aria-label="4 of 4">●●●●</span> <small>over layers</small></td></tr>
+            <tr><td>Wear when</td><td>December to March</td></tr>
+            <tr><td>Get it cheap</td><td>Thrift stores, Costco, the gear swap. Shop early.</td></tr>
+            <tr><td>Budget</td><td class="budget"><b>$$–$$$</b></td></tr>
+          </table>
+          <p class="fine">Don't panic-buy in January. Start in October.</p>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="ph">
+          <svg viewBox="0 0 200 150" aria-hidden="true">
+            <g stroke="#1f2421" stroke-width="1.7" stroke-linejoin="round">
+              <g transform="translate(34 24)">
+                <path d="M4 10 L40 10 L42 70 Q72 72 80 90 L80 100 L0 100 Z" fill="#3b2f28"/>
+                <rect x="0" y="0" width="46" height="16" rx="3" fill="#e7dcc6"/>
+                <rect x="-2" y="98" width="84" height="12" rx="2" fill="#1f2421"/>
+                <path d="M6 110 v-4 M18 110 v-4 M30 110 v-4 M42 110 v-4 M54 110 v-4 M66 110 v-4" stroke="#56636c" stroke-width="2"/>
+                <path d="M30 30 L42 34 M30 42 L42 46 M30 54 L42 58" stroke="#e7dcc6" stroke-width="2"/>
+              </g>
+              <g transform="translate(90 32)" opacity=".92">
+                <path d="M4 10 L40 10 L42 70 Q72 72 80 90 L80 100 L0 100 Z" fill="#4a3b32"/>
+                <rect x="0" y="0" width="46" height="16" rx="3" fill="#e7dcc6"/>
+                <rect x="-2" y="98" width="84" height="12" rx="2" fill="#1f2421"/>
+                <path d="M30 30 L42 34 M30 42 L42 46 M30 54 L42 58" stroke="#e7dcc6" stroke-width="2"/>
+              </g>
+            </g>
+          </svg>
+          <span class="sw"><i style="background:#3b2f28"></i><i style="background:#1f2421"></i></span>
+        </div>
+        <div class="bd">
+          <span class="code">FW-06 · FEET</span>
+          <h3>The Grip-Sole Winter Boot</h3>
+          <p class="desc">Insulated, waterproof, with real tread. Ice sticks around for months, and slush gets into sneakers.</p>
+          <table>
+            <tr><td>Warmth</td><td><span class="dots" aria-label="3 of 4">●●●<s>●</s></span> <small>+ wool socks</small></td></tr>
+            <tr><td>Wear when</td><td>First snow (usually November) onward</td></tr>
+            <tr><td>Get it cheap</td><td>Costco, thrift stores, the gear swap</td></tr>
+            <tr><td>Budget</td><td class="budget"><b>$$</b><s>$</s></td></tr>
+          </table>
+          <p class="fine">Check the tread before you check the color.</p>
+        </div>
+      </article>
+
+    </div>
+    <div class="legend">
+      <span><b>Warmth</b> ●○○○ light → ●●●● warmest, club rating</span>
+      <span><b>Budget</b> $ under ~$25 · $$ ~$25–75 · $$$ ~$75+ (rough, new or used)</span>
+      <span>Store names are examples of affordable options, not sponsors.</span>
+    </div>
+  </div>
+</section>
+
+<section id="rated">
+  <div class="wrap">
+    <div class="sh">
+      <div><span class="kicker">Rated To · Wind chill guide</span><h2>Dress for the number <em>that actually hits you.</em></h2></div>
+      <span class="pg">p. 10</span>
+    </div>
+    <div class="rated">
+      <div>
+        <div class="scale-wrap">
+          <div class="scale" id="scale">
+            <div class="track-labels" id="above"></div>
+            <div class="bands" id="bands"></div>
+            <div class="ticks" id="ticks"></div>
+            <div class="fb" id="fb"></div>
+            <div class="axis"><span>← warmer</span><span>Temperature / wind chill, °F</span><span>colder →</span></div>
+            <div class="kitrows" id="kitrows"></div>
+          </div>
+        </div>
+        <p class="caveat">Club guidance, not a guarantee. Ratings assume you are moving, dry, and outside for a normal walk to class. If skin feels numb, stings, or turns pale, go inside and warm up gradually. Frostbite times are for exposed skin.</p>
+      </div>
+
+      <aside class="notes" aria-label="Field notes from a student">
+        <span class="kicker">Field Notes · Tested by</span>
+        <h3>“I lasted eight minutes at the bus stop.”</h3>
+        <div class="who">Ama, second-year, from Accra. It never snows there.</div>
+        <blockquote>
+          <p>My first January I wore my one cotton hoodie under a fashion coat and thought I was ready. The air said 12°F. The wind chill said −10°F. My ears hurt for an hour.</p>
+          <p>The second winter I followed the system and spent almost nothing:</p>
+        </blockquote>
+        <ul>
+          <li><span>HEATTECH top + leggings</span><b>$</b></li>
+          <li><span>Thrifted fleece</span><b>$</b></li>
+          <li><span>Parka from the gear swap</span><b>free</b></li>
+          <li><span>Costco mittens + hat</span><b>$</b></li>
+          <li><span>Boots, end-of-season sale</span><b>$$</b></li>
+        </ul>
+        <p class="sig">Composite member story, shared at a Thursday meeting.</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<div class="care">
+  <div class="wrap">
+    <div class="label">
+      <div class="t">
+        <span class="pg" style="color:#cfd6d9">p. 11</span>
+        <h3>Care Instructions</h3>
+        <p>For the wearer, not the clothes. The dark is part of the cold.</p>
+      </div>
+      <div>
+        <svg viewBox="0 0 34 34" aria-hidden="true"><circle cx="17" cy="17" r="7" fill="none" stroke="#b0502a" stroke-width="2"/><g stroke="#b0502a" stroke-width="2" stroke-linecap="round"><path d="M17 3v4M17 27v4M3 17h4M27 17h4M7 7l3 3M24 24l3 3M27 7l-3 3M10 24l-3 3"/></g></svg>
+        <h4>Get midday light</h4>
+        <p>On Dec 21 the sun sets around 4:20 PM. Step outside at lunch, even when it's cold.</p>
+      </div>
+      <div>
+        <svg viewBox="0 0 34 34" aria-hidden="true"><rect x="6" y="11" width="22" height="12" rx="6" fill="none" stroke="#2e4636" stroke-width="2"/><path d="M17 11v12" stroke="#2e4636" stroke-width="2"/><path d="M6 17h11" stroke="#2e4636" stroke-width="0"/><rect x="6" y="11" width="11" height="12" rx="6" fill="#2e4636"/></svg>
+        <h4>Vitamin D</h4>
+        <p>Less sun means less vitamin D. Ask a doctor whether you should take it.</p>
+      </div>
+      <div>
+        <svg viewBox="0 0 34 34" aria-hidden="true"><circle cx="12" cy="11" r="4.5" fill="none" stroke="#56636c" stroke-width="2"/><circle cx="23" cy="11" r="4.5" fill="none" stroke="#56636c" stroke-width="2"/><path d="M4 28c0-6 4-9 8-9s8 3 8 9M15 28c0-6 4-9 8-9s8 3 8 9" fill="none" stroke="#56636c" stroke-width="2"/></svg>
+        <h4>Check in on friends</h4>
+        <p>February is long. If someone goes quiet, knock on their door.</p>
+      </div>
+      <div>
+        <svg viewBox="0 0 34 34" aria-hidden="true"><rect x="5" y="7" width="24" height="22" rx="2" fill="none" stroke="#1f2421" stroke-width="2"/><path d="M5 13h24M11 4v6M23 4v6" stroke="#1f2421" stroke-width="2"/><rect x="18" y="18" width="6" height="6" fill="#b0502a"/></svg>
+        <h4>Thursdays, 6 PM</h4>
+        <p>The club meets on campus every week. Come cold, leave warmer.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="swap" id="swap">
+  <div class="spread">
+    <div class="l">
+      <span class="kicker">Feature · pp. 12–13</span>
+      <h2>The Gear Swap.</h2>
+      <em>November. Free. On campus.</em>
+      <p>Last year's first-years became this year's second-years, and their closets are full of parkas, boots, and mittens they've outgrown or replaced. Once a year, right before the real cold, we put it all on racks and you take what fits. No money changes hands.</p>
+      <dl>
+        <dt>When</dt><dd>November, before the deep cold. Date sent to members.</dd>
+        <dt>Where</dt><dd>On campus. Room sent to members.</dd>
+        <dt>Bring</dt><dd>Clean coats, boots, hats, mittens, fleece. Optional.</dd>
+        <dt>Take</dt><dd>Whatever fits and keeps you warm.</dd>
+        <dt>Cost</dt><dd>$0.00</dd>
+      </dl>
+    </div>
+    <div class="r">
+      <span class="cap">On the rack this year: whatever you bring.</span>
+      <svg viewBox="0 0 520 440" role="img" aria-label="Illustration: a clothing rack with four donated parkas and jackets, boots underneath, and a tag reading FREE">
+        <g stroke="#1f2421" stroke-width="3" stroke-linecap="round" fill="none">
+          <path d="M40 60 L480 60"/><path d="M60 60 L40 400 M460 60 L480 400"/><path d="M20 400 L80 400 M440 400 L500 400"/>
+        </g>
+        <g stroke="#1f2421" stroke-width="2" fill="none">
+          <path d="M120 60 q0 -14 10 -14 M130 46 q10 0 10 10 L140 70 L100 92 M140 70 L180 92"/>
+          <path d="M215 60 q0 -14 10 -14 M225 46 q10 0 10 10 L235 70 L195 92 M235 70 L275 92"/>
+          <path d="M310 60 q0 -14 10 -14 M320 46 q10 0 10 10 L330 70 L290 92 M330 70 L370 92"/>
+          <path d="M395 60 q0 -14 10 -14 M405 46 q10 0 10 10 L415 70 L375 92 M415 70 L455 92"/>
+        </g>
+        <g stroke="#1f2421" stroke-width="2" stroke-linejoin="round">
+          <path d="M112 90 L168 90 L184 110 L180 300 L100 300 L96 110 Z" fill="#b0502a"/><path d="M140 92 L140 300" stroke="#7e3517"/>
+          <path d="M206 90 L264 90 L282 110 L276 260 L194 260 L188 110 Z" fill="#2e4636"/><path d="M235 92 L235 260" stroke="#e7dcc6" stroke-width="2"/>
+          <path d="M302 90 L358 90 L374 110 L370 320 L290 320 L286 110 Z" fill="#56636c"/><path d="M302 220 L326 220 M334 220 L358 220" stroke="#3d4a52"/>
+          <path d="M388 90 L442 90 L458 110 L452 240 L378 240 L374 110 Z" fill="#f4efe4"/><path d="M388 130 L442 130 M388 160 L442 160 M388 190 L442 190" stroke="#cdbfa3"/>
+        </g>
+        <!-- tag -->
+        <g transform="rotate(10 300 300)">
+          <path d="M282 330 L300 312" stroke="#1f2421" stroke-width="1.5"/>
+          <path d="M262 334 L304 334 L304 382 L262 382 L254 358 Z" fill="#fff6ec" stroke="#1f2421" stroke-width="1.5"/>
+          <text x="282" y="364" text-anchor="middle" font-family="Avenir Next, Arial, sans-serif" font-weight="700" font-size="12" letter-spacing="1" fill="#b0502a">FREE</text>
+        </g>
+        <!-- boots -->
+        <g stroke="#1f2421" stroke-width="1.7" stroke-linejoin="round">
+          <path d="M120 350 L146 350 L148 384 Q168 386 172 396 L172 402 L116 402 Z" fill="#3b2f28"/>
+          <path d="M176 356 L200 356 L202 386 Q220 388 224 398 L224 402 L172 402 Z" fill="#4a3b32"/>
+          <path d="M360 352 L386 352 L388 384 Q408 386 412 396 L412 402 L356 402 Z" fill="#1f2421"/>
+        </g>
+        <path d="M0 404 L520 404" stroke="#cdbfa3" stroke-width="2"/>
+      </svg>
+      <span class="pg">Fig. 2 · Rack, mid-November</span>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="steps">
+      <div><b>1</b><h4>Join the club</h4><p>Members get the swap date and room by email, plus a reminder before it starts.</p></div>
+      <div><b>2</b><h4>Drop off (optional)</h4><p>Bring anything warm and clean you no longer need. Nothing to give? Come anyway.</p></div>
+      <div><b>3</b><h4>Try on, take home</h4><p>Second-years help with fit: sleeves past your wrists, hem past your hips, room for a fleece.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="order">
+  <div class="wrap">
+    <div class="sh">
+      <div><span class="kicker">Order Form</span><h2>Free with membership. <em>Shipped to your inbox.</em></h2></div>
+      <span class="pg">p. 14</span>
+    </div>
+    <div class="order-wrap">
+      <div class="order-intro">
+        <span class="kicker">Item FW-00</span>
+        <h2>The First Winter <em>Checklist.</em></h2>
+        <p>Every item in this catalog on one page, with where to find it cheap and when to buy it. Plus what to do on your first −20°F morning.</p>
+        <ul>
+          <li class="ck">Every layer, in order, with budget picks</li>
+          <li class="ck">Wind chill guide: what to wear at each number</li>
+          <li class="ck">Gear swap date and Thursday meeting reminders</li>
+          <li class="ck">Daylight and mood: a short care routine</li>
+        </ul>
+      </div>
+
+      <div>
+        <form class="ofm" id="of" novalidate>
+          <div class="hd"><span>Order Form · First Winter Club</span><span>Fall/Winter 2026</span></div>
+          <table>
+            <thead><tr><th>Item no.</th><th>Description</th><th class="num">Qty</th><th class="num">Price</th></tr></thead>
+            <tbody>
+              <tr><td>FW-00</td><td>First Winter Checklist<small>Digital, sent to your inbox</small></td><td class="num">1</td><td class="num">$0.00</td></tr>
+              <tr><td>FW-MB</td><td>Club membership<small>Thursdays, 6 PM, on campus</small></td><td class="num"><input type="checkbox" id="mb" checked aria-label="Add club membership"></td><td class="num">$0.00</td></tr>
+              <tr><td>FW-SW</td><td>Gear swap reminder<small>November, date by email</small></td><td class="num"><input type="checkbox" id="sw" checked aria-label="Add gear swap reminder"></td><td class="num">$0.00</td></tr>
+              <tr class="tot"><td colspan="3">Subtotal</td><td class="num">$0.00</td></tr>
+              <tr class="tot"><td colspan="3">Shipping (to your inbox)</td><td class="num">Free</td></tr>
+              <tr class="tot big"><td colspan="3" style="color:var(--ink);font-weight:700">Total</td><td class="num">$0.00</td></tr>
+            </tbody>
+          </table>
+          <div class="ship">
+            <h4>Ship to</h4>
+            <div class="fld"><label for="nm">Full name</label><input id="nm" required autocomplete="name"></div>
+            <div class="fld"><label for="em">UChicago email</label><input id="em" type="email" required placeholder="cnetid@uchicago.edu" autocomplete="email"></div>
+            <div class="fld"><label for="hm">Shipping from (home city)</label><input id="hm" placeholder="e.g. Accra, Jakarta, Lima"></div>
+            <div class="fld"><label for="rd">Current winter readiness</label>
+              <select id="rd">
+                <option>A hoodie and hope</option>
+                <option>A light jacket, nothing else</option>
+                <option>Some gear, missing pieces</option>
+                <option>Fully kitted, here to help</option>
+              </select>
+            </div>
+            <div class="full pay"><span>Method of payment:</span><span><i class="box on"></i> Free</span><span><i class="box"></i> <s>Card</s></span><span><i class="box"></i> <s>Cash</s></span></div>
+            <p class="err" id="err" role="alert"></p>
+            <div class="submit">
+              <small>Prototype: nothing you type here is sent or stored.</small>
+              <button type="submit">Place order · $0.00</button>
+            </div>
+          </div>
+        </form>
+
+        <div class="slip" id="slip" role="status" aria-live="polite">
+          <div class="hd"><span>Packing Slip</span><span id="ono">Order FW-0000</span></div>
+          <div class="in">
+            <span class="stamp">Order confirmed</span>
+            <h3 id="thx">Welcome to the club.</h3>
+            <p id="slipmsg">Your First Winter Checklist is on its way. Here's what's on it:</p>
+            <ol>
+              <li>Base layer, merino or synthetic</li>
+              <li>Over-the-ears hat</li>
+              <li>Mittens (plus thin liners)</li>
+              <li>Neck gaiter or long scarf</li>
+              <li>Past-the-hips parka</li>
+              <li>Insulated grip-sole boots</li>
+              <li>Mid layer: fleece or light down</li>
+              <li>Weather app set to wind chill</li>
+            </ol>
+            <p class="fine">See you Thursday at 6 PM. Prototype only: nothing was sent or stored.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="cols">
+      <div><p class="big">Prepared beats brave.</p><p style="margin-top:10px">First Winter Club is a student-run peer support group for UChicago international students facing their first Chicago winter.</p></div>
+      <div><h5>Customer service</h5><p>Thursdays, 6 PM<br>On campus, every week<br>Run by students who survived last winter</p></div>
+      <div><h5>Returns</h5><p>Outgrew your parka? Return it to the November gear swap for the next first-year.</p></div>
+      <div><h5>Fine print</h5><p>Not a store. Nothing is sold. Not medical advice. Store names are examples, not sponsors.</p></div>
+    </div>
+    <div class="bot"><a href="../">← Gallery</a><span>v11 · Outdoor gear catalog · Catalog No. 01</span></div>
+  </div>
+</footer>
+
+<script>
+  // ---- Rated-to scale: +40°F (left) to −50°F (right)
+  var HI = 40, LO = -50;
+  function pos(t) { return ((HI - t) / (HI - LO) * 100); }
+  function fmt(t) { return (t < 0 ? '−' + Math.abs(t) : t) + '°'; }
+
+  var bands = [
+    { a: 40, b: 32, c: '#e4e8e6', label: 'Mild' },
+    { a: 32, b: 0, c: '#bcc8cb', label: 'Below freezing' },
+    { a: 0, b: -18, c: '#8d9ea5', label: 'Below zero' },
+    { a: -18, b: -35, c: '#5f727b', label: 'Frostbite risk', ink: '#fff' },
+    { a: -35, b: -50, c: '#34444d', label: 'Severe', ink: '#fff' }
+  ];
+  var bEl = document.getElementById('bands');
+  bands.forEach(function (b) {
+    var d = document.createElement('div');
+    d.style.flex = String(b.a - b.b);
+    d.style.background = b.c;
+    if (b.ink) d.style.color = b.ink;
+    d.textContent = b.label;
+    d.title = b.label + ': ' + fmt(b.a) + 'F to ' + fmt(b.b) + 'F';
+    bEl.appendChild(d);
+  });
+
+  var above = [
+    { t: 31, l: 'Jan avg high' }, { t: 18, l: 'Jan avg low' },
+    { t: -23, l: 'Jan 2019 air temp' }, { t: -50, l: 'Jan 2019 wind chill', end: true }
+  ];
+  var aEl = document.getElementById('above');
+  above.forEach(function (m) {
+    var s = document.createElement('span');
+    s.className = 'mk' + (m.end ? ' end' : '');
+    s.style.left = pos(m.t) + '%';
+    s.innerHTML = '<b>' + fmt(m.t) + '</b>' + m.l;
+    aEl.appendChild(s);
+  });
+
+  var tEl = document.getElementById('ticks');
+  for (var t = 40; t >= -50; t -= 10) {
+    var s = document.createElement('span');
+    s.style.left = pos(t) + '%';
+    if (t === 40) s.style.transform = 'none';
+    if (t === -50) s.style.transform = 'translateX(-100%)';
+    s.textContent = fmt(t);
+    tEl.appendChild(s);
+  }
+
+  var fb = [
+    { t: -18, l: 'Frostbite ~30 min' }, { t: -35, l: '~10 min' }, { t: -48, l: '~5 min', end: true, low: true }
+  ];
+  var fEl = document.getElementById('fb');
+  fb.forEach(function (m) {
+    var s = document.createElement('span');
+    s.className = 'mk' + (m.end ? ' end' : '') + (m.low ? ' low' : '');
+    s.style.left = pos(m.t) + '%';
+    s.textContent = m.l + ' at ' + fmt(m.t) + 'F';
+    fEl.appendChild(s);
+  });
+
+  var kit = [
+    { n: 'Hoodie + light jacket', s: 'Fine for October', a: 40, b: 32 },
+    { n: 'Three layers + hat', s: 'FW-01, mid, FW-05, FW-02', a: 34, b: 0 },
+    { n: 'Full kit, no bare skin', s: '+ mittens, gaiter, boots', a: 5, b: -25 },
+    { n: 'Full kit, short trips only', s: 'Stay inside when you can', a: -22, b: -50, hatch: true }
+  ];
+  var kEl = document.getElementById('kitrows');
+  kit.forEach(function (k) {
+    var r = document.createElement('div');
+    r.className = 'kr';
+    r.innerHTML = '<div class="lbl"><b>' + k.n + '</b><span>' + k.s + '</span></div><div class="lane"><i' + (k.hatch ? ' class="hatch"' : '') + '></i></div>';
+    var i = r.querySelector('i');
+    i.style.left = pos(k.a) + '%';
+    i.style.width = (pos(k.b) - pos(k.a)) + '%';
+    i.title = k.n + ': about ' + fmt(k.a) + 'F to ' + fmt(k.b) + 'F wind chill';
+    kEl.appendChild(r);
+  });
+
+  // ---- Order form: nothing leaves the page
+  document.getElementById('of').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var f = e.target, err = document.getElementById('err');
+    var nm = document.getElementById('nm'), em = document.getElementById('em');
+    if (!nm.value.trim()) { err.textContent = 'Please add a name to ship to.'; nm.focus(); return; }
+    if (!em.checkValidity() || !em.value.trim()) { err.textContent = 'Please add a valid email address.'; em.focus(); return; }
+    var first = nm.value.trim().split(/\s+/)[0];
+    var no = 'FW-' + String(Math.floor(1000 + Math.random() * 9000));
+    document.getElementById('ono').textContent = 'Order ' + no;
+    document.getElementById('thx').textContent = 'Welcome to the club, ' + first + '.';
+    var extras = [];
+    if (document.getElementById('mb').checked) extras.push('your Thursday 6 PM membership');
+    if (document.getElementById('sw').checked) extras.push('a November gear swap reminder');
+    document.getElementById('slipmsg').textContent = 'Your First Winter Checklist is packed' + (extras.length ? ', along with ' + extras.join(' and ') : '') + '. Here’s what’s on it:';
+    f.style.display = 'none';
+    var s = document.getElementById('slip'); s.classList.add('on');
+    s.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+</script>
+</body>
+</html>

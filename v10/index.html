@@ -1,0 +1,824 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>v10 · winter --survive --first-time</title>
+<script>document.documentElement.classList.add('js');</script>
+<style>
+  :root {
+    --bg: #060a10;
+    --bg2: #0b131d;
+    --line: #1a2b3d;
+    --fg: #9fd0f5;
+    --hi: #e9f6ff;
+    --dim: #557591;
+    --amber: #ffc469;
+    --red: #ff7d93;
+    --ok: #8ff0d0;
+    --mono: Menlo, Monaco, "SF Mono", "Cascadia Mono", Consolas, "Courier New", monospace;
+  }
+  * { box-sizing: border-box; }
+  html { background: var(--bg); }
+  body {
+    margin: 0; color: var(--fg); font: 14.5px/1.55 var(--mono);
+    background: radial-gradient(ellipse at 50% 0%, #0d1928 0%, var(--bg) 60%) fixed;
+    text-shadow: 0 0 6px rgba(120, 190, 255, .28);
+    padding-bottom: 40px;
+  }
+  ::selection { background: var(--fg); color: var(--bg); text-shadow: none; }
+  a { color: var(--hi); }
+  b, .b { color: var(--hi); font-weight: 700; }
+  u { text-decoration: none; border-bottom: 1px solid currentColor; }
+  .dim { color: var(--dim); }
+  .am { color: var(--amber); }
+  .rd { color: var(--red); }
+  .okc { color: var(--ok); }
+  .hiC { color: var(--hi); }
+
+  /* CRT overlay */
+  .crt { position: fixed; inset: 0; pointer-events: none; z-index: 50;
+    background:
+      repeating-linear-gradient(0deg, rgba(0,0,0,.16) 0 1px, transparent 1px 3px),
+      radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,.55) 100%); }
+
+  /* title bar */
+  .titlebar { position: sticky; top: 0; z-index: 40; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 10px;
+    background: rgba(9,16,25,.94); border-bottom: 1px solid var(--line); padding: 7px 18px; font-size: 12.5px; backdrop-filter: blur(4px); }
+  .titlebar .back { color: var(--amber); text-decoration: none; border: 1px solid #5a4422; padding: 2px 8px; justify-self: start; }
+  .titlebar .back:hover, .titlebar .back:focus-visible { background: var(--amber); color: var(--bg); text-shadow: none; outline: none; }
+  .titlebar .mid { color: var(--dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .titlebar .right { justify-self: end; display: flex; gap: 10px; align-items: center; }
+  .ver { color: var(--bg); background: var(--fg); padding: 1px 7px; font-weight: 700; text-shadow: none; }
+  .skip { font: inherit; background: none; color: var(--dim); border: 1px solid var(--line); padding: 1px 8px; cursor: pointer; }
+  .skip:hover { color: var(--hi); border-color: var(--dim); }
+
+  .term { max-width: 1080px; margin: 0 auto; padding: 22px 28px 40px; overflow-x: clip; }
+  pre { margin: 0; font: inherit; white-space: pre; }
+  .blk { margin: 0 0 34px; scroll-margin-top: 50px; }
+  .cmdline { white-space: pre-wrap; overflow-wrap: anywhere; }
+  .ps { color: var(--amber); white-space: nowrap; }
+  .ps .u { color: var(--ok); }
+  .ps .p { color: var(--fg); }
+  .cmdtxt { color: var(--hi); }
+  .cur { display: inline-block; width: .62em; height: 1.15em; vertical-align: -.2em; background: var(--fg); margin-left: 1px; box-shadow: 0 0 8px rgba(160,210,255,.5); animation: blink 1.05s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+  .blk .cur { display: none; }
+  .blk.typing .cur, .blk.waiting .cur { display: inline-block; }
+  .out { margin-top: 6px; overflow-x: auto; }
+  .js .blk:not(.done) .out { visibility: hidden; }
+  .js .blk.done.anim .out { animation: print var(--dur, .8s) steps(var(--steps, 24)) both; }
+  @keyframes print { from { clip-path: inset(0 0 100% 0); } to { clip-path: inset(0 0 0 0); } }
+
+  /* banner */
+  .banner { color: var(--hi); font-size: clamp(6px, 1.6vw, 15px); line-height: 1.05; letter-spacing: 0;
+    background: linear-gradient(180deg, #ffffff 0%, #bfe3ff 45%, #6aaee6 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 8px rgba(120,190,255,.45)); margin: 6px 0 10px; text-shadow: none; }
+  .tagline { margin-bottom: 14px; }
+  .art { display: flex; gap: 40px; align-items: flex-start; flex-wrap: wrap; margin: 6px 0 14px; }
+  .flake { color: var(--hi); line-height: 1.25; }
+  .thermo { line-height: 1.3; }
+  .tag { display: inline-block; width: 6ch; }
+  .t-ok { color: var(--ok); } .t-info { color: var(--fg); } .t-warn { color: var(--amber); } .t-crit { color: var(--red); }
+  .verdict { color: var(--bg); background: var(--ok); padding: 0 6px; text-shadow: none; font-weight: 700; }
+
+  /* man page */
+  .man { color: var(--fg); }
+  .man b { color: var(--hi); }
+  .man .hd { color: var(--amber); font-weight: 700; }
+
+  /* ls */
+  .ls .d { color: var(--amber); }
+  .ls .f { color: var(--hi); }
+  .ls .x { color: var(--ok); }
+  .chk { color: var(--fg); }
+  .chk .box { color: var(--amber); }
+
+  /* live shell */
+  .shell { border-top: 1px dashed var(--line); padding-top: 22px; scroll-margin-top: 50px; }
+  .hint { color: var(--dim); margin-bottom: 12px; white-space: pre-wrap; }
+  #live .ln { white-space: pre-wrap; word-break: break-word; }
+  #live .echo .ps { margin-right: .6ch; }
+  .prompt { display: flex; align-items: baseline; gap: .6ch; margin: 2px 0 0; }
+  .prompt input { flex: 1; min-width: 0; background: transparent; border: 0; outline: none; color: var(--hi); font: inherit; padding: 0; caret-color: var(--amber);
+    text-shadow: inherit; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; align-items: center; color: var(--dim); }
+  .chips button { font: inherit; font-size: 13px; color: var(--fg); background: var(--bg2); border: 1px solid var(--line); padding: 3px 10px; cursor: pointer; }
+  .chips button:hover, .chips button:focus-visible { color: var(--bg); background: var(--fg); text-shadow: none; outline: none; }
+  .fallback { margin-top: 22px; display: flex; flex-wrap: wrap; gap: 14px; align-items: center; }
+  .bigbtn { font: inherit; font-weight: 700; font-size: 15px; color: var(--bg); background: var(--amber); border: 0; padding: 12px 20px; cursor: pointer; text-shadow: none;
+    box-shadow: 0 0 0 1px var(--amber), 0 0 24px rgba(255,196,105,.35); letter-spacing: .04em; }
+  .bigbtn:hover, .bigbtn:focus-visible { background: var(--hi); box-shadow: 0 0 0 1px var(--hi), 0 0 28px rgba(200,235,255,.5); outline: none; }
+  .fallback .dim { font-size: 13px; }
+
+  /* dialog (ncurses-style) */
+  dialog { border: 0; padding: 14px 0 0; background: transparent; color: var(--fg); max-width: 94vw; overflow: visible; }
+  dialog::backdrop { background: rgba(2,5,9,.78); }
+  .tui { background: #0d1a28; border: 3px double var(--fg); padding: 0 0 18px; width: 560px; max-width: 94vw; box-shadow: 14px 14px 0 rgba(0,0,0,.6); font: 14.5px/1.55 var(--mono); }
+  .tui h2 { margin: -0.8em auto 6px; width: max-content; max-width: 90%; padding: 0 1ch; background: #0d1a28; font-size: 14.5px; color: var(--amber); font-weight: 700; }
+  .tui p { margin: 0 24px 14px; color: var(--fg); }
+  .tui label { display: block; margin: 0 24px 12px; color: var(--hi); }
+  .tui input { display: block; width: 100%; margin-top: 3px; font: inherit; color: var(--hi); background: #050b12; border: 1px solid var(--dim); padding: 6px 8px; outline: none; caret-color: var(--amber); }
+  .tui input:focus { border-color: var(--amber); box-shadow: 0 0 0 1px var(--amber); }
+  .tui .err { color: var(--red); min-height: 1.55em; margin: 0 24px 8px; }
+  .tui .btns { display: flex; justify-content: center; gap: 28px; }
+  .tui .btns button { font: inherit; background: none; border: 0; color: var(--hi); cursor: pointer; padding: 2px 6px; }
+  .tui .btns button.primary { color: var(--bg); background: var(--amber); text-shadow: none; }
+  .tui .btns button:hover, .tui .btns button:focus-visible { outline: 1px solid var(--hi); }
+  .tui .fine { font-size: 12px; color: var(--dim); margin: 14px 24px 0; text-align: center; }
+
+  /* tmux status bar */
+  .tmux { position: fixed; left: 0; right: 0; bottom: 0; z-index: 45; display: flex; justify-content: space-between; align-items: center; gap: 12px;
+    background: #9fd0f5; color: #06121d; font-size: 12.5px; text-shadow: none; height: 26px; padding: 0 0 0 10px; white-space: nowrap; overflow: hidden; }
+  .tmux a { color: inherit; text-decoration: none; padding: 0 6px; }
+  .tmux a:hover, .tmux a.cur-win { background: #06121d; color: #9fd0f5; }
+  .tmux .sess { font-weight: 700; margin-right: 6px; }
+  .tmux .r { display: flex; align-items: center; height: 100%; }
+  .tmux .r span { padding: 0 10px; border-left: 1px solid rgba(6,18,29,.25); }
+  .tmux button { height: 100%; font: inherit; font-weight: 700; border: 0; background: var(--amber); color: #1a1004; padding: 0 14px; cursor: pointer; }
+  .tmux button:hover { background: #fff; }
+
+  @media (max-width: 760px) {
+    body { font-size: 12px; }
+    .term { padding: 14px 12px 40px; }
+    .titlebar { grid-template-columns: auto 1fr auto; padding: 6px 10px; font-size: 11px; }
+    .titlebar .mid { text-align: center; }
+    .skip { display: none; }
+    .art { gap: 14px; }
+    .man, .wide, .thermo, .tagline { font-size: 10.5px; }
+    .log, .tagline, .chk { white-space: pre-wrap; }
+    .flake { font-size: 11px; }
+    .tmux .wins a:not(.cur-win), .tmux .r span.opt { display: none; }
+    .tui { font-size: 13px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cur { animation: none; }
+  }
+</style>
+</head>
+<body>
+<div class="crt" aria-hidden="true"></div>
+
+<header class="titlebar">
+  <a class="back" href="../">← Gallery</a>
+  <span class="mid">guest@first-winter-club: ~ — zsh — 96×40</span>
+  <span class="right"><button class="skip" id="skip" type="button" title="Skip the typing animation (Esc)">skip ⏭</button><span class="ver">v10</span></span>
+</header>
+
+<main class="term" id="top">
+
+  <!-- ============ 1. winter --survive ============ -->
+  <section class="blk" id="survive" data-cmd="winter --survive --first-time">
+    <div class="cmdline"><span class="ps"><span class="u">guest@first-winter-club</span>:<span class="p">~</span>$</span> <span class="cmdtxt">winter --survive --first-time</span><span class="cur"></span></div>
+    <div class="out">
+<pre class="banner" aria-label="FIRST WINTER">█████ █████ ████   ████ █████     █   █ █████ █   █ █████ █████ ████
+█       █   █   █ █       █       █   █   █   ██  █   █   █     █   █
+████    █   ████   ███    █       █ █ █   █   █ █ █   █   ████  ████
+█       █   █  █      █   █       ██ ██   █   █  ██   █   █     █  █
+█     █████ █   █ ████    █       █   █ █████ █   █   █   █████ █   █</pre>
+<pre class="tagline"><b>C L U B</b>  <span class="dim">·</span>  peer support for international students facing their first chicago winter
+         <span class="dim">·</span>  student-run  <span class="dim">·</span>  thursdays 18:00 on campus  <span class="dim">·</span>  free First Winter Checklist</pre>
+      <div class="art">
+<pre class="flake" aria-hidden="true">
+          .    *    .
+      *    \   |   /    *
+        \   \  |  /   /
+         \   \ | /   /
+    ---====----*----====---
+         /   / | \   \
+        /   /  |  \   \
+      *    /   |   \    *
+          '    *    '
+</pre>
+<pre class="thermo" aria-label="Thermometer of Chicago winter temperatures">   ___
+  | ° |  <span class="dim">°F</span>
+  |   |   50 <span class="dim">┤</span> <span class="dim">wind chill formula starts to apply</span>
+  |   |   32 <span class="dim">┤</span> <span class="dim">water freezes</span>
+  |<span class="hiC">▓▓▓</span>|   31 <span class="dim">┤</span> <b>january avg high</b>
+  |<span class="hiC">▓▓▓</span>|   18 <span class="dim">┤</span> <b>january avg low</b>
+  |<span class="hiC">███</span>|    0 <span class="dim">┤</span> <span class="am">wind chill: routinely below this</span>
+  |<span class="hiC">███</span>|  -19 <span class="dim">┤</span> <span class="am">0°F air + 15 mph wind feels like this</span>
+  |<span class="hiC">███</span>|  -30 <span class="dim">┤</span> <span class="rd">a bad day (wind chill), or lower</span>
+  |<span class="hiC">███</span>|  -50 <span class="dim">┤</span> <span class="rd">jan 2019 polar vortex wind chill (air: -23)</span>
+ (<span class="hiC">█████</span>)
+  `---'</pre>
+      </div>
+<pre class="log wide"><span class="tag t-ok">[ ok ]</span> loading profile: international student, first winter, possibly from somewhere warm
+<span class="tag t-ok">[ ok ]</span> locating: hyde park, chicago, il
+<span class="tag t-info">[info]</span> first snow ............ usually november
+<span class="tag t-info">[info]</span> january normals ....... high 31°F / low 18°F
+<span class="tag t-warn">[warn]</span> wind chill ............ regularly &lt; 0°F, can reach -30°F or lower
+<span class="tag t-warn">[warn]</span> the thermometer lies .. check WIND CHILL, not temperature
+<span class="tag t-info">[info]</span> dec 21 ................ 9h08m of daylight, sunset 16:20
+<span class="tag t-crit">[crit]</span> cotton detected ....... hoodie is not a coat. see --no-cotton
+<span class="tag t-ok">[ ok ]</span> strategy .............. 3 thin layers &gt; 1 enormous coat
+<span class="tag t-ok">[ ok ]</span> budget ................ thrift, uniqlo heattech, costco, november gear swap
+
+verdict: <span class="verdict">SURVIVABLE</span> <span class="dim">(preparation required)</span>
+
+<span class="dim">next:</span> scroll for <b>man winter</b>, or jump to the <a href="#shell">interactive shell</a> and type <a href="#shell" data-run="join"><b>join</b></a></pre>
+    </div>
+  </section>
+
+  <!-- ============ 2. man winter ============ -->
+  <section class="blk" id="man" data-cmd="man winter">
+    <div class="cmdline"><span class="ps"><span class="u">guest@first-winter-club</span>:<span class="p">~</span>$</span> <span class="cmdtxt">man winter</span><span class="cur"></span></div>
+    <div class="out">
+<pre class="man"><span class="hd">WINTER(1)</span>                  First Winter Club Manual                  <span class="hd">WINTER(1)</span>
+
+<span class="hd">NAME</span>
+       <b>winter</b> — survive your first Chicago winter
+
+<span class="hd">SYNOPSIS</span>
+       <b>winter</b> <b>--survive</b> [<b>--first-time</b>] [<b>--layers</b>=<u>3</u>] [<b>--no-cotton</b>]
+              [<b>--check-windchill</b>] [<b>--cover</b>=<u>hat,mittens,gaiter</u>]
+              [<b>--boots</b>=<u>insulated,waterproof,grip</u>] [<b>--budget</b>] [<b>--with-friends</b>]
+
+<span class="hd">DESCRIPTION</span>
+       Chicago winter is survivable if you prepare. The first snow usually
+       arrives in November. In January the average high is 31°F and the
+       average low is 18°F, but the number that decides how cold you feel is
+       the <b>wind chill</b>: the wind strips warm air off exposed skin. Wind chills
+       below 0°F are routine; -30°F or lower happens. In the January 2019
+       polar vortex the air hit -23°F and the wind chill was near -50°F.
+
+<span class="hd">OPTIONS</span>
+       <b>--layers</b>=<u>3</u>
+              Three thin layers trap warm air and come off indoors. One giant
+              coat does not.
+                <b>base</b>   thermal top + leggings. merino or synthetic.
+                <b>mid</b>    fleece or light down. holds the heat.
+                <b>shell</b>  windproof, waterproof parka. covers the hips.
+
+       <b>--no-cotton</b>
+              Cotton holds sweat and moisture and goes cold. Applies to socks.
+
+       <b>--check-windchill</b>
+              Read the wind chill before you leave. Frostbite on exposed skin:
+                <span class="am">-18°F</span>  in about 30 minutes
+                <span class="am">-35°F</span>  in about 10 minutes
+                <span class="rd">-48°F</span>  in about 5 minutes
+
+       <b>--cover</b>=<u>hat,mittens,gaiter</u>
+              Hat over the ears. Mittens beat gloves. Scarf or neck gaiter
+              over nose and mouth.
+
+       <b>--boots</b>=<u>insulated,waterproof,grip</u>
+              Sidewalks stay icy for weeks. Grip is not optional.
+
+       <b>--budget</b>
+              Thrift stores, Uniqlo HEATTECH, Costco, and the club's November
+              gear swap. Spend on the shell and boots; save on the rest.
+
+       <b>--with-friends</b>
+              First Winter Club meets Thursdays at 18:00 on campus. Members
+              get the free First Winter Checklist. Check in on each other.
+
+<span class="hd">ENVIRONMENT</span>
+       <b>DAYLIGHT</b>=<u>9h08m</u>
+              On Dec 21. Get light in the middle of the day. Ask a doctor
+              whether vitamin D makes sense for you.
+
+<span class="hd">BUGS</span>
+       Sunset at 16:20. Known issue; no fix scheduled before March.
+       Workaround: eat lunch near a window, or outside.
+
+       Wind off the lake ignores <b>--layers</b>=<u>1</u>.
+
+       A cotton hoodie will report itself as a coat. It is not.
+
+<span class="hd">SEE ALSO</span>
+       <b>join</b>(1), <b>windchill</b>(1), <b>layers</b>(7), <b>gear-swap</b>(8)
+
+First Winter Club                 2026-10-05                      <span class="hd">WINTER(1)</span></pre>
+    </div>
+  </section>
+
+  <!-- ============ 3. ls checklist ============ -->
+  <section class="blk" id="checklist" data-cmd="ls checklist/">
+    <div class="cmdline"><span class="ps"><span class="u">guest@first-winter-club</span>:<span class="p">~</span>$</span> <span class="cmdtxt">ls checklist/</span><span class="cur"></span></div>
+    <div class="out">
+<pre class="ls wide"><span class="f">01-base-layer.txt</span>   <span class="f">03-shell.txt</span>         <span class="f">05-boots.txt</span>      <span class="f">07-daylight.txt</span>   <span class="x">README.md</span>
+<span class="f">02-mid-layer.txt</span>    <span class="f">04-extremities.txt</span>   <span class="f">06-budget.csv</span>     <span class="f">08-friends.txt</span></pre>
+    </div>
+  </section>
+
+  <section class="blk" data-cmd="cat checklist/README.md">
+    <div class="cmdline"><span class="ps"><span class="u">guest@first-winter-club</span>:<span class="p">~</span>$</span> <span class="cmdtxt">cat checklist/README.md</span><span class="cur"></span></div>
+    <div class="out">
+<pre class="chk wide"><b># FIRST WINTER CHECKLIST</b>  <span class="dim">(preview · full version free for members)</span>
+
+<b>## before the first snow (november)</b>
+<span class="box">[ ]</span> base layer: thermal top + leggings, merino or synthetic   <span class="rd"># never cotton</span>
+<span class="box">[ ]</span> mid layer: fleece or light down
+<span class="box">[ ]</span> shell: windproof, waterproof parka that covers your hips
+<span class="box">[ ]</span> hat that covers the ears
+<span class="box">[ ]</span> mittens                                                    <span class="dim"># beat gloves</span>
+<span class="box">[ ]</span> scarf or neck gaiter
+<span class="box">[ ]</span> insulated waterproof boots with real grip
+
+<b>## every morning</b>
+<span class="box">[ ]</span> check the WIND CHILL, not the temperature
+<span class="box">[ ]</span> below -18°F wind chill: cover every inch of skin
+
+<b>## december–february</b>
+<span class="box">[ ]</span> get midday daylight (sunset is ~16:20 in december)
+<span class="box">[ ]</span> ask a doctor about vitamin D
+<span class="box">[ ]</span> check in on a friend this week
+<span class="box">[ ]</span> thursdays 18:00 · first winter club · on campus</pre>
+    </div>
+  </section>
+
+  <section class="blk" data-cmd="cat checklist/06-budget.csv | column -t -s,">
+    <div class="cmdline"><span class="ps"><span class="u">guest@first-winter-club</span>:<span class="p">~</span>$</span> <span class="cmdtxt">cat checklist/06-budget.csv | column -t -s,</span><span class="cur"></span></div>
+    <div class="out">
+<pre class="wide"><b>ITEM            WHERE                     SPEND?   NOTE</b>
+base layer      uniqlo heattech           <span class="okc">save</span>     cheap, thin, works
+mid layer       thrift store, gear swap   <span class="okc">save</span>     fleece is fleece
+shell (parka)   thrift, swap, sales       <span class="am">spend</span>    it faces the wind
+boots           gear swap, then buy       <span class="am">spend</span>    grip + waterproof
+socks, hats     costco, thrift            <span class="okc">save</span>     buy multipacks
+mittens         gear swap (november)      <span class="okc">free</span>     ask a second-year</pre>
+    </div>
+  </section>
+
+  <!-- ============ 4. interactive shell ============ -->
+  <section class="shell" id="shell" aria-label="Interactive terminal">
+    <pre class="hint"><span class="dim">── interactive session ─────────</span>
+<span class="dim">type a command and press enter. try</span> <b>help</b><span class="dim">,</span> <b>layers</b><span class="dim">,</span> <b>windchill -20 15</b><span class="dim">, or</span> <b>join</b><span class="dim">.</span>
+<span class="dim">tab completes · ↑/↓ history · ctrl+c cancels</span></pre>
+    <div id="live" aria-live="polite"></div>
+    <form class="prompt" id="promptForm" autocomplete="off">
+      <label for="cmd" class="ps" id="psLabel"><span class="u">guest@first-winter-club</span>:<span class="p">~</span>$</label>
+      <input id="cmd" name="cmd" type="text" spellcheck="false" autocapitalize="off" autocorrect="off" autocomplete="off" aria-label="Terminal command">
+    </form>
+
+    <div class="chips" aria-label="Run a command without typing">
+      <span>click to run:</span>
+      <button type="button" data-run="help">help</button>
+      <button type="button" data-run="layers">layers</button>
+      <button type="button" data-run="windchill -20 15">windchill -20 15</button>
+      <button type="button" data-run="frostbite">frostbite</button>
+      <button type="button" data-run="sunset">sunset</button>
+      <button type="button" data-run="gear">gear</button>
+      <button type="button" data-run="join">join</button>
+    </div>
+    <div class="fallback">
+      <button type="button" class="bigbtn" id="openJoin">[ ⏎ JOIN THE CLUB + GET THE FREE CHECKLIST ]</button>
+      <span class="dim">don't like typing commands? this opens a plain form.</span>
+    </div>
+  </section>
+</main>
+
+<dialog id="joinDlg" aria-labelledby="dlgTitle">
+  <form class="tui" id="dlgForm" novalidate>
+    <h2 id="dlgTitle">┤ join first-winter-club ├</h2>
+    <p>Get the free First Winter Checklist and a seat on Thursdays, 18:00, on campus.</p>
+    <label>name <input id="dName" type="text" autocomplete="name" required></label>
+    <label>email <input id="dEmail" type="email" autocomplete="email" required></label>
+    <label>warmest place you've lived <span class="dim">(optional)</span> <input id="dHome" type="text"></label>
+    <div class="err" id="dErr" aria-live="polite"></div>
+    <div class="btns">
+      <button type="submit" class="primary">&lt;  OK  &gt;</button>
+      <button type="button" id="dCancel">&lt;Cancel&gt;</button>
+    </div>
+    <div class="fine">prototype: nothing you enter is stored or sent.</div>
+  </form>
+</dialog>
+
+<nav class="tmux" aria-label="Sections">
+  <div class="wins">
+    <span class="sess">[fwc]</span><a href="#survive" class="cur-win">0:survive*</a><a href="#man">1:man</a><a href="#checklist">2:checklist</a><a href="#shell">3:shell</a>
+  </div>
+  <div class="r">
+    <span class="opt" id="tmuxMember">member: none</span>
+    <span class="opt">❄ wc -19°F @ 0°F/15mph</span>
+    <span class="opt">☀ sunset 16:20</span>
+    <span>v10</span>
+    <button type="button" id="tmuxJoin">join</button>
+  </div>
+</nav>
+
+<script>
+(function () {
+  'use strict';
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var blocks = Array.prototype.slice.call(document.querySelectorAll('.blk'));
+  var busy = false, queue = [];
+
+  /* ---------- scripted typing for the session above ---------- */
+  function finish(b, animate) {
+    var c = b.querySelector('.cmdtxt');
+    c.textContent = b.dataset.cmd;
+    b.classList.remove('typing', 'waiting');
+    if (animate) {
+      var lines = (b.querySelector('.out').innerText.match(/\n/g) || []).length + 1;
+      b.style.setProperty('--steps', Math.max(4, lines));
+      b.style.setProperty('--dur', Math.min(1.6, 0.25 + lines * 0.028) + 's');
+      b.classList.add('anim');
+    }
+    b.classList.add('done');
+    b.dataset.state = 'done';
+  }
+  function typeBlock(b, cb) {
+    var c = b.querySelector('.cmdtxt'), text = b.dataset.cmd, i = 0;
+    b.dataset.state = 'running';
+    b.classList.remove('waiting');
+    b.classList.add('typing');
+    c.textContent = '';
+    var t = setInterval(function () {
+      if (b.dataset.state === 'done') { clearInterval(t); cb(); return; }
+      i++; c.textContent = text.slice(0, i);
+      if (i >= text.length) {
+        clearInterval(t);
+        setTimeout(function () { if (b.dataset.state !== 'done') finish(b, true); cb(); }, 260);
+      }
+    }, 42 + Math.random() * 20);
+  }
+  function pump() {
+    if (busy || !queue.length) return;
+    var b = queue.shift();
+    if (b.dataset.state) { pump(); return; }
+    busy = true;
+    typeBlock(b, function () { busy = false; pump(); });
+  }
+  function request(b) {
+    var idx = blocks.indexOf(b);
+    for (var i = 0; i < idx; i++) if (!blocks[i].dataset.state && queue.indexOf(blocks[i]) < 0) queue.push(blocks[i]);
+    if (queue.indexOf(b) < 0 && !b.dataset.state) queue.push(b);
+    queue.sort(function (a, c) { return blocks.indexOf(a) - blocks.indexOf(c); });
+    pump();
+  }
+  function skipAll() { queue = []; blocks.forEach(function (b) { if (b.dataset.state !== 'done') finish(b, false); }); }
+
+  function checkVisible() {
+    var lim = window.innerHeight * 0.88;
+    blocks.forEach(function (b) { if (!b.dataset.state && queue.indexOf(b) < 0 && b.getBoundingClientRect().top < lim) request(b); });
+  }
+  if (reduce) {
+    skipAll();
+  } else {
+    blocks.forEach(function (b) { b.querySelector('.cmdtxt').textContent = ''; b.classList.add('waiting'); });
+    setTimeout(function () { request(blocks[0]); checkVisible(); }, 450);
+    window.addEventListener('scroll', checkVisible, { passive: true });
+    window.addEventListener('resize', checkVisible);
+  }
+  document.getElementById('skip').addEventListener('click', skipAll);
+
+  /* ---------- tmux window highlight ---------- */
+  var winLinks = Array.prototype.slice.call(document.querySelectorAll('.tmux .wins a'));
+  var secs = ['survive', 'man', 'checklist', 'shell'].map(function (id) { return document.getElementById(id); });
+  function markWin() {
+    var y = window.scrollY + window.innerHeight * 0.35, cur = 0;
+    secs.forEach(function (s, i) { if (s.offsetTop <= y) cur = i; });
+    if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 4) cur = 3;
+    winLinks.forEach(function (a, i) {
+      a.classList.toggle('cur-win', i === cur);
+      a.textContent = a.textContent.replace('*', '') + (i === cur ? '*' : '');
+    });
+  }
+  window.addEventListener('scroll', markWin, { passive: true });
+
+  /* ---------- interactive shell ---------- */
+  var live = document.getElementById('live');
+  var input = document.getElementById('cmd');
+  var psLabel = document.getElementById('psLabel');
+  var form = document.getElementById('promptForm');
+  var PS = psLabel.innerHTML;
+  var hist = [], hIdx = 0, mode = 'cmd', draft = {}, member = null;
+
+  function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function print(html, cls) {
+    var d = document.createElement('div');
+    d.className = 'ln' + (cls ? ' ' + cls : '');
+    d.innerHTML = html;
+    live.appendChild(d);
+    form.scrollIntoView({ block: 'nearest' });
+  }
+  function echo(label, text) { print('<span class="ps">' + label + '</span>' + esc(text), 'echo'); }
+
+  var PROMPTS = {
+    cmd: PS,
+    name: '<span class="am">name:</span>',
+    email: '<span class="am">email:</span>',
+    home: '<span class="am">warmest place you\'ve lived (optional):</span>',
+    confirm: '<span class="am">join with these details? [Y/n]</span>'
+  };
+  function setMode(m) { mode = m; psLabel.innerHTML = PROMPTS[m]; }
+
+  function wcCalc(T, V) { var v = Math.pow(V, 0.16); return 35.74 + 0.6215 * T - 35.75 * v + 0.4275 * T * v; }
+  function risk(wc) {
+    if (wc <= -48) return ['rd', 'frostbite on exposed skin in ~5 minutes. stay inside if you can.'];
+    if (wc <= -35) return ['rd', 'frostbite on exposed skin in ~10 minutes. cover every inch.'];
+    if (wc <= -18) return ['am', 'frostbite on exposed skin in ~30 minutes. face, ears, fingers covered.'];
+    if (wc <= 0) return ['am', 'below zero. full layers, hat, mittens, gaiter.'];
+    if (wc <= 32) return ['okc', 'cold but manageable. three layers, hat, mittens.'];
+    return ['okc', 'chilly. a real jacket will do.'];
+  }
+  function bar(wc) {
+    var n = Math.round(Math.max(0, Math.min(24, (40 - wc) / 100 * 24)));
+    return '█'.repeat(n) + '░'.repeat(24 - n);
+  }
+
+  var FILES = {
+    'README.md': null,
+    '01-base-layer.txt': 'thermal top + leggings. merino wool or synthetic.\nnever cotton: it holds sweat and goes cold.',
+    '02-mid-layer.txt': 'fleece or light down. this is the layer that actually holds heat.',
+    '03-shell.txt': 'windproof + waterproof parka, long enough to cover your hips.\nthis is where to spend money.',
+    '04-extremities.txt': 'hat over the ears. mittens beat gloves (fingers keep each other warm).\nscarf or neck gaiter over nose and mouth.',
+    '05-boots.txt': 'insulated, waterproof, with real grip. sidewalks stay icy for weeks.',
+    '06-budget.csv': 'item,where,spend?\nbase layer,uniqlo heattech,save\nmid layer,thrift / gear swap,save\nshell,thrift / swap / sales,spend\nboots,gear swap then buy,spend\nsocks + hats,costco / thrift,save',
+    '07-daylight.txt': 'dec 21: 9h08m of daylight, sunset around 16:20.\nget outside (or next to a big window) at midday.\nask a doctor whether vitamin D makes sense for you.',
+    '08-friends.txt': 'check in on someone this week.\nfirst winter club · thursdays 18:00 · on campus.'
+  };
+  function readme() {
+    return '<b># FIRST WINTER CHECKLIST</b> <span class="dim">(preview)</span>\n' +
+      '<span class="am">[ ]</span> base · mid · shell (no cotton)\n<span class="am">[ ]</span> hat over ears · mittens · gaiter\n' +
+      '<span class="am">[ ]</span> insulated waterproof boots with grip\n<span class="am">[ ]</span> check wind chill every morning\n' +
+      '<span class="am">[ ]</span> midday light · vitamin D (ask a doctor) · check on friends\n<span class="dim">full version: free for members →</span> <b>join</b>';
+  }
+
+  var CMDS = {
+    help: function () {
+      print([
+        '<b>available commands</b>',
+        '  <b>help</b>                this list',
+        '  <b>layers</b>              the three-layer system, diagrammed',
+        '  <b>windchill</b> <u>T</u> <u>V</u>      NWS wind chill. T in °F, V in mph. e.g. <b>windchill -20 15</b>',
+        '  <b>frostbite</b>           how fast exposed skin freezes',
+        '  <b>sunset</b>              the 16:20 problem',
+        '  <b>gear</b>                where to find warm stuff cheaply',
+        '  <b>ls</b>, <b>cat</b> <u>file</u>        browse checklist/',
+        '  <b>man winter</b>          the manual (above)',
+        '  <b>join</b>                join the club + get the free First Winter Checklist',
+        '  <b>clear</b>               clear the screen',
+        '  <b>exit</b>                back to the gallery'
+      ].join('\n'));
+    },
+    layers: function () {
+      print([
+        '<span class="dim">       ┌──────┬──────────┬──────┬──────┐</span>',
+        '<span class="am"> wind</span> ──▶<span class="dim">│</span><b>▓▓▓▓▓▓</b><span class="dim">│</span>░░░░░░░░░░<span class="dim">│</span>······<span class="dim">│</span> skin <span class="dim">│</span>',
+        '<span class="am"> snow</span> ──▶<span class="dim">│</span><b>▓▓▓▓▓▓</b><span class="dim">│</span>░░░░░░░░░░<span class="dim">│</span>······<span class="dim">│</span> 98°F <span class="dim">│</span>',
+        '<span class="dim">       └──────┴──────────┴──────┴──────┘</span>',
+        '        <b>shell</b>     <b>mid</b>      <b>base</b>',
+        '',
+        '  <b>3 shell</b>  windproof, waterproof parka that covers the hips',
+        '  <b>2 mid</b>    fleece or light down: traps the warm air',
+        '  <b>1 base</b>   merino or synthetic: moves sweat off skin. <span class="rd">never cotton.</span>',
+        '',
+        '  why 3 &gt; 1: warm air gets trapped <i>between</i> layers, and you can peel',
+        '  them off on the train or in class instead of sweating in one giant coat.',
+        '  + hat over ears · mittens &gt; gloves · gaiter over face · boots with grip'
+      ].join('\n'));
+    },
+    windchill: function (args) {
+      if (args.length < 2 || isNaN(parseFloat(args[0])) || isNaN(parseFloat(args[1]))) {
+        print('usage: <b>windchill</b> <u>T</u> <u>V</u>   <span class="dim">T = air temp (°F), V = wind speed (mph)</span>\n' +
+          'e.g.   <b>windchill -20 15</b>   <b>windchill 18 20</b>   <b>windchill 0 15</b>');
+        return;
+      }
+      var T = parseFloat(args[0]), V = parseFloat(args[1]);
+      if (V < 0) { print('<span class="rd">windchill: wind speed cannot be negative</span>'); return; }
+      if (T > 50) { print('<span class="dim">T = ' + T + '°F. the NWS formula is only defined at or below 50°F.</span>\nyou are fine. go outside while it lasts.'); return; }
+      var out = [];
+      out.push('<span class="dim">T = ' + T + '°F   V = ' + V + ' mph</span>');
+      var wc;
+      if (V < 3) {
+        wc = T;
+        out.push('<span class="dim">wind below 3 mph: NWS treats wind chill as the air temperature.</span>');
+      } else {
+        wc = wcCalc(T, V);
+        var tt = T < 0 ? '(' + T + ')' : T;
+        out.push('WC = 35.74 + 0.6215·' + tt + ' − 35.75·' + V + '<sup>0.16</sup> + 0.4275·' + tt + '·' + V + '<sup>0.16</sup>');
+      }
+      var r = risk(wc);
+      out.push('   = <b class="' + r[0] + '">' + wc.toFixed(1) + '°F</b>' + (V >= 3 ? '  <span class="dim">(feels ' + Math.round(T - wc) + '° colder than the thermometer says)</span>' : ''));
+      out.push('');
+      out.push('cold  <span class="' + r[0] + '">' + bar(wc) + '</span>  ' + '<span class="' + r[0] + '">' + r[1] + '</span>');
+      print(out.join('\n'));
+    },
+    frostbite: function () {
+      print('<b>frostbite on exposed skin</b> <span class="dim">(by wind chill)</span>\n' +
+        '  <span class="am">-18°F</span>  ██████████████████████████████  ~30 min\n' +
+        '  <span class="rd">-35°F</span>  ██████████                      ~10 min\n' +
+        '  <span class="rd">-48°F</span>  █████                           ~5 min\n' +
+        '<span class="dim">chicago wind chills are regularly below 0°F in january and can reach -30°F or lower.</span>');
+    },
+    sunset: function () {
+      print('<b>dec 21, hyde park</b>   daylight 9h08m · sunset ~16:20\n' +
+        '00    03    06    09    12    15    18    21    24\n' +
+        '<span class="dim">░░░░░░░░░░░░░░</span><span class="am">███████████████████</span><span class="dim">░░░░░░░░░░░░░░░</span>\n' +
+        '              <span class="dim">^≈07:12</span>            <span class="am">^16:20</span>\n' +
+        '<span class="hiC">fix:</span> get midday light · ask a doctor about vitamin D · keep plans with friends');
+    },
+    gear: function () {
+      print('<b>warm on a budget</b>\n' +
+        '  thrift stores ........ wool sweaters, fleeces, sturdy coats\n' +
+        '  uniqlo heattech ...... cheap base layers\n' +
+        '  costco ............... socks + thermal basics in multipacks\n' +
+        '  <span class="am">fwc gear swap</span> ........ november, free for members\n' +
+        '<span class="dim">rule: spend on the shell + boots. save on everything else.</span>');
+    },
+    ls: function (args) {
+      if (args[0] && !/^(checklist\/?|\.\/checklist\/?)$/.test(args[0])) {
+        if (args[0] === '-a' || args[0] === '-la' || args[0] === '-l') { print('<span class="am">checklist/</span>  <span class="dim">.cotton (hidden for a reason)</span>'); return; }
+        print('ls: ' + esc(args[0]) + ': No such file or directory'); return;
+      }
+      if (!args[0]) { print('<span class="am">checklist/</span>'); return; }
+      print(Object.keys(FILES).join('   '));
+    },
+    cat: function (args) {
+      if (!args[0]) { print('usage: <b>cat</b> <u>file</u>   <span class="dim">e.g. cat checklist/03-shell.txt</span>'); return; }
+      var f = args[0].replace(/^(\.\/)?checklist\//, '');
+      if (f === 'README.md') { print(readme()); return; }
+      if (FILES.hasOwnProperty(f)) { print(esc(FILES[f])); return; }
+      if (/checklist\/?$/.test(args[0])) { print('cat: ' + esc(args[0]) + ': Is a directory'); return; }
+      print('cat: ' + esc(args[0]) + ': No such file or directory. try <b>ls checklist/</b>');
+    },
+    man: function (args) {
+      if (!args[0]) { print('What manual page do you want?\nFor example, try \'<b>man winter</b>\'.'); return; }
+      if (args[0] === 'winter') { print('<span class="dim">opening WINTER(1)…</span>'); document.getElementById('man').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' }); return; }
+      print('No manual entry for ' + esc(args[0]) + '. try <b>help</b>.');
+    },
+    winter: function () {
+      print('verdict: <span class="verdict">SURVIVABLE</span> <span class="dim">(preparation required)</span>\nthree layers · check the wind chill · cheap gear exists · <b>join</b>');
+    },
+    join: function () { startJoin(); },
+    clear: function () { live.innerHTML = ''; },
+    history: function () { print(hist.map(function (h, i) { return '  ' + (i + 1) + '  ' + esc(h); }).join('\n') || '<span class="dim">(empty)</span>'); },
+    whoami: function () { print(member ? esc(member) + ' <span class="okc">(member)</span>' : 'guest <span class="dim">(future member, probably)</span>'); },
+    pwd: function () { print('/home/guest/first-winter'); },
+    date: function () {
+      var now = new Date(), y = now.getFullYear(), d = new Date(y, 11, 21);
+      if (now > d) d = new Date(y + 1, 11, 21);
+      var days = Math.ceil((d - now) / 864e5);
+      print(esc(now.toString()) + '\n<span class="dim">' + days + ' days until dec 21 (sunset ~16:20). first snow usually comes in november.</span>');
+    },
+    echo: function (args) { print(esc(args.join(' '))); },
+    sudo: function () { print('<span class="rd">sudo: winter cannot be disabled.</span> try <b>layers</b>.'); },
+    rm: function () { print('rm: winter: Operation not permitted. <span class="dim">it comes back every year.</span>'); },
+    exit: function () { print('<span class="dim">logout · returning to gallery…</span>'); setTimeout(function () { location.href = '../'; }, 500); },
+    cd: function (args) { if (args[0] === '..' || args[0] === '../') CMDS.exit(); else print('<span class="dim">you are already where you need to be.</span>'); }
+  };
+  CMDS.logout = CMDS.exit; CMDS.gallery = CMDS.exit; CMDS['?'] = CMDS.help;
+  var NAMES = Object.keys(CMDS);
+
+  function run(line) {
+    var parts = line.trim().split(/\s+/), name = parts[0].toLowerCase(), args = parts.slice(1);
+    if (!name) return;
+    if (CMDS.hasOwnProperty(name)) CMDS[name](args);
+    else print('zsh: command not found: ' + esc(name) + '   <span class="dim">try</span> <b>help</b>');
+  }
+
+  /* ---- join wizard ---- */
+  function startJoin() {
+    draft = {};
+    print('<b>first-winter-club join</b> <span class="dim">· 3 questions · ctrl+c or "cancel" to abort</span>\n<span class="dim">(prototype: nothing you type here is stored or sent)</span>');
+    setMode('name');
+  }
+  function welcome(d) {
+    member = d.name;
+    var cut = function (s) { s = String(s); return s.length > 38 ? s.slice(0, 37) + '…' : s; };
+    var rows = [
+      ['', '✓ WELCOME TO FIRST WINTER CLUB'],
+      ['', ''],
+      ['member', cut(d.name)],
+      ['checklist', 'reserved for ' + cut(d.email)],
+      ['from', d.home ? cut(d.home) + ' → hyde park' : 'somewhere warmer → hyde park'],
+      ['meetings', 'thursdays 18:00, on campus'],
+      ['gear swap', 'november']
+    ];
+    var lines = rows.map(function (r) { return r[0] ? (r[0] + '          ').slice(0, 11) + r[1] : r[1]; });
+    var w = Math.max.apply(null, lines.map(function (l) { return l.length; })) + 2;
+    var out = ['<span class="okc">╔' + '═'.repeat(w + 2) + '╗</span>'];
+    lines.forEach(function (l, i) {
+      var pad = ' '.repeat(w - l.length);
+      out.push('<span class="okc">║</span>  ' + (i === 0 ? '<b class="okc">' + esc(l) + '</b>' : esc(l)) + pad + '<span class="okc">║</span>');
+    });
+    out.push('<span class="okc">╚' + '═'.repeat(w + 2) + '╝</span>');
+    out.push('<span class="tag t-ok">[ ok ]</span> see you thursday. stay warm. <span class="dim">(nothing was stored or sent: this is a class prototype)</span>');
+    print(out.join('\n'));
+    document.getElementById('tmuxMember').textContent = 'member: ' + cut(d.name);
+    setMode('cmd');
+  }
+  function handle(line) {
+    var v = line.trim();
+    if (mode !== 'cmd' && /^(cancel|quit|q)$/i.test(v)) { echo(PROMPTS[mode] + ' ', line); print('<span class="dim">join cancelled. nothing saved (nothing is ever saved).</span>'); setMode('cmd'); return; }
+    if (mode === 'cmd') {
+      echo(PS + ' ', line);
+      if (v) { hist.push(v); hIdx = hist.length; }
+      run(v);
+    } else if (mode === 'name') {
+      echo(PROMPTS.name + ' ', line);
+      if (!v) { print('<span class="rd">name can\'t be empty.</span>'); return; }
+      draft.name = v; setMode('email');
+    } else if (mode === 'email') {
+      echo(PROMPTS.email + ' ', line);
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) { print('<span class="rd">that doesn\'t look like an email. try again.</span>'); return; }
+      draft.email = v; setMode('home');
+    } else if (mode === 'home') {
+      echo(PROMPTS.home + ' ', line);
+      draft.home = v;
+      print('  name:  <b>' + esc(draft.name) + '</b>\n  email: <b>' + esc(draft.email) + '</b>' + (v ? '\n  from:  <b>' + esc(v) + '</b>' : ''));
+      setMode('confirm');
+    } else if (mode === 'confirm') {
+      echo(PROMPTS.confirm + ' ', line);
+      if (/^(y|yes)?$/i.test(v)) welcome(draft);
+      else { print('<span class="dim">aborted. nothing saved.</span> type <b>join</b> to start over.'); setMode('cmd'); }
+    }
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var line = input.value;
+    input.value = '';
+    handle(line);
+  });
+
+  input.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowUp' && mode === 'cmd') {
+      if (hIdx > 0) { hIdx--; input.value = hist[hIdx]; }
+      e.preventDefault();
+    } else if (e.key === 'ArrowDown' && mode === 'cmd') {
+      if (hIdx < hist.length - 1) { hIdx++; input.value = hist[hIdx]; } else { hIdx = hist.length; input.value = ''; }
+      e.preventDefault();
+    } else if (e.key === 'Tab' && mode === 'cmd' && input.value && input.value.indexOf(' ') < 0) {
+      e.preventDefault();
+      var m = NAMES.filter(function (n) { return n.indexOf(input.value) === 0; });
+      if (m.length === 1) input.value = m[0] + ' ';
+      else if (m.length > 1) { echo(PS + ' ', input.value); print(m.join('  ')); }
+    } else if (e.ctrlKey && (e.key === 'c' || e.key === 'C') && !window.getSelection().toString()) {
+      e.preventDefault();
+      echo(PROMPTS[mode] + ' ', input.value + '^C');
+      input.value = '';
+      if (mode !== 'cmd') print('<span class="dim">join cancelled.</span>');
+      setMode('cmd');
+    } else if (e.ctrlKey && (e.key === 'l' || e.key === 'L')) {
+      e.preventDefault(); live.innerHTML = '';
+    }
+  });
+
+  document.getElementById('shell').addEventListener('click', function (e) {
+    if (e.target.closest('button, a, input')) return;
+    if (!window.getSelection().toString()) input.focus({ preventScroll: true });
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !document.getElementById('joinDlg').open) skipAll();
+  });
+
+  /* ---- click-to-run chips ---- */
+  var typing = false;
+  function typeAndRun(cmd) {
+    if (typing) return;
+    skipAll();
+    if (mode !== 'cmd') { print('<span class="dim">join cancelled.</span>'); setMode('cmd'); }
+    typing = true;
+    input.value = '';
+    form.scrollIntoView({ block: 'nearest', behavior: reduce ? 'auto' : 'smooth' });
+    var i = 0;
+    var t = setInterval(function () {
+      i++; input.value = cmd.slice(0, i);
+      if (i >= cmd.length) {
+        clearInterval(t);
+        setTimeout(function () { input.value = ''; handle(cmd); typing = false; input.focus({ preventScroll: true }); }, reduce ? 0 : 160);
+      }
+    }, reduce ? 0 : 34);
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('[data-run]'), function (b) {
+    b.addEventListener('click', function () { typeAndRun(b.dataset.run); });
+  });
+
+  /* ---- fallback dialog ---- */
+  var dlg = document.getElementById('joinDlg');
+  var dForm = document.getElementById('dlgForm');
+  function openDlg() {
+    skipAll();
+    document.getElementById('dErr').textContent = '';
+    if (typeof dlg.showModal === 'function') dlg.showModal(); else dlg.setAttribute('open', '');
+    document.getElementById('dName').focus();
+  }
+  function closeDlg() { if (typeof dlg.close === 'function') dlg.close(); else dlg.removeAttribute('open'); }
+  document.getElementById('openJoin').addEventListener('click', openDlg);
+  document.getElementById('tmuxJoin').addEventListener('click', openDlg);
+  document.getElementById('dCancel').addEventListener('click', closeDlg);
+  dForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var n = document.getElementById('dName').value.trim();
+    var em = document.getElementById('dEmail').value.trim();
+    var h = document.getElementById('dHome').value.trim();
+    var err = document.getElementById('dErr');
+    if (!n) { err.textContent = '! name is required'; return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) { err.textContent = '! that email looks off'; return; }
+    closeDlg();
+    if (mode !== 'cmd') setMode('cmd');
+    echo(PS + ' ', 'join --form');
+    welcome({ name: n, email: em, home: h });
+    dForm.reset();
+    document.getElementById('shell').scrollIntoView({ block: 'end', behavior: reduce ? 'auto' : 'smooth' });
+  });
+})();
+</script>
+</body>
+</html>

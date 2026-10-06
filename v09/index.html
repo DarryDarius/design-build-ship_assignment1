@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>v09 ~*~ WeLcOmE 2 tHe FiRsT WiNtEr CluB HoMePaGe ~*~</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 10px; color: #000;
+    font-family: "Times New Roman", Times, serif; font-size: 16px;
+    background-color: #000066;
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='M16 6v20M7.3 11l17.4 10M24.7 11 7.3 21'/%3E%3C/g%3E%3Cg fill='%23ffff66'%3E%3Crect x='46' y='40' width='2' height='2'/%3E%3Crect x='6' y='50' width='2' height='2'/%3E%3Crect x='54' y='12' width='1' height='1'/%3E%3C/g%3E%3Cg fill='none' stroke='%2366ccff' stroke-width='1.2' stroke-linecap='round'%3E%3Cpath d='M44 46v12M38.8 49l10.4 6M49.2 49l-10.4 6'/%3E%3C/g%3E%3C/svg%3E"),
+      repeating-linear-gradient(45deg, #000066 0 16px, #00007a 16px 32px);
+    cursor: crosshair;
+    overflow-x: hidden;
+  }
+  a { color: #0000ee; } a:visited { color: #551a8b; } a:hover { color: #ff0000; background: #ffff00; }
+  .comic { font-family: "Comic Sans MS", "Chalkboard", "Marker Felt", cursive; }
+
+  .wrap { max-width: 960px; margin: 0 auto; }
+  table.layout { width: 100%; border-collapse: separate; border-spacing: 6px; }
+  td { vertical-align: top; }
+
+  .topbar { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 6px; }
+  .btn88 { display: inline-block; min-width: 88px; height: 31px; line-height: 27px; padding: 0 8px; font: bold 12px Verdana, Geneva, sans-serif; text-align: center; text-decoration: none; color: #000; background: #c0c0c0; border: 2px outset #fff; white-space: nowrap; }
+  .btn88:hover { border-style: inset; background: #d8d8d8; color: #000; }
+  a.btn88.back { background: #ffff00; color: #000; font-size: 14px; }
+  .btn88.ver { background: #000; color: #00ff00; font-family: "Courier New", monospace; border-color: #00ff00; }
+
+  marquee, .marq { display: block; background: #000; color: #ffff00; font: bold 18px "Comic Sans MS", "Chalkboard", cursive; padding: 4px 0; border: 3px ridge #ff00ff; }
+
+  .title-cell { background: #000; border: 4px ridge #00ffff; text-align: center; padding: 14px 8px 10px; }
+  h1.wordart { margin: 0; font: 900 clamp(34px, 6vw, 64px)/1.05 Impact, "Arial Black", sans-serif; letter-spacing: 2px;
+    background: linear-gradient(90deg, #ff0000, #ff9900, #ffff00, #00ff00, #00ffff, #6666ff, #ff00ff, #ff0000); background-size: 200% 100%;
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    -webkit-text-stroke: 1px #fff; filter: drop-shadow(4px 4px 0 #ff00ff); animation: rainbow 3s linear infinite; transform: skewX(-8deg); }
+  @keyframes rainbow { to { background-position: 200% 0; } }
+  .tag { color: #00ff00; font-family: "Comic Sans MS", "Chalkboard", cursive; font-size: 18px; margin: 8px 0 0; }
+  .spin { display: inline-block; animation: spin 2.4s linear infinite; color: #fff; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .blink { animation: blink 1s steps(1) infinite; }
+  @keyframes blink { 50% { visibility: hidden; } }
+  .new { display: inline-block; background: #ff0000; color: #ffff00; font: bold 11px Verdana, sans-serif; padding: 1px 4px; transform: rotate(-8deg); border: 1px solid #ffff00; }
+
+  .uc { margin: 8px 0; padding: 12px; text-align: center; border: 3px solid #000;
+    background: repeating-linear-gradient(-45deg, #ffcc00 0 22px, #111 22px 44px); }
+  .uc span { display: inline-block; background: #ffcc00; color: #000; border: 3px solid #000; padding: 6px 14px; font: 28px Impact, "Arial Black", sans-serif; letter-spacing: 2px; }
+  .uc small { display: block; font: bold 13px "Comic Sans MS", "Chalkboard", cursive; letter-spacing: 0; }
+  .digger { width: 54px; height: 44px; vertical-align: middle; margin: 0 8px; }
+
+  hr.rainbow { border: 0; height: 6px; margin: 16px 0; background: linear-gradient(90deg, red, orange, yellow, lime, cyan, blue, violet, red); box-shadow: 0 2px 0 #000; }
+
+  .side { background: #c0c0c0; border: 3px outset #fff; padding: 8px; width: 190px; font-family: Verdana, Geneva, sans-serif; font-size: 13px; }
+  .side h3 { margin: 0 0 6px; background: #000080; color: #fff; font: bold 13px Verdana, sans-serif; padding: 3px 6px; }
+  .side ul { margin: 0 0 12px; padding-left: 18px; }
+  .side li { margin: 3px 0; list-style: none; position: relative; }
+  .side li::before { content: "\2744\FE0E"; position: absolute; left: -16px; color: #0000aa; }
+  .side .box { background: #fff; border: 2px inset #fff; padding: 6px; margin-bottom: 12px; }
+
+  .counter { text-align: center; margin-bottom: 12px; }
+  .counter .digits { display: inline-flex; gap: 2px; background: #000; padding: 3px; border: 2px inset #888; }
+  .counter .digits b { display: inline-block; width: 15px; background: linear-gradient(#333, #000 50%, #222 50%, #111); color: #ff2a2a; font: bold 18px/24px "Courier New", monospace; text-align: center; text-shadow: 0 0 4px #f00; }
+
+  .main { background: #fff; border: 4px ridge #ff00ff; padding: 14px 20px; }
+  .main h2 { font: bold 26px "Comic Sans MS", "Chalkboard", cursive; color: #cc0000; margin: 6px 0 8px; text-shadow: 2px 2px 0 #ffff00; }
+  .main h2 .spin { color: #0099ff; text-shadow: none; }
+  .main p { margin: 8px 0; line-height: 1.35; }
+  .hl { background: #ffff00; }
+  .big-red { color: #ff0000; font: bold 20px "Comic Sans MS", "Chalkboard", cursive; }
+
+  table.old { border: 3px outset #888; border-collapse: separate; border-spacing: 2px; margin: 10px auto; background: #ccc; font-size: 15px; }
+  table.old th, table.old td { border: 2px inset #ddd; padding: 6px 12px; text-align: center; }
+  table.old th { background: #000080; color: #fff; font-family: Verdana, sans-serif; font-size: 13px; }
+  table.old td { background: #fff; }
+  table.old td.hot { background: #ff9999; font-weight: bold; } table.old td.hotter { background: #ff3333; color: #fff; font-weight: bold; }
+
+  pre.ascii { font: 13px/1.15 "Courier New", Courier, monospace; background: #000; color: #00ff00; padding: 10px 12px; border: 3px inset #666; overflow-x: auto; margin: 10px 0; }
+  .twocol { display: flex; gap: 16px; align-items: flex-start; flex-wrap: wrap; }
+  .twocol > * { flex: 1 1 260px; }
+
+  ul.stars { padding-left: 4px; list-style: none; }
+  ul.stars li { margin: 7px 0; padding-left: 26px; position: relative; }
+  ul.stars li::before { content: "\2605"; position: absolute; left: 0; top: -2px; font-size: 20px; color: #ff9900; animation: spin 3s linear infinite; display: inline-block; }
+
+  .gear-tbl td { text-align: left !important; }
+
+  /* guestbook */
+  .gb { background: #ffffcc; border: 4px double #ff6600; padding: 12px; margin-top: 10px; }
+  .gb h2 { text-align: center; margin-top: 0; }
+  .gb table { width: 100%; }
+  .gb td { padding: 4px; font: 15px "Comic Sans MS", "Chalkboard", cursive; }
+  .gb td.l { width: 34%; text-align: right; font-weight: bold; color: #000080; }
+  .gb input[type=text], .gb input[type=email], .gb textarea, .gb select { width: 100%; font: 14px "Courier New", monospace; border: 2px inset #ccc; padding: 3px; background: #fff; }
+  .gb textarea { height: 70px; }
+  .gb .go { text-align: center; padding-top: 8px; }
+  .gb button { font: bold 15px Verdana, sans-serif; background: #c0c0c0; border: 3px outset #fff; padding: 5px 16px; cursor: pointer; }
+  .gb button:active { border-style: inset; }
+  .gb button.sign { background: #00ff00; }
+  .arrow { color: #ff0000; font: bold 20px "Comic Sans MS", cursive; display: inline-block; animation: nudge .6s ease-in-out infinite alternate; }
+  @keyframes nudge { to { transform: translateY(5px); } }
+  .thanks { display: none; text-align: center; background: #000; color: #00ff00; border: 3px ridge #00ff00; padding: 12px; margin-top: 10px; font: bold 17px "Comic Sans MS", "Chalkboard", cursive; }
+  .thanks small { display: block; color: #aaa; font: 12px "Courier New", monospace; margin-top: 6px; }
+  .entries { margin-top: 12px; }
+  .entry { border: 1px dashed #999; background: #fff; padding: 6px 10px; margin: 6px 0; font-size: 14px; }
+  .entry b { color: #cc0000; }
+  .entry i { color: #666; font-size: 12px; }
+  .entry.fresh { background: #ccffcc; border: 2px solid #00aa00; }
+
+  .midi { background: #000; color: #0f0; font: 11px "Courier New", monospace; padding: 6px; border: 2px inset #888; }
+  .midi .bar { height: 8px; background: #030; margin: 4px 0; position: relative; overflow: hidden; }
+  .midi .bar i { position: absolute; left: 0; top: 0; bottom: 0; width: 30%; background: #0f0; animation: midi 5s linear infinite; }
+  @keyframes midi { from { width: 0; } to { width: 100%; } }
+  .award { text-align: center; border: 3px ridge gold; background: linear-gradient(#fff6c4, #ffd700); padding: 6px; margin-bottom: 10px; font: bold 12px "Times New Roman", serif; }
+  .award .medal { font-size: 26px; color: #b8860b; }
+
+  .webring { background: #000; border: 4px ridge #00ffff; color: #fff; text-align: center; padding: 10px; font-family: "Comic Sans MS", "Chalkboard", cursive; }
+  .webring a { color: #00ffff; font-weight: bold; } .webring a:hover { color: #000; background: #00ffff; }
+  .webring .ring { font-size: 20px; color: #ffff00; margin: 4px 0; }
+  .foot { text-align: center; color: #fff; font: 12px Verdana, sans-serif; margin: 10px 0 30px; }
+  .foot .btn88 { margin: 3px; }
+  .netscape { background: linear-gradient(#003366, #000) !important; color: #fff !important; }
+  .netscape b { color: #ffcc00; }
+
+  .flake-trail { position: fixed; pointer-events: none; z-index: 9999; color: #fff; font-family: "Times New Roman", serif; text-shadow: 0 0 4px #66ccff, 0 0 1px #00f; user-select: none; will-change: transform, opacity; }
+
+  @media (max-width: 760px) {
+    body { padding: 6px; }
+    table.layout, table.layout > tbody, table.layout > tbody > tr, table.layout > tbody > tr > td { display: block; width: 100%; }
+    table.layout { border-spacing: 0; } table.layout > tbody > tr > td { margin-bottom: 6px; }
+    .side { width: auto; }
+    .main { padding: 10px 12px; }
+    .gb td { display: block; width: 100% !important; text-align: left !important; }
+    .uc span { font-size: 20px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .blink, .spin, h1.wordart, ul.stars li::before, .arrow { animation: none; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <a class="btn88 back" href="../">← Gallery</a>
+    <span class="btn88 ver">page v09</span>
+  </div>
+
+  <marquee scrollamount="7" behavior="scroll">*** WELCOME 2 THE FIRST WINTER CLUB HOMEPAGE!!! *** u are NOT gonna freeze *** wind chill is the REAL temperature!!! *** 3 layers &gt; 1 big coat *** sign my guestbook 4 the FREE checklist *** meetings THURSDAYS 6 PM *** </marquee>
+
+  <table class="layout" role="presentation">
+    <tr>
+      <td colspan="3" class="title-cell">
+        <h1 class="wordart">~*~ FiRsT WiNtEr CluB ~*~</h1>
+        <p class="tag"><span class="spin">&#10052;&#xFE0E;</span> a homepage 4 international students at UChicago who have NEVER seen snow b4 <span class="spin">&#10052;&#xFE0E;</span></p>
+        <div class="uc" aria-label="Under construction">
+          <span>
+            <svg class="digger" viewBox="0 0 54 44" aria-hidden="true">
+              <rect x="20" y="4" width="14" height="6" fill="#ff0"/><rect x="18" y="9" width="18" height="3" fill="#000"/>
+              <circle cx="27" cy="16" r="5" fill="#f2c9a0" stroke="#000"/>
+              <rect x="21" y="21" width="12" height="12" fill="#f60" stroke="#000"/>
+              <line x1="33" y1="24" x2="46" y2="12" stroke="#000" stroke-width="3"/><path d="M42 8h10l-4 8z" fill="#888" stroke="#000"/>
+              <line x1="24" y1="33" x2="22" y2="43" stroke="#000" stroke-width="3"/><line x1="30" y1="33" x2="32" y2="43" stroke="#000" stroke-width="3"/>
+            </svg>
+            UNDER CONSTRUCTION
+            <svg class="digger" viewBox="0 0 54 44" aria-hidden="true" style="transform:scaleX(-1)">
+              <rect x="20" y="4" width="14" height="6" fill="#ff0"/><rect x="18" y="9" width="18" height="3" fill="#000"/>
+              <circle cx="27" cy="16" r="5" fill="#f2c9a0" stroke="#000"/>
+              <rect x="21" y="21" width="12" height="12" fill="#f60" stroke="#000"/>
+              <line x1="33" y1="24" x2="46" y2="12" stroke="#000" stroke-width="3"/><path d="M42 8h10l-4 8z" fill="#888" stroke="#000"/>
+              <line x1="24" y1="33" x2="22" y2="43" stroke="#000" stroke-width="3"/><line x1="30" y1="33" x2="32" y2="43" stroke="#000" stroke-width="3"/>
+            </svg>
+            <small>(shoveling snow off this page. pardon our dust. and our ice.)</small>
+          </span>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <!-- LEFT SIDEBAR -->
+      <td class="side">
+        <div class="counter">
+          <div style="font-weight:bold;margin-bottom:4px">U r visitor #</div>
+          <div class="digits" id="counter" aria-label="visitor counter"></div>
+          <div style="font-size:11px;margin-top:4px">since the first snow</div>
+        </div>
+
+        <h3>&#9658; NaViGaTiOn</h3>
+        <ul>
+          <li><a href="#windchill">Wind Chill!!</a></li>
+          <li><a href="#frostbite">Frostbite Table</a></li>
+          <li><a href="#layers">3 Layer Rule</a></li>
+          <li><a href="#gear">Cheap Gear</a></li>
+          <li><a href="#dark">The Dark</a></li>
+          <li><a href="#club">About Da Club</a></li>
+          <li><a href="#guestbook"><b>GUESTBOOK</b></a> <span class="new">NEW!</span></li>
+        </ul>
+
+        <h3>&#9658; WiNtEr StAtS</h3>
+        <div class="box">
+          Jan avg high: <b>31&deg;F</b><br>
+          Jan avg low: <b>18&deg;F</b><br>
+          Wind chill: <b>below 0&deg;F</b> a LOT<br>
+          Shortest day: <b>9h 08m</b><br>
+          Dec sunset: <b>~4:20 PM</b> (!!!)<br>
+          First snow: <b>November</b>
+        </div>
+
+        <h3>&#9658; NeWs</h3>
+        <div class="box" style="height:110px;padding:0">
+          <marquee direction="up" scrollamount="2" style="height:106px;background:#fff;color:#000;border:0;font:13px Verdana,sans-serif;padding:4px">
+            <b>OCT:</b> buy layers NOW while it's still nice!!<br><br>
+            <b>NOV:</b> GEAR SWAP!!! bring ur old stuff, take warm stuff<br><br>
+            <b>THU 6PM:</b> meeting on campus, every week<br><br>
+            <b>DEC 21:</b> shortest day. we survive it 2gether
+          </marquee>
+        </div>
+
+        <div class="midi">
+          &#9835; NOW PLAYING:<br>jingle_bells_but_sad.mid
+          <div class="bar"><i></i></div>
+          [MIDI muted 2 protect ur ears]
+        </div>
+      </td>
+
+      <!-- MAIN -->
+      <td class="main">
+        <p class="comic" style="font-size:18px;margin-top:0">Hi!!! <span class="blink" style="color:#ff00ff"><b>WELCOME</b></span> 2 our little corner of the World Wide Web!! If u just moved to Chicago from somewhere WARM (Mumbai? Lagos? Singapore? S&atilde;o Paulo??) and u r scared of ur first winter... <b>DON'T PANIC.</b> Chicago winter is <span class="hl"><b>100% survivable if u prepare</b></span>. Every1 in this club did it. Here is EVERYTHING we wish some1 told us.</p>
+
+        <hr class="rainbow">
+
+        <h2 id="windchill"><span class="spin">&#10052;&#xFE0E;</span> TIP #1: WIND CHILL IS THE REAL TEMP!!!</h2>
+        <p>Ok so ur phone says <b>20&deg;F</b>. U think "not bad." <span class="big-red">WRONG!!!</span> Add a 30 mph wind off the lake and it <b>FEELS LIKE ~1&deg;F</b> on ur face. The wind steals heat from ur skin way faster. <span class="hl">ALWAYS check the &quot;feels like&quot; number, not the temperature.</span></p>
+        <p>In January the wind chill goes <b>below 0&deg;F</b> regularly and can hit <b>&minus;30&deg;F or lower</b>. During the <b>Jan 2019 polar vortex</b> the air was <b>&minus;23&deg;F</b> and the wind chill was near <b class="blink" style="color:#ff0000">&minus;50&deg;F</b>. (the city basically shut down. stay inside on days like that!!)</p>
+
+        <h2 id="frostbite"><span class="spin">&#10052;&#xFE0E;</span> FROSTBITE TABLE (srsly read this)</h2>
+        <table class="old">
+          <tr><th>Wind chill</th><th>Exposed skin gets frostbite in...</th></tr>
+          <tr><td>&minus;18&deg;F</td><td>~30 minutes</td></tr>
+          <tr><td>&minus;35&deg;F</td><td class="hot">~10 minutes</td></tr>
+          <tr><td>&minus;48&deg;F</td><td class="hotter">~5 minutes!!!</td></tr>
+        </table>
+        <p style="text-align:center" class="comic">cover ur face, ears + fingers. go inside 2 warm up. ur nose will thank u.</p>
+
+        <hr class="rainbow">
+
+        <h2 id="layers"><span class="spin">&#10052;&#xFE0E;</span> TIP #2: 3 LAYERS &gt; 1 BIG COAT</h2>
+        <div class="twocol">
+          <div>
+            <p>One giant puffy coat over a T-shirt = sweaty on the bus, frozen at the bus stop. <b>LAYERS</b> trap warm air AND u can take one off inside!!</p>
+            <ul class="stars">
+              <li><b>BASE layer:</b> thermal top + leggings, merino wool or synthetic. <span class="hl"><b>NEVER COTTON!!!</b></span> cotton gets wet + stays cold.</li>
+              <li><b>MID layer:</b> fleece or a light down jacket. this is the cozy part.</li>
+              <li><b>SHELL:</b> windproof + waterproof parka that goes <b>past ur hips</b>.</li>
+            </ul>
+          </div>
+<pre class="ascii" aria-label="ASCII art of a person wearing hat, gaiter, three layers, mittens and boots">
+      .-""""-.
+     / HAT!!  \   &lt;-- over the EARS
+    |__________|
+     ( o    o )
+     |  ====  |   &lt;-- neck gaiter
+    /'========'\
+   / |  SHELL | \  &lt;-- windproof!
+  |  | [MID]  |  |
+ (M) | {BASE} | (M) &lt;-- MITTENS
+     |________|       (not gloves)
+     |   ||   |
+     |   ||   |   &lt;-- past the hips
+    _|___||___|_
+   [BOOTS][BOOTS] &lt;-- grip!!
+</pre>
+        </div>
+        <p><b>ALSO:</b> <span class="hl">hat over ur ears</span> &bull; <span class="hl">mittens beat gloves</span> (fingers keep each other warm!!) &bull; <span class="hl">scarf or neck gaiter</span> &bull; <span class="hl">insulated waterproof boots with grip</span> (the sidewalks become ice rinks. not the fun kind.)</p>
+
+        <hr class="rainbow">
+
+        <h2 id="gear"><span class="spin">&#10052;&#xFE0E;</span> TIP #3: GEAR DOES NOT HAVE 2 B EXPENSIVE</h2>
+        <table class="old gear-tbl">
+          <tr><th>WHERE</th><th>WHAT 2 GET</th></tr>
+          <tr><td><b>Thrift stores</b></td><td>wool sweaters, fleece, parkas, sometimes boots</td></tr>
+          <tr><td><b>Uniqlo HEATTECH</b></td><td>cheap thin base layers that actually work</td></tr>
+          <tr><td><b>Costco</b></td><td>warm socks, thermals, seasonal outerwear</td></tr>
+          <tr><td><b>OUR GEAR SWAP</b> <span class="new">NOV!</span></td><td>stuff from older students who survived. FREE vibes.</td></tr>
+        </table>
+
+        <hr class="rainbow">
+
+        <h2 id="dark"><span class="spin">&#10052;&#xFE0E;</span> TIP #4: THE SUN SETS AT 4:20 PM?!?!</h2>
+        <p>Yes. On <b>Dec 21</b> Chicago gets about <b>9 hours 8 minutes</b> of daylight and sunset is around <b>4:20 PM</b>. It can mess with ur mood big time. What helps:</p>
+        <ul class="stars">
+          <li>Go outside at <b>midday</b> when there IS light. even 15 min. even if cold.</li>
+          <li>Ask a doctor about <b>vitamin D</b>.</li>
+          <li><b>Check in on ur friends</b>, and let them check on u. That's literally why this club exists.</li>
+        </ul>
+
+        <hr class="rainbow">
+
+        <h2 id="club"><span class="spin">&#10052;&#xFE0E;</span> ABOUT DA CLUB</h2>
+        <p><b>First Winter Club</b> is a student-run peer support group 4 UChicago international students facing their first Chicago winter. We meet <span class="hl"><b>every Thursday at 6 PM on campus</b></span>. Hot drinks, real advice, + people who also didn't own a coat until last year.</p>
+        <p>Every member gets the <b class="blink" style="color:#cc0000">FREE FIRST WINTER CHECKLIST</b> + an invite 2 our <b>November gear swap</b>. How do u join??? <b>SIGN MY GUESTBOOK!!!</b> <span class="arrow">&darr;&darr;&darr;</span></p>
+
+        <div class="gb" id="guestbook">
+          <h2><span class="spin">&#10052;&#xFE0E;</span> Sign my Guestbook!! <span class="spin">&#10052;&#xFE0E;</span></h2>
+          <form id="gbForm">
+            <table role="presentation">
+              <tr><td class="l"><label for="gName">Ur name:</label></td><td><input id="gName" type="text" required placeholder="xX_FrozenFriend_Xx"></td></tr>
+              <tr><td class="l"><label for="gMail">E-mail:</label></td><td><input id="gMail" type="email" required placeholder="you@uchicago.edu"></td></tr>
+              <tr><td class="l"><label for="gFrom">Where r u from?</label></td><td><input id="gFrom" type="text" placeholder="somewhere warm"></td></tr>
+              <tr><td class="l"><label for="gHow">How did u find my page?</label></td><td>
+                <select id="gHow"><option>Webring!!</option><option>A friend</option><option>Searched "is -20 wind chill normal"</option><option>Fell on ice, saw link</option></select></td></tr>
+              <tr><td class="l"><label for="gMsg">Leave a message:</label></td><td><textarea id="gMsg" placeholder="cool page!!! what is a mitten"></textarea></td></tr>
+              <tr><td colspan="2" class="go">
+                <label style="font-size:14px"><input type="checkbox" checked> YES send me the FREE First Winter Checklist + join the club!!</label><br><br>
+                <button type="submit" class="sign">Sign it!!!</button>
+                <button type="reset">Clear</button>
+              </td></tr>
+            </table>
+          </form>
+          <div class="thanks" id="thanks" role="status" aria-live="polite"></div>
+
+          <div class="entries" id="entries">
+            <div class="entry"><b>Priya</b> from Chennai: <i>(Dec 3)</i><br>i thought 50&deg;F was cold. i was SO wrong. the gear swap saved me. 10/10 page</div>
+            <div class="entry"><b>Kwame</b> from Accra: <i>(Jan 14)</i><br>MITTENS. why did no1 tell me about mittens earlier. ok this page told me. thx</div>
+            <div class="entry"><b>Mariana</b> from Recife: <i>(Feb 2)</i><br>bought a cotton hoodie. regret. bought merino. joy. see u thursday</div>
+          </div>
+        </div>
+      </td>
+
+      <!-- RIGHT SIDEBAR -->
+      <td class="side">
+        <div class="award">
+          <div class="medal">&#9733;</div>
+          FROSTIEST PAGE<br>ON THE WEB<br><span style="font-weight:normal;font-size:11px">award (we gave it 2 ourselves)</span>
+        </div>
+        <div class="award" style="background:linear-gradient(#e0f4ff,#7fd0ff);border-color:#66ccff">
+          <div class="medal" style="color:#0055aa">&#10052;&#xFE0E;</div>
+          COOL SITE<br>OF THE DAY<br><span style="font-weight:normal;font-size:11px">(literally. it's 18&deg;F)</span>
+        </div>
+
+        <h3>&#9658; CoOl LiNkS</h3>
+        <ul>
+          <li><a href="#windchill">what is wind chill</a></li>
+          <li><a href="#layers">how 2 dress</a></li>
+          <li><a href="#gear">cheap stuff</a></li>
+          <li><a href="#guestbook">JOIN!!!</a></li>
+        </ul>
+
+        <h3>&#9658; PoLL!!</h3>
+        <div class="box">
+          Ur biggest winter fear?<br>
+          <label><input type="radio" name="poll"> the cold</label><br>
+          <label><input type="radio" name="poll"> the dark</label><br>
+          <label><input type="radio" name="poll"> the ice</label><br>
+          <label><input type="radio" name="poll"> being alone</label><br>
+          <span id="pollRes" style="font-size:11px;color:#008800"></span>
+        </div>
+
+        <h3>&#9658; THIS WEEK</h3>
+        <div class="box" style="text-align:center">
+          <b>THURSDAY</b><br>
+          <span style="font:bold 34px Impact,sans-serif;color:#cc0000">6 PM</span><br>
+          on campus<br>
+          <span class="blink" style="color:#ff00ff;font-weight:bold">BE THERE!!</span>
+        </div>
+      </td>
+    </tr>
+  </table>
+
+  <div class="webring">
+    <div>&#10052;&#xFE0E; This site is a proud member of the &#10052;&#xFE0E;</div>
+    <div class="ring"><b>~ COLD CLIMATE NEWCOMERS WEBRING ~</b></div>
+    <a href="#">&lt;&lt; Prev</a> | <a href="#">Random Site</a> | <a href="#">List Sites</a> | <a href="#">Join the Ring</a> | <a href="#">Next &gt;&gt;</a>
+    <div style="font-size:12px;color:#aaa;margin-top:6px">(the ring is just us. there is only 1 site. it is this one.)</div>
+  </div>
+
+  <div class="foot">
+    <span class="btn88 netscape">Best viewed in <b>Netscape</b></span>
+    <span class="btn88">800 x 600</span>
+    <span class="btn88" style="background:#fff;color:#0000aa">Made w/ Notepad</span>
+    <span class="btn88" style="background:#663300;color:#ffcc99">HOT COCOA powered</span>
+    <a class="btn88 back" href="../">← Gallery</a>
+    <span class="btn88 ver">v09</span>
+    <p>Best viewed in Netscape Navigator 4.0 at 800x600 with ur mittens OFF.<br>
+    First Winter Club is student-run peer support. Not medical advice. Last updated: 10/05/2026 (but spiritually 1999).<br>
+    &copy; First Winter Club &bull; no data is stored on this homepage, we don't even know how</p>
+  </div>
+</div>
+
+<script>
+(function () {
+  /* fake visitor counter */
+  var n = String(Math.floor(13000 + Math.random() * 86000)).padStart(7, '0');
+  document.getElementById('counter').innerHTML = n.split('').map(function (d) { return '<b>' + d + '</b>'; }).join('');
+
+  /* poll */
+  document.querySelectorAll('input[name=poll]').forEach(function (r) {
+    r.addEventListener('change', function () { document.getElementById('pollRes').textContent = 'thx 4 voting!! (the answer is: all 4. the club helps w/ all 4.)'; });
+  });
+
+  /* snowflakes that follow the mouse */
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var glyphs = ['❄︎', '❅︎', '❆︎', '*', '✧'];
+  var last = 0, live = 0;
+  function spawn(x, y) {
+    if (live > 60) return;
+    var s = document.createElement('span');
+    s.className = 'flake-trail';
+    s.textContent = glyphs[Math.floor(Math.random() * glyphs.length)];
+    var size = 10 + Math.random() * 16;
+    s.style.fontSize = size + 'px';
+    s.style.left = (x - size / 2) + 'px';
+    s.style.top = (y - size / 2) + 'px';
+    if (Math.random() < .3) s.style.color = ['#66ccff', '#ffff66', '#ff99ff'][Math.floor(Math.random() * 3)];
+    document.body.appendChild(s); live++;
+    var dx = (Math.random() - .5) * 60, dy = 40 + Math.random() * 70, rot = (Math.random() - .5) * 360;
+    var anim = s.animate([
+      { transform: 'translate(0,0) rotate(0deg)', opacity: 1 },
+      { transform: 'translate(' + dx + 'px,' + dy + 'px) rotate(' + rot + 'deg)', opacity: 0 }
+    ], { duration: 900 + Math.random() * 700, easing: 'ease-in' });
+    anim.onfinish = function () { s.remove(); live--; };
+  }
+  function move(x, y) {
+    var now = performance.now();
+    if (now - last < 28) return;
+    last = now; spawn(x, y);
+  }
+  if (!reduce) {
+    document.addEventListener('mousemove', function (e) { move(e.clientX, e.clientY); });
+    document.addEventListener('touchmove', function (e) { var t = e.touches[0]; if (t) move(t.clientX, t.clientY); }, { passive: true });
+  }
+
+  /* guestbook */
+  var form = document.getElementById('gbForm');
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var esc = function (s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; };
+    var name = document.getElementById('gName').value.trim() || 'Anonymous';
+    var from = document.getElementById('gFrom').value.trim() || 'somewhere warm';
+    var msg = document.getElementById('gMsg').value.trim() || 'cool page!!!';
+    var thanks = document.getElementById('thanks');
+    thanks.innerHTML = '<span class="blink">*** THANX 4 SIGNING, ' + esc(name).toUpperCase() + '!!! ***</span><br>ur officially in the First Winter Club!! the FREE checklist is 4 u. see u THURSDAY 6 PM!!' +
+      '<small>(nothing was saved or sent. this homepage has no database. it barely has CSS.)</small>';
+    thanks.style.display = 'block';
+    var entry = document.createElement('div');
+    entry.className = 'entry fresh';
+    entry.innerHTML = '<b>' + esc(name) + '</b> from ' + esc(from) + ': <i>(just now)</i> <span class="new">NEW!</span><br>' + esc(msg);
+    var list = document.getElementById('entries');
+    list.insertBefore(entry, list.firstChild);
+    form.style.display = 'none';
+    thanks.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    var r = thanks.getBoundingClientRect();
+    for (var i = 0; i < 40; i++) setTimeout(function () { spawn(r.left + Math.random() * r.width, r.top + Math.random() * 30); }, i * 25);
+  });
+})();
+</script>
+</body>
+</html>
