@@ -3,84 +3,266 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>First Winter Club — 25 Versions</title>
+  <title>First Winter Club · 25 versions, one page</title>
+  <meta name="description" content="25 versions of a landing page for international students facing their first Chicago winter, and how I chose the final one.">
   <style>
-    body { font-family: system-ui, sans-serif; max-width: 1200px; margin: 0 auto; padding: 48px 24px; color: #111; }
-    h1 { margin: 0 0 8px; }
-    .lede { color: #555; max-width: 60ch; }
-    h2 { margin: 48px 0 4px; font-size: 18px; }
-    .phase { color: #555; margin: 0 0 16px; max-width: 70ch; font-size: 15px; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 20px; }
-    .card { display: block; text-decoration: none; color: inherit; }
-    .thumb { position: relative; aspect-ratio: 4 / 3; overflow: hidden; border: 1px solid #ddd; border-radius: 6px; background: #f4f4f4; }
-    .thumb iframe { position: absolute; top: 0; left: 0; width: 1280px; height: 960px; border: 0; transform: scale(var(--s, .164)); transform-origin: 0 0; pointer-events: none; }
-    .card:hover .thumb { border-color: #111; }
-    .card b { display: block; margin: 8px 0 2px; }
-    .card span { font-size: 14px; color: #555; line-height: 1.4; }
+    :root {
+      --night: #0f1b2d; --night-2: #17263d; --ice: #dbe7f3; --frost: #f4f7fb;
+      --amber: #f0b45a; --rust: #b4532a; --cream: #f6eddc; --ink: #1c2230; --muted: #5b6475; --rule: #d9dee7;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+    body { margin: 0; font-family: "Avenir Next", "Helvetica Neue", Arial, sans-serif; color: var(--ink); background: var(--frost); line-height: 1.5; }
+    a { color: inherit; }
+    .serif { font-family: "Iowan Old Style", Charter, Georgia, serif; }
+    .wrap { max-width: 1180px; margin: 0 auto; padding: 0 28px; }
+
+    /* ---------- hero: the final choice ---------- */
+    .hero { background: radial-gradient(ellipse at 75% 40%, rgba(240,180,90,.18), transparent 55%), var(--night); color: var(--ice); padding: 56px 0 72px; }
+    .hero .top { display: flex; justify-content: space-between; align-items: baseline; font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: #9fb2c8; margin-bottom: 44px; }
+    .hero-grid { display: grid; grid-template-columns: 1fr 1.15fr; gap: 56px; align-items: center; }
+    .hero h1 { font-family: "Iowan Old Style", Charter, Georgia, serif; font-weight: normal; font-size: 54px; line-height: 1.05; margin: 0 0 18px; color: var(--frost); }
+    .hero h1 em { color: var(--amber); }
+    .hero p { font-size: 18px; color: #c4d2e2; max-width: 34em; margin: 0 0 14px; }
+    .hero .who { font-size: 15px; color: #9fb2c8; }
+    .hero .btns { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 26px; }
+    .btn { display: inline-block; padding: 13px 20px; border-radius: 4px; font-weight: 600; text-decoration: none; font-size: 15px; }
+    .btn.primary { background: var(--amber); color: #2a1a08; }
+    .btn.ghost { border: 1px solid #5c7290; color: var(--ice); }
+    .btn:focus-visible, .card:focus-visible, .pick:focus-visible { outline: 3px solid var(--amber); outline-offset: 3px; }
+    .feature { display: block; position: relative; border-radius: 8px; overflow: hidden; box-shadow: 0 0 0 1px rgba(240,180,90,.35), 0 30px 80px rgba(240,180,90,.18), 0 20px 50px rgba(0,0,0,.5); aspect-ratio: 16 / 10; background: var(--night-2); }
+    .feature iframe { position: absolute; top: 0; left: 0; width: 1280px; height: 800px; border: 0; transform-origin: 0 0; pointer-events: none; }
+    .feature .tag { position: absolute; left: 14px; bottom: 14px; background: var(--amber); color: #2a1a08; font-size: 12px; font-weight: 700; letter-spacing: .12em; padding: 6px 10px; border-radius: 3px; }
+
+    /* ---------- story timeline ---------- */
+    .story { padding: 72px 0 24px; }
+    .kicker { font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: var(--rust); font-weight: 600; }
+    .story h2, .section h2 { font-family: "Iowan Old Style", Charter, Georgia, serif; font-weight: normal; font-size: 36px; margin: 6px 0 28px; }
+    .steps { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; border-top: 2px solid var(--ink); }
+    .step { padding: 18px 16px 0 0; }
+    .step a { text-decoration: none; display: block; }
+    .step .n { font-size: 13px; color: var(--muted); letter-spacing: .08em; }
+    .step b { display: block; font-size: 17px; margin: 4px 0 6px; }
+    .step span { font-size: 14px; color: var(--muted); display: block; }
+    .step a:hover b { color: var(--rust); }
+
+    /* ---------- sections ---------- */
+    .section { padding: 56px 0 8px; border-top: 1px solid var(--rule); margin-top: 48px; }
+    .section .lede { font-size: 17px; max-width: 46em; margin: -12px 0 26px; }
+    .decision { background: #fff; border-left: 4px solid var(--rust); padding: 18px 22px; margin: 0 0 28px; max-width: 52em; font-size: 16px; }
+    .decision b { color: var(--rust); }
+    .options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 26px; }
+    .opt { background: #fff; border: 1px solid var(--rule); border-radius: 6px; padding: 16px 18px; font-size: 15px; }
+    .opt.chosen { border: 2px solid var(--rust); }
+    .opt .lbl { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+    .opt.chosen .lbl { color: var(--rust); font-weight: 700; }
+    .opt b { display: block; font-size: 17px; margin: 4px 0; }
+
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 26px 22px; }
+    .card { display: block; text-decoration: none; color: inherit; border-radius: 6px; }
+    .thumb { position: relative; aspect-ratio: 4 / 3; overflow: hidden; border: 1px solid var(--rule); border-radius: 6px; background: #e9edf3; }
+    .thumb iframe { position: absolute; top: 0; left: 0; width: 1280px; height: 960px; border: 0; transform-origin: 0 0; pointer-events: none; }
+    .card:hover .thumb { border-color: var(--ink); }
+    .card .meta { display: flex; justify-content: space-between; align-items: baseline; margin: 10px 0 2px; }
+    .card b { font-size: 16px; }
+    .card .flag { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; font-weight: 700; padding: 2px 7px; border-radius: 3px; }
+    .flag.kept { background: #e7f0e4; color: #2f5d2a; }
+    .flag.dropped { background: #eef0f3; color: #6a7383; }
+    .flag.final { background: var(--amber); color: #2a1a08; }
+    .card p { margin: 0; font-size: 14px; color: var(--muted); }
+    .card.is-dropped .thumb { filter: grayscale(.6); opacity: .8; }
+    .card.is-dropped:hover .thumb { filter: none; opacity: 1; }
+
+    .claude { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+    .claude div { background: #fff; border: 1px solid var(--rule); border-radius: 6px; padding: 20px; font-size: 15px; }
+    .claude h3 { margin: 0 0 8px; font-size: 17px; }
+    .claude ul { margin: 0; padding-left: 18px; }
+    .claude li { margin-bottom: 6px; }
+
+    footer { margin-top: 72px; background: var(--night); color: #9fb2c8; padding: 30px 0; font-size: 14px; }
+    footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+
+    @media (max-width: 900px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 32px; }
+      .hero h1 { font-size: 40px; }
+      .steps { grid-template-columns: repeat(2, 1fr); }
+      .options, .claude { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
-  <h1>First Winter Club</h1>
-  <p class="lede">25 versions of a landing page for international students facing their first Chicago winter. The story of how I got to the final one.</p>
+  <header class="hero">
+    <div class="wrap">
+      <div class="top"><span>Design, Build, Ship · Assignment 1</span><span>25 versions · 1 page</span></div>
+      <div class="hero-grid">
+        <div>
+          <div class="kicker" style="color:var(--amber)">The final choice · v25</div>
+          <h1>First Winter Club: <em>cold facts, warm people.</em></h1>
+          <p>A landing page for UChicago international students facing their first Chicago winter, especially those who've never seen snow. It should leave them thinking <i>"this is survivable, and I'm not doing it alone,"</i> and then they should join the club and get the free First Winter Checklist.</p>
+          <p class="who">Twelve directions went wide, five rounds narrowed them, and this is where it landed: a senior student's letter on one side, a practical gear catalog on the other, set on a winter night where the only warm light comes from people.</p>
+          <div class="btns">
+            <a class="btn primary" href="v25/">Open v25 →</a>
+            <a class="btn ghost" href="#story">How I got here ↓</a>
+          </div>
+        </div>
+        <a class="feature" href="v25/" aria-label="Open the final version, v25">
+          <iframe src="v25/" title="Preview of v25" loading="eager" tabindex="-1" aria-hidden="true"></iframe>
+          <span class="tag">FINAL · v25</span>
+        </a>
+      </div>
+    </div>
+  </header>
 
-  <h2>Batch 1 · Going wide (v01–v04)</h2>
-  <p class="phase">Four directions from four different eras and voices: an official weather alert, an explorer's diary, a wordless assembly manual, and a Cold War pamphlet.</p>
-  <div class="grid">
-    <a class="card" href="v01/"><div class="thumb"><iframe src="v01/" loading="lazy" tabindex="-1"></iframe></div><b>v01 · NWS Alert</b><span>The page as an official weather warning: alert banners, a teletype bulletin, and a live wind chill chart.</span></a>
-    <a class="card" href="v02/"><div class="thumb"><iframe src="v02/" loading="lazy" tabindex="-1"></iframe></div><b>v02 · Expedition Journal</b><span>A 1910s polar explorer's diary of a first winter, with a hand-drawn map of Hyde Park and a provisions list.</span></a>
-    <a class="card" href="v03/"><div class="thumb"><iframe src="v03/" loading="lazy" tabindex="-1"></iframe></div><b>v03 · Assembly Manual</b><span>Flat-pack instructions for "FÖRSTVINTER": almost no words, just a parts list and nine line-drawn steps.</span></a>
-    <a class="card" href="v04/"><div class="thumb"><iframe src="v04/" loading="lazy" tabindex="-1"></iframe></div><b>v04 · Civil Defense</b><span>A 1950s two-color pamphlet: "Layer and Cover!", a warming-shelter sign, and a wind chill signal table.</span></a>
-  </div>
+  <main>
+    <section class="story wrap" id="story">
+      <div class="kicker">The process</div>
+      <h2>Six steps from an idea to v25</h2>
+      <div class="steps">
+        <div class="step"><a href="#idea"><span class="n">01</span><b>Pick an idea</b><span>3 ideas compared, 1 chosen</span></a></div>
+        <div class="step"><a href="#wide"><span class="n">02 · v01–v12</span><b>Go wide</b><span>12 directions out of 16 candidates</span></a></div>
+        <div class="step"><a href="#narrow"><span class="n">03</span><b>Narrow</b><span>2 plans compared, 7 directions dropped</span></a></div>
+        <div class="step"><a href="#combine"><span class="n">04 · v13–v15</span><b>Combine</b><span>The same 3 ingredients, arranged 3 ways</span></a></div>
+        <div class="step"><a href="#vary"><span class="n">05 · v16–v19</span><b>Vary</b><span>4 fixes to v15's weak spots</span></a></div>
+        <div class="step"><a href="#converge"><span class="n">06 · v20–v25</span><b>Converge</b><span>Merge, then refine one thing at a time</span></a></div>
+      </div>
+    </section>
 
-  <h2>Batch 2 · Interfaces and tones (v05–v08)</h2>
-  <p class="phase">Same facts, four very different voices: data you check every morning, news you read, a rule you're told, and a letter from someone who's been through it.</p>
-  <div class="grid">
-    <a class="card" href="v05/"><div class="thumb"><iframe src="v05/" loading="lazy" tabindex="-1"></iframe></div><b>v05 · Weather App</b><span>The whole page is a forecast for your first winter: a huge "feels like −29°", a Nov–Mar outlook, and a notification-style join.</span></a>
-    <a class="card" href="v06/"><div class="thumb"><iframe src="v06/" loading="lazy" tabindex="-1"></iframe></div><b>v06 · Newspaper</b><span>"The Hyde Park Winter Gazette": a broadsheet front page with an engraved figure, gear-swap classifieds, and a clip-out coupon.</span></a>
-    <a class="card" href="v07/"><div class="thumb"><iframe src="v07/" loading="lazy" tabindex="-1"></iframe></div><b>v07 · Brutalist Manifesto</b><span>"Winter will not kill you. Ignorance will." Edge-to-edge type, eight numbered theses, one safety-orange accent.</span></a>
-    <a class="card" href="v08/"><div class="thumb"><iframe src="v08/" loading="lazy" tabindex="-1"></iframe></div><b>v08 · A Letter</b><span>A slow single-column letter from a third-year from Chennai to "you, arriving this fall", ending in a P.S. invitation.</span></a>
-  </div>
+    <section class="section wrap" id="idea">
+      <div class="kicker">Step 01</div>
+      <h2>Pick an idea</h2>
+      <div class="options">
+        <div class="opt chosen"><span class="lbl">Chosen</span><b>First Winter Club</b>A peer group that helps international students survive their first Chicago winter.</div>
+        <div class="opt"><span class="lbl">Dropped</span><b>Hyde Park Dumpling Supper Club</b>Warm, with a clear action (book a seat), but food pages are a crowded topic.</div>
+        <div class="opt"><span class="lbl">Dropped</span><b>Sunrise Run Club</b>Clear action, but a narrow visual range, and nobody runs by the lake in January.</div>
+      </div>
+      <p class="decision"><b>Why this one:</b> it's the least likely to collide with 700 other pages, "cold" opens a huge visual range (a weather alert, a diary, a manual, a newspaper), and the visitor is very specific: someone from a warm city, anxious about something they've never felt.</p>
+    </section>
 
-  <h2>Batch 3 · Internet culture and systems (v09–v12)</h2>
-  <p class="phase">The last wide batch: two nostalgic internet forms, and two ways of organizing winter as a system you can navigate.</p>
-  <div class="grid">
-    <a class="card" href="v09/"><div class="thumb"><iframe src="v09/" loading="lazy" tabindex="-1"></iframe></div><b>v09 · GeoCities 1999</b><span>Marquees, a visitor counter, an "under construction" banner, cursor-chasing snowflakes, and a "Sign my Guestbook!!" join.</span></a>
-    <a class="card" href="v10/"><div class="thumb"><iframe src="v10/" loading="lazy" tabindex="-1"></iframe></div><b>v10 · Terminal</b><span><code>$ winter --survive --first-time</code>, a man page, and a live shell where you can run <code>windchill</code> or type <code>join</code>.</span></a>
-    <a class="card" href="v11/"><div class="thumb"><iframe src="v11/" loading="lazy" tabindex="-1"></iframe></div><b>v11 · Gear Catalog</b><span>A premium outdoor-catalog lookbook: exploded layering diagram, spec cards with "get it cheap", and a $0.00 order form.</span></a>
-    <a class="card" href="v12/"><div class="thumb"><iframe src="v12/" loading="lazy" tabindex="-1"></iframe></div><b>v12 · Transit Map</b><span>A departures board counting down to Thursday 6 PM, and four winter "lines" that all meet at the First Winter Club interchange.</span></a>
-  </div>
+    <section class="section wrap" id="wide">
+      <div class="kicker">Step 02 · v01–v12</div>
+      <h2>Go wide</h2>
+      <p class="lede">Twelve directions that differ in era, layout, and voice, not just color. Same visitor, same facts, same action every time. Grey cards were dropped at the narrowing step, and green ones carried forward.</p>
+      <div class="grid" data-versions="1-12"></div>
+    </section>
 
-  <h2>Narrowing · Choosing a direction</h2>
-  <p class="phase">After twelve directions I compared two ways forward: a bold "winter gazette" (v06 + v07 + v12) and a warm "gear guide" (v11 + v08 + v05). I chose the gear guide. A nervous first-winter student needs reassurance and a list they can act on, not a page that shows off. I dropped GeoCities and the terminal (too noisy, too technical), civil defense and the manifesto (too alarming), and the newspaper (too dense on a phone).</p>
+    <section class="section wrap" id="narrow">
+      <div class="kicker">Step 03</div>
+      <h2>Narrow</h2>
+      <div class="options" style="grid-template-columns:1fr 1fr">
+        <div class="opt chosen"><span class="lbl">Chosen · Plan 1</span><b>Warm gear guide</b>v11's catalog + v08's letter voice + v05/v01's wind chill tools. Reassurance <i>and</i> a list you can act on.</div>
+        <div class="opt"><span class="lbl">Dropped · Plan 2</span><b>Winter gazette</b>v06's newspaper + v07's brutalist headlines + v12's departures board. Striking, but it shows off, it can feel alarming, and it's dense on a phone.</div>
+      </div>
+      <p class="decision"><b>What I dropped and why:</b> GeoCities (v09) and the terminal (v10) are too noisy or too technical for this visitor. Civil defense (v04) and the manifesto (v07) are too alarming for someone already nervous. The newspaper (v06) is too dense on a phone. <b>What I kept:</b> the senior-student narrator from v08, the product spec cards from v11, and the wind chill math from v01/v05.</p>
+    </section>
 
-  <h2>Batch 4 · Three ways to combine (v13–v15)</h2>
-  <p class="phase">The same ingredients (Meera's voice from v08, the catalog cards from v11, the wind chill tool from v05/v01) arranged three ways.</p>
-  <div class="grid">
-    <a class="card" href="v13/"><div class="thumb"><iframe src="v13/" loading="lazy" tabindex="-1"></iframe></div><b>v13 · Catalog First</b><span>v11's catalog, now "Meera's copy": her note opens it, and her handwriting fills the margins of the product cards.</span></a>
-    <a class="card" href="v14/"><div class="thumb"><iframe src="v14/" loading="lazy" tabindex="-1"></iframe></div><b>v14 · Letter First</b><span>v08's letter, with spec cards pinned in wherever she mentions gear, and a fill-in-the-blank "feels like" widget.</span></a>
-    <a class="card" href="v15/"><div class="thumb"><iframe src="v15/" loading="lazy" tabindex="-1"></iframe></div><b>v15 · Side by Side</b><span>Her letter on the left, the catalog on the right. Scrolling the facts highlights the matching part of her story.</span></a>
-  </div>
+    <section class="section wrap" id="combine">
+      <div class="kicker">Step 04 · v13–v15</div>
+      <h2>Combine</h2>
+      <p class="lede">Three arrangements of the same ingredients. <b>v15 won:</b> company on the left, checklist on the right. v13 was easy to scan but looked like any product page, and v14 was the warmest but buried the facts in the story.</p>
+      <div class="grid" data-versions="13-15"></div>
+    </section>
 
-  <h2>Batch 5 · Four variations on v15 (v16–v19)</h2>
-  <p class="phase">I picked v15: company on the left, checklist on the right. v13 was easy to scan but looked like any product page, and v14 was the warmest but buried the facts. Each of these four fixes or tests one thing about v15.</p>
-  <div class="grid">
-    <a class="card" href="v16/"><div class="thumb"><iframe src="v16/" loading="lazy" tabindex="-1"></iframe></div><b>v16 · Mobile Fix</b><span>On a phone the side-by-side sync was lost. Now a "Meera says" card docks at the bottom and follows you through the catalog.</span></a>
-    <a class="card" href="v17/"><div class="thumb"><iframe src="v17/" loading="lazy" tabindex="-1"></iframe></div><b>v17 · Lead with Meera</b><span>The first screen is her, at her window with a mug: "Three winters ago, I was you." The product cover is gone.</span></a>
-    <a class="card" href="v18/"><div class="thumb"><iframe src="v18/" loading="lazy" tabindex="-1"></iframe></div><b>v18 · Shorter</b><span>32% fewer words, and the checklist is always one click away: pinned under her letter, or a bar on mobile.</span></a>
-    <a class="card" href="v19/"><div class="thumb"><iframe src="v19/" loading="lazy" tabindex="-1"></iframe></div><b>v19 · Cold Night</b><span>Facts in winter-night navy, warm light only where people are. The sign-up feels like stepping into a warm room.</span></a>
-  </div>
+    <section class="section wrap" id="vary">
+      <div class="kicker">Step 05 · v16–v19</div>
+      <h2>Vary</h2>
+      <p class="lede">Each variation fixes or tests one thing about v15. All four ideas made it into the merge, and the cold night palette (v19) became the concept: <i>cold facts, warm people.</i></p>
+      <div class="grid" data-versions="16-19"></div>
+    </section>
 
-  <h2>Batch 6 · Converging (v20–v25)</h2>
-  <p class="phase">I kept all four ideas, including the cold night palette. It makes "joining the club" look like "stepping into the warm," the exact feeling this page should give someone who's scared of the cold. From here, every version refines the one before it.</p>
-  <div class="grid" id="converge">
-    <a class="card" href="v20/"><div class="thumb"><iframe src="v20/" loading="lazy" tabindex="-1"></iframe></div><b>v20 · Merge</b><span>v19's night palette + v17's opening (Meera's window, now lit at night) + v18's cuts and pinned checklist + v16's mobile dock, merged into one bottom bar.</span></a>
-    <a class="card" href="v21/"><div class="thumb"><iframe src="v21/" loading="lazy" tabindex="-1"></iframe></div><b>v21 · Voice</b><span>One consistent Meera everywhere (now "Two winters ago", since a third-year has lived through two), a calm voice for the facts, and every number checked. 10% fewer words.</span></a>
-    <a class="card" href="v22/"><div class="thumb"><iframe src="v22/" loading="lazy" tabindex="-1"></iframe></div><b>v22 · Accessible</b><span>Skip link, landmarks, one visible focus ring, live regions for the form and wind chill result, 44px tap targets, checked contrast, and 200% text support.</span></a>
-  </div>
+    <section class="section wrap" id="converge">
+      <div class="kicker">Step 06 · v20–v25</div>
+      <h2>Converge</h2>
+      <p class="lede">v20 merges v16–v19. After that, each version refines one thing and leaves the rest alone, so every step can be compared with the one before it.</p>
+      <div class="grid" data-versions="20-25"></div>
+    </section>
+
+    <section class="section wrap" id="claude">
+      <div class="kicker">Working with Claude Code</div>
+      <h2>Who did what</h2>
+      <div class="claude">
+        <div>
+          <h3>What I asked for</h3>
+          <ul>
+            <li>Three ideas, compared side by side, with a recommendation.</li>
+            <li>Sixteen candidate directions to choose twelve from.</li>
+            <li>At every fork, two or three options compared, and a recommendation.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>What I decided</h3>
+          <ul>
+            <li>The idea, the visitor, and the one action.</li>
+            <li>Which 12 directions to build.</li>
+            <li>Plan 1 over Plan 2, v15 over v13/v14, and merging all four variations, including the night palette.</li>
+          </ul>
+        </div>
+        <div>
+          <h3>How Claude worked</h3>
+          <ul>
+            <li>Wrote v01–v04 directly, then ran parallel subagents for the later batches, 2–4 at a time.</li>
+            <li>Checked every page with headless Chrome screenshots and fixed what broke.</li>
+            <li>Kept to plain HTML/CSS/JS: no frameworks, no external requests, no stored data.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>First Winter Club · MPCS 51238 Design, Build, Ship · Autumn 2026</span>
+      <span><a href="https://github.com/DarryDarius/design-build-ship_assignment1">GitHub repo</a> · plain HTML, CSS and a little JS</span>
+    </div>
+  </footer>
 
   <script>
-    // scale each 1280px-wide preview to fit its card
-    const fit = () => document.querySelectorAll('.thumb').forEach(t => t.style.setProperty('--s', t.clientWidth / 1280));
+    // one line per version: title, what changed, and whether it carried forward
+    const V = {
+      1:  ['NWS Alert', 'An official weather warning: alert banners, a teletype bulletin, and a live wind chill chart.', 'kept'],
+      2:  ['Expedition Journal', "A 1910s polar explorer's diary of a first winter, with a hand-drawn map of Hyde Park.", 'dropped'],
+      3:  ['Assembly Manual', 'Flat-pack instructions for "FÖRSTVINTER": a parts list and nine wordless steps.', 'dropped'],
+      4:  ['Civil Defense', 'A 1950s two-color pamphlet: "Layer and Cover!" and a warming-shelter sign.', 'dropped'],
+      5:  ['Weather App', 'The page as a forecast for your first winter: a huge "feels like −29°" and a wind chill calculator.', 'kept'],
+      6:  ['Newspaper', '"The Hyde Park Winter Gazette": a broadsheet front page with gear-swap classifieds.', 'dropped'],
+      7:  ['Brutalist Manifesto', '"Winter will not kill you. Ignorance will." Edge-to-edge type and eight theses.', 'dropped'],
+      8:  ['A Letter', 'A slow single-column letter from Meera, a third-year from Chennai, to "you, arriving this fall."', 'kept'],
+      9:  ['GeoCities 1999', 'Marquees, a visitor counter, cursor-chasing snowflakes, and a "Sign my Guestbook!!" join.', 'dropped'],
+      10: ['Terminal', '$ winter --survive --first-time, a man page, and a live shell where you type join.', 'dropped'],
+      11: ['Gear Catalog', 'An outdoor-catalog lookbook: an exploded layering diagram and spec cards with "get it cheap."', 'kept'],
+      12: ['Transit Map', 'A departures board counting down to Thursday, with four winter "lines" meeting at the club.', 'dropped'],
+      13: ['Catalog First', 'v11\'s catalog as "Meera\'s copy": her note opens it, and her handwriting fills the margins.', 'dropped'],
+      14: ['Letter First', "v08's letter with spec cards pinned in, plus a fill-in-the-blank \"feels like\" widget.", 'dropped'],
+      15: ['Side by Side', 'Her letter on the left, the catalog on the right. Scrolling the facts highlights her story.', 'kept'],
+      16: ['Mobile Fix', 'On a phone, a "Meera says" card docks at the bottom and follows you through the catalog.', 'kept'],
+      17: ['Lead with Meera', 'The first screen is her at her window: "Three winters ago, I was you."', 'kept'],
+      18: ['Shorter', '32% fewer words, and the checklist is always one click away.', 'kept'],
+      19: ['Cold Night', 'Facts in winter-night navy, warm light only where people are.', 'kept'],
+      20: ['Merge', "v19's palette + v17's lit window + v18's cuts and pinned checklist + v16's dock, merged into one bottom bar.", 'kept'],
+      21: ['Voice', 'One consistent Meera everywhere ("Two winters ago", since a third-year has lived through two), a calm voice for the facts, and every number checked.', 'kept'],
+      22: ['Accessible', 'Landmarks, focus styles, a skip link, live regions, 44px tap targets, and checked contrast.', 'kept'],
+      23: ['The Reward', 'The First Winter Checklist becomes a real, printable page after you join.', 'kept'],
+      24: ['Details', 'Spacing rhythm, micro-interactions, and performance.', 'kept'],
+      25: ['Final', 'The version I chose.', 'final'],
+    };
+    const label = { kept: 'carried forward', dropped: 'dropped', final: 'final' };
+    document.querySelectorAll('[data-versions]').forEach(grid => {
+      const [a, b] = grid.dataset.versions.split('-').map(Number);
+      for (let n = a; n <= b; n++) {
+        const id = 'v' + String(n).padStart(2, '0');
+        const [title, note, status] = V[n];
+        grid.insertAdjacentHTML('beforeend',
+          `<a class="card ${status === 'dropped' ? 'is-dropped' : ''}" href="${id}/">
+             <div class="thumb"><iframe src="${id}/" title="Preview of ${id}" loading="lazy" tabindex="-1" aria-hidden="true"></iframe></div>
+             <div class="meta"><b>${id} · ${title}</b><span class="flag ${status}">${label[status]}</span></div>
+             <p>${note}</p>
+           </a>`);
+      }
+    });
+    // scale each 1280px-wide preview to fit its frame
+    const fit = () => document.querySelectorAll('.thumb, .feature').forEach(t => {
+      const f = t.querySelector('iframe'); if (f) f.style.transform = `scale(${t.clientWidth / 1280})`;
+    });
     addEventListener('resize', fit); fit();
   </script>
 </body>
