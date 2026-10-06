@@ -1,0 +1,1040 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>v15 · Side by side · First Winter Club</title>
+<style>
+  :root {
+    /* the letter (left, warm) */
+    --cream: #f6eddd; --cream-d: #efe2cb; --wink: #3b2719; --wsoft: #7d6150; --wfaint: #b49a85;
+    /* the catalog (right, cool) */
+    --oat: #e4e2dc; --oat-2: #d7d9d4; --card: #f4f2ed; --line: #c7c5bc; --ink: #1f2421; --mute: #5c635e;
+    --slate: #56636c; --slate-d: #2c363c;
+    /* shared */
+    --rust: #b0502a; --rust-d: #8c3c1c; --rust-l: #d98f6f;
+    --z0: #f4f2ed; --zb: #cdd4d6; --z30: #efc3a6; --z10: #cf6f45; --z5: #7a2f14;
+    --serif: "Iowan Old Style", "Charter", "Bitstream Charter", "Palatino", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+    --sans: "Avenir Next", Avenir, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --bar: 48px;
+    --s1: 8px; --s2: 16px; --s3: 24px; --s4: 32px; --s6: 48px; --s8: 64px;
+    --left: 38fr; --right: 62fr;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--oat); color: var(--ink); font-family: var(--sans); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+  section, .meet { scroll-margin-top: var(--bar); }
+  .sc { font-variant-caps: all-small-caps; letter-spacing: .085em; color: var(--rust); }
+  .serif-em, h1 em, h2 em, .fine { font-family: var(--serif); font-style: italic; font-weight: 400; }
+
+  /* ───────── top bar: split like the page ───────── */
+  .bar { position: sticky; top: 0; z-index: 30; height: var(--bar); display: grid; grid-template-columns: var(--left) var(--right); border-bottom: 2px solid var(--rust); }
+  .bar .bl { background: var(--cream-d); display: flex; align-items: center; justify-content: space-between; padding: 0 var(--s4) 0 var(--s4); font-family: var(--serif); color: var(--wsoft); border-right: 1px dashed var(--rust-l); }
+  .bar .bl a { font-style: italic; text-decoration: none; border-bottom: 1px solid transparent; }
+  .bar .bl a:hover, .bar .bl a:focus-visible { color: var(--rust); border-bottom-color: var(--rust-l); outline: none; }
+  .bar .bl .club { font-variant-caps: all-small-caps; letter-spacing: .26em; color: var(--rust); font-size: 15px; }
+  .bar .br { background: var(--slate-d); color: #e4e2dc; display: flex; align-items: center; justify-content: space-between; padding: 0 var(--s4); gap: var(--s3); }
+  .bar nav { display: flex; gap: 20px; font-size: 12.5px; font-weight: 600; letter-spacing: .04em; }
+  .bar nav a { white-space: nowrap; text-decoration: none; padding: 4px 0; border-bottom: 2px solid transparent; opacity: .78; transition: opacity .3s, border-color .3s; }
+  .bar nav a:hover, .bar nav a.on { opacity: 1; border-bottom-color: var(--rust-l); }
+  .ver { font-size: 11.5px; font-weight: 700; letter-spacing: .16em; border: 1px solid rgba(228,226,220,.55); padding: 2px 9px; border-radius: 2px; white-space: nowrap; }
+
+  /* ───────── the split ───────── */
+  .split { display: grid; grid-template-columns: var(--left) var(--right); }
+  .left {
+    background-color: var(--cream);
+    background-image:
+      radial-gradient(ellipse 90% 30% at 50% 0%, rgba(255,196,120,.28), transparent 70%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .22 0 0 0 0 .12 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    border-right: 1px dashed var(--rust-l);
+    min-width: 0;
+  }
+  .letter { position: sticky; top: var(--bar); height: calc(100vh - var(--bar)); overflow: hidden; }
+  .letter::before, .letter::after { content: ""; position: absolute; left: 0; right: 0; height: 56px; z-index: 2; pointer-events: none; }
+  .letter::before { top: 0; background: linear-gradient(var(--cream), rgba(246,237,221,0)); }
+  .letter::after { bottom: 0; height: 130px; background: linear-gradient(rgba(246,237,221,0), var(--cream) 55%); }
+  .letter-in { position: relative; padding: var(--s6) 44px 60vh; transition: transform .9s cubic-bezier(.3,.7,.2,1); will-change: transform; }
+  .folio { position: absolute; z-index: 3; left: 44px; right: 44px; bottom: 18px; display: flex; justify-content: space-between; align-items: center; font-family: var(--serif); font-size: 13px; color: var(--wsoft); font-style: italic; }
+  .folio .pips { display: flex; gap: 6px; }
+  .folio .pips i { width: 7px; height: 7px; border-radius: 50%; border: 1px solid var(--rust-l); transition: background .4s; }
+  .folio .pips i.on { background: var(--rust); border-color: var(--rust); }
+
+  .w { font-family: var(--serif); color: var(--wink); font-size: 17.5px; line-height: 1.7; font-variant-numeric: oldstyle-nums proportional-nums; }
+  .w p { margin: 0 0 .9em; hanging-punctuation: first; }
+  .mast { text-align: center; margin: 0 0 var(--s4); }
+  .mast .club { margin: 0; font-variant-caps: all-small-caps; letter-spacing: .32em; color: var(--rust); font-size: 17px; }
+  .mast .rule { display: block; width: 2.2em; height: 1px; background: var(--rust-l); margin: .7em auto; }
+  .mast h2 { margin: 0; font-weight: 400; font-style: italic; font-size: 16px; color: var(--wsoft); }
+  .dateline { text-align: right; font-style: italic; color: var(--wsoft); margin: 0 0 var(--s3) !important; font-size: 15.5px; }
+
+  .beat { position: relative; padding: var(--s2) 0 var(--s2) var(--s3); margin: 0 0 var(--s2); border-left: 2px solid transparent; transition: color .6s, border-color .6s, opacity .6s; color: var(--wfaint); }
+  .beat .sc { color: inherit; transition: color .6s; }
+  .beat.on { color: var(--wink); border-left-color: var(--rust); }
+  .beat.on .sc { color: var(--rust); }
+  .beat::after { content: ""; position: absolute; top: 26px; right: -44px; width: 0; height: 0; border: 7px solid transparent; border-right-color: var(--rust); opacity: 0; transition: opacity .6s; }
+  .beat.on::after { opacity: 1; }
+  .beat .to { display: inline-block; margin-bottom: 6px; font-family: var(--sans); font-size: 10.5px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; text-decoration: none; color: var(--wfaint); transition: color .6s; }
+  .beat.on .to { color: var(--rust); }
+  .beat .to:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .first::first-letter { float: left; font-size: 3.3em; line-height: .86; margin: .07em .08em 0 -.02em; color: var(--rust); }
+  .beat:not(.on) .first::first-letter { color: var(--rust-l); }
+  .salute { font-size: 1.05em; }
+
+  .sticky-note { margin: .4em 0 1em; padding: .1em 0 .1em 1em; border-left: 1px solid var(--rust-l); font-style: italic; font-size: .95em; }
+  .sticky-note .row { display: flex; gap: .5em; align-items: baseline; margin: 0 0 .2em; font-style: normal; padding: 1px 6px; margin-left: -6px; border-radius: 2px; transition: background .4s, color .4s; }
+  .sticky-note .row b { font-weight: 400; min-width: 6.4em; font-variant-numeric: lining-nums tabular-nums; }
+  .sticky-note .row i { flex: 1; border-bottom: 1px dotted var(--wfaint); transform: translateY(-.3em); }
+  .beat.on .sticky-note .row.hot { background: rgba(176,80,42,.14); color: var(--rust-d); }
+  .onward { font-style: italic; color: var(--wsoft); text-align: center; margin: var(--s4) 0 0; font-size: 15.5px; }
+
+  /* ───────── the catalog (right) ───────── */
+  .right { min-width: 0; container-type: inline-size; container-name: cat; }
+  .sec { padding: var(--s8) var(--s6); border-bottom: 1px solid var(--line); }
+  .sec.alt { background: var(--oat-2); }
+  .kicker { font-size: 11px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--rust); }
+  .code { font-size: 10.5px; font-weight: 700; letter-spacing: .12em; color: var(--mute); white-space: nowrap; }
+  .sh { display: flex; justify-content: space-between; align-items: end; gap: var(--s3); border-bottom: 1px solid var(--ink); padding-bottom: 14px; margin-bottom: var(--s4); }
+  .sh h2 { margin: 6px 0 0; font-size: 32px; line-height: 1.1; font-weight: 600; letter-spacing: -.015em; }
+  .sh h2 em { color: var(--rust); font-size: 1.06em; letter-spacing: 0; }
+  .sh .pg { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--mute); white-space: nowrap; }
+
+  /* mobile-only letter snippets */
+  .snip { display: none; }
+
+  /* cover */
+  .cover { display: grid; grid-template-columns: 1fr 220px; gap: var(--s4); align-items: stretch; }
+  .cover h1 { font-size: 46px; line-height: 1.02; font-weight: 600; letter-spacing: -.025em; margin: 12px 0 var(--s2); }
+  .cover h1 em { color: var(--rust); letter-spacing: 0; }
+  .lede { font-size: 16px; line-height: 1.6; max-width: 48ch; margin: 0 0 var(--s3); color: #383c37; }
+  .btns { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn { display: inline-block; text-decoration: none; font-weight: 600; font-size: 14px; padding: 13px 18px; border-radius: 2px; border: 1.5px solid var(--ink); }
+  .btn.primary { background: var(--rust); border-color: var(--rust); color: #fff; }
+  .btn.primary:hover { background: var(--rust-d); border-color: var(--rust-d); }
+  .btn.ghost:hover { background: var(--ink); color: var(--oat); }
+  .fig { margin: 0; border-radius: 2px; overflow: hidden; background: #9aa8af; position: relative; }
+  .fig svg { display: block; width: 100%; height: 100%; }
+  .fig figcaption { position: absolute; left: 0; right: 0; bottom: 0; padding: 8px 10px; font-size: 11px; color: var(--card); background: rgba(44,54,60,.82); line-height: 1.35; }
+  .chips { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--ink); margin-top: var(--s4); }
+  .chips div { padding: 14px 14px 0 0; }
+  .chips div + div { padding-left: 14px; border-left: 1px solid var(--line); }
+  .chips b { display: block; font-size: 26px; font-weight: 500; line-height: 1.05; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+  .chips span { font-size: 12px; color: var(--mute); line-height: 1.4; display: block; margin-top: 4px; }
+  .tagline { margin-top: var(--s4); display: grid; grid-template-columns: auto 1fr; gap: var(--s3); align-items: center; background: var(--slate-d); color: var(--oat); padding: var(--s2) var(--s3); border-radius: 2px; }
+  .tagline svg { width: 64px; height: 64px; }
+  .tagline p { margin: 0; font-size: 15px; line-height: 1.5; }
+  .tagline p em { font-family: var(--serif); font-style: italic; color: #f0b892; font-size: 17px; }
+
+  /* layering system */
+  .layers { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; gap: 0; align-items: stretch; }
+  .plus { display: grid; place-items: center; width: 28px; font-size: 22px; color: var(--rust); font-weight: 300; }
+  .lyr { background: var(--card); border: 1px solid var(--line); border-radius: 2px; display: flex; flex-direction: column; }
+  .lyr .ph { background: var(--oat-2); border-bottom: 1px solid var(--line); height: 112px; display: grid; place-items: center; position: relative; }
+  .lyr .ph svg { height: 92px; width: auto; }
+  .lyr .no { position: absolute; top: 8px; left: 10px; font-size: 26px; font-weight: 300; color: var(--rust); line-height: 1; }
+  .lyr .bd { padding: 14px 16px 16px; flex: 1; display: flex; flex-direction: column; }
+  .lyr h3 { margin: 0; font-size: 16px; font-weight: 600; }
+  .lyr h3 small { display: block; font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 14px; color: var(--mute); }
+  .lyr p { margin: 8px 0 12px; font-size: 13.5px; color: #3a3e39; }
+  .specs { display: grid; grid-template-columns: 1fr; gap: 0; font-size: 12.5px; margin: auto 0 0; }
+  .specs dt { color: var(--mute); text-transform: uppercase; letter-spacing: .1em; font-size: 10px; font-weight: 600; padding-top: 7px; border-top: 1px solid var(--line); }
+  .specs dd { margin: 0 0 6px; }
+  .sysnote { margin-top: var(--s3); display: flex; gap: var(--s2); align-items: baseline; background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--rust); padding: 12px 16px; font-size: 14px; }
+  .sysnote b { color: var(--rust-d); white-space: nowrap; }
+
+  /* kit */
+  .kit { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s2); }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 2px; display: flex; flex-direction: column; transition: border-color .3s, transform .3s; }
+  .card:hover { border-color: var(--slate); transform: translateY(-2px); }
+  .card .top { display: grid; grid-template-columns: 76px 1fr; gap: 12px; align-items: center; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+  .card .top .ic { background: var(--oat-2); border-radius: 2px; height: 60px; display: grid; place-items: center; position: relative; }
+  .card .top svg { width: 70px; height: 52px; }
+  .card h3 { margin: 2px 0 0; font-size: 15px; line-height: 1.2; font-weight: 600; }
+  .card .badge { position: absolute; top: -7px; left: -6px; font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; background: var(--rust); color: #fff; padding: 2px 5px; border-radius: 2px; white-space: nowrap; }
+  .card table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  .card td { padding: 6px 14px 6px 0; border-top: 1px solid var(--line); vertical-align: top; }
+  .card tr:first-child td { border-top: 0; }
+  .card td:first-child { padding-left: 14px; color: var(--mute); text-transform: uppercase; letter-spacing: .1em; font-size: 9.5px; font-weight: 600; width: 84px; padding-top: 8px; }
+  .card .bd { padding: 4px 0 0; flex: 1; display: flex; flex-direction: column; }
+  .card .fine { margin: auto 0 0; padding: 8px 14px 12px; font-size: 13.5px; color: var(--rust-d); border-top: 1px dotted var(--line); }
+  .dots { letter-spacing: .12em; color: var(--rust); font-size: 13px; }
+  .dots s, .budget s { text-decoration: none; color: var(--line); }
+  .budget b { font-weight: 700; }
+  .legend { display: flex; gap: 20px; flex-wrap: wrap; font-size: 12px; color: var(--mute); margin-top: var(--s3); }
+  .legend b { color: var(--ink); }
+
+  /* rated to */
+  .rated { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.12fr); gap: var(--s3); align-items: start; }
+  .panel { background: var(--card); border: 1px solid var(--line); border-radius: 2px; padding: var(--s3); }
+  .panel .lbl { font-size: 10.5px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--mute); display: flex; justify-content: space-between; margin-bottom: 10px; }
+  .ctl label { display: flex; justify-content: space-between; font-size: 13px; color: var(--mute); }
+  .ctl label b { color: var(--ink); font-size: 15px; font-variant-numeric: tabular-nums; }
+  input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; height: 6px; border-radius: 6px; outline: none; margin: 10px 0 20px; background: linear-gradient(90deg, var(--z5), var(--z10) 25%, var(--z30) 50%, var(--zb) 72%, #ebe9e3); }
+  input[type=range].wind { background: linear-gradient(90deg, #e6e5df, var(--slate)); }
+  input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%; background: #fff; border: 3px solid var(--rust); box-shadow: 0 2px 6px rgba(0,0,0,.25); cursor: pointer; }
+  input[type=range]::-moz-range-thumb { width: 18px; height: 18px; border-radius: 50%; background: #fff; border: 3px solid var(--rust); cursor: pointer; }
+  input[type=range]:focus-visible::-webkit-slider-thumb { outline: 3px solid rgba(176,80,42,.35); outline-offset: 2px; }
+  .readout { border-top: 1px solid var(--ink); padding-top: 14px; display: grid; grid-template-columns: auto 1fr; gap: 4px 18px; align-items: center; }
+  .readout .fl { font-size: 10.5px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--rust); grid-column: 1 / -1; }
+  .readout .num { font-size: 68px; font-weight: 300; line-height: 1; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+  .readout .num sup { font-size: .4em; vertical-align: .9em; margin-left: 2px; }
+  .risk { display: inline-block; padding: 5px 10px; border-radius: 2px; font-size: 13px; font-weight: 700; background: var(--z0); border: 1px solid var(--line); }
+  .risk.zb { background: var(--zb); border-color: var(--zb); }
+  .risk.z30 { background: var(--z30); border-color: var(--z30); }
+  .risk.z10 { background: var(--z10); border-color: var(--z10); color: #fff; }
+  .risk.z5 { background: var(--z5); border-color: var(--z5); color: #fff; }
+  .readout .air { font-size: 12.5px; color: var(--mute); margin-top: 6px; }
+  .wear { margin-top: var(--s2); padding: 12px 14px; background: var(--oat-2); border-radius: 2px; font-size: 13.5px; }
+  .wear .k { font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--mute); display: block; margin-bottom: 2px; }
+  .wear b { display: block; font-size: 15px; }
+  .presets { display: flex; flex-direction: column; gap: 6px; margin-top: var(--s2); }
+  .presets button { font: inherit; font-size: 12.5px; text-align: left; display: flex; justify-content: space-between; gap: 10px; background: transparent; border: 1px solid var(--line); border-radius: 2px; padding: 7px 10px; cursor: pointer; color: var(--ink); transition: border-color .2s, background .2s; }
+  .presets button:hover, .presets button:focus-visible { border-color: var(--rust); background: #fff; outline: none; }
+  .presets button span { color: var(--mute); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .presets button em { font-family: var(--serif); font-size: 14px; }
+
+  table.wc { border-collapse: separate; border-spacing: 2px; width: 100%; font-size: 12px; text-align: center; font-variant-numeric: tabular-nums; table-layout: fixed; }
+  table.wc th { font-weight: 600; color: var(--mute); padding: 5px 0; font-size: 11px; transition: background .2s, color .2s; border-radius: 2px; }
+  table.wc thead th:first-child { font-size: 9.5px; letter-spacing: .06em; text-transform: uppercase; text-align: left; }
+  table.wc tbody th { text-align: left; padding-left: 4px; }
+  table.wc th.on { background: var(--ink); color: var(--card); }
+  table.wc td { padding: 6px 0; border-radius: 2px; cursor: pointer; position: relative; transition: box-shadow .2s; }
+  table.wc td:hover { box-shadow: inset 0 0 0 2px rgba(31,36,33,.35); }
+  table.wc td.hit { box-shadow: inset 0 0 0 2px var(--ink), 0 0 0 2px var(--card), 0 0 0 4px var(--ink); font-weight: 700; z-index: 1; }
+  .z0 { background: var(--z0); } .zb { background: var(--zb); } .z30 { background: var(--z30); } .z10 { background: var(--z10); color: #fff; } .z5 { background: var(--z5); color: #fff; }
+  .key { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 12px; font-size: 11.5px; color: var(--mute); }
+  .key span { white-space: nowrap; }
+  .key span::before { content: ""; display: inline-block; width: 11px; height: 11px; margin-right: 6px; vertical-align: -1px; background: var(--c); border: 1px solid rgba(0,0,0,.08); border-radius: 2px; }
+  .formula { margin: 12px 0 0; font-size: 11px; color: var(--mute); line-height: 1.5; }
+  .formula code { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 10.5px; color: var(--ink); }
+  .caveat { font-family: var(--serif); font-style: italic; font-size: 14px; color: var(--mute); margin: var(--s2) 0 0; }
+
+  /* gear swap */
+  .swap { display: grid; grid-template-columns: 1.1fr 1fr; border-radius: 2px; overflow: hidden; }
+  .swap .sl { background: var(--rust); color: #fff6ec; padding: var(--s4); }
+  .swap .sl .kicker { color: #ffd9bf; }
+  .swap h3 { font-size: 44px; line-height: .98; font-weight: 600; letter-spacing: -.03em; margin: 10px 0 4px; }
+  .swap h3 + em { font-family: var(--serif); font-size: 19px; color: #ffe3cf; }
+  .swap .sl p { font-size: 14.5px; line-height: 1.6; margin: var(--s2) 0 0; }
+  .swap dl { display: grid; grid-template-columns: 64px 1fr; gap: 8px 14px; margin: var(--s3) 0 0; padding-top: var(--s2); border-top: 1px solid rgba(255,246,236,.35); font-size: 13.5px; }
+  .swap dt { text-transform: uppercase; letter-spacing: .14em; font-size: 10px; font-weight: 700; padding-top: 3px; color: #ffd9bf; }
+  .swap dd { margin: 0; }
+  .swap .sr { background: var(--card); display: grid; place-items: center; padding: var(--s3); position: relative; border: 1px solid var(--line); border-left: 0; }
+  .swap .sr svg { width: 100%; max-width: 340px; height: auto; }
+  .swap .sr .cap { position: absolute; top: 14px; left: 18px; right: 18px; font-family: var(--serif); font-style: italic; font-size: 14px; color: var(--slate); }
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: var(--s3); border-top: 1px solid var(--ink); }
+  .steps div { padding: var(--s2) var(--s2) 0 0; }
+  .steps div + div { padding-left: var(--s2); border-left: 1px solid var(--line); }
+  .steps b { font-size: 26px; font-weight: 300; color: var(--rust); display: block; line-height: 1; margin-bottom: 6px; }
+  .steps h4 { margin: 0 0 4px; font-size: 14.5px; }
+  .steps p { margin: 0; font-size: 13.5px; color: #3a3e39; }
+
+  /* care label */
+  .label { display: grid; grid-template-columns: repeat(4, 1fr); background: #f8f6f1; border: 1px solid var(--line); border-radius: 2px; position: relative; }
+  .label::after { content: ""; position: absolute; inset: 6px; border: 1px dashed var(--line); pointer-events: none; }
+  .label > div { padding: 20px 18px; }
+  .label > div + div { border-left: 1px solid var(--line); }
+  .label svg { width: 30px; height: 30px; display: block; margin-bottom: 10px; }
+  .label h4 { margin: 0 0 4px; font-size: 14px; }
+  .label p { margin: 0; font-size: 13px; color: #3a3e39; }
+
+  /* ───────── where the halves meet ───────── */
+  .meet { position: relative; }
+  .meet .strip { position: relative; z-index: 4; display: grid; grid-template-columns: var(--left) var(--right); background: var(--rust); color: #fff6ec; font-family: var(--serif); font-style: italic; font-size: 19px; line-height: 1.3; }
+  .meet .strip .sa { text-align: right; padding: 20px 76px 20px 24px; }
+  .meet .strip .sb { padding: 20px 24px 20px 76px; }
+  .meet .halves { display: grid; grid-template-columns: var(--left) var(--right); position: relative; }
+  .meet .ml { background: var(--cream-d); padding: var(--s8) 44px var(--s6); border-right: 1px dashed var(--rust-l); }
+  .meet .ml .w { color: var(--wink); }
+  .signoff { margin: var(--s4) 0 0 auto; width: fit-content; }
+  .signoff p { margin: 0 !important; }
+  .signoff .name { font-size: 1.75em; font-style: italic; color: var(--rust); line-height: 1.3; margin: .2em 0 .1em !important; }
+  .signoff .who { font-size: .8em; color: var(--wsoft); font-variant-caps: all-small-caps; letter-spacing: .12em; }
+  .ps { margin-top: var(--s4) !important; }
+  .ps .tag { font-variant-caps: all-small-caps; letter-spacing: .14em; color: var(--rust); margin-right: .35em; }
+  .pps-reply { display: none; margin-top: var(--s3); padding: var(--s2) var(--s3); background: var(--cream); transform: rotate(-.6deg); box-shadow: 0 14px 30px -22px rgba(59,39,25,.6); }
+  .pps-reply.show { display: block; animation: unfold 1s ease both; }
+  @keyframes unfold { from { opacity: 0; transform: rotate(-.6deg) translateY(8px); } to { opacity: 1; transform: rotate(-.6deg); } }
+
+  .seal { position: absolute; top: 50%; left: 38%; transform: translate(-50%, -50%) rotate(-8deg); width: 92px; height: 92px; border-radius: 50%; background: var(--card); border: 2px solid var(--rust); display: grid; place-items: center; text-align: center; z-index: 2; box-shadow: 0 0 0 5px var(--card), 0 0 0 6px var(--rust-l); color: var(--rust); }
+  .seal b { display: block; font-size: 10px; letter-spacing: .2em; font-weight: 700; }
+  .seal span { display: block; font-family: var(--serif); font-style: italic; font-size: 22px; line-height: 1; color: var(--ink); margin: 2px 0; }
+
+  .meet .mr { background: var(--oat-2); padding: var(--s8) var(--s6) var(--s6); }
+  .meet .mr .intro { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s4); margin-bottom: var(--s3); }
+  .meet .mr h2 { margin: 6px 0 0; font-size: 32px; line-height: 1.08; font-weight: 600; letter-spacing: -.02em; }
+  .meet .mr h2 em { color: var(--rust); }
+  .incl { list-style: none; padding: 0; margin: 4px 0 0; font-size: 13.5px; }
+  .incl li { padding: 6px 0 6px 24px; border-top: 1px solid var(--line); position: relative; }
+  .incl li::before { content: ""; position: absolute; left: 1px; top: 10px; width: 11px; height: 11px; border: 1.5px solid var(--slate); border-radius: 2px; }
+  .incl li::after { content: ""; position: absolute; left: 5px; top: 10px; width: 4px; height: 8px; border: solid var(--rust); border-width: 0 2px 2px 0; transform: rotate(45deg); }
+
+  .ofm { background: var(--card); border: 2px solid var(--ink); border-radius: 2px; }
+  .ofm .hd, .slip .hd { display: flex; justify-content: space-between; align-items: center; background: var(--ink); color: var(--card); padding: 9px 18px; font-size: 11px; letter-spacing: .16em; text-transform: uppercase; font-weight: 700; }
+  .ofm .hd span:last-child { font-weight: 500; letter-spacing: .08em; }
+  .ofm .bdy { padding: 18px 18px 20px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px 18px; }
+  .fld label { display: block; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--mute); font-weight: 700; margin-bottom: 2px; }
+  .fld input { width: 100%; font: inherit; font-size: 15px; color: var(--ink); background: transparent; border: 0; border-bottom: 1.5px solid var(--ink); padding: 7px 0; border-radius: 0; }
+  .fld input::placeholder { color: #9a9d96; }
+  .fld input:focus { outline: none; border-bottom-color: var(--rust); box-shadow: 0 1.5px 0 var(--rust); }
+  .checks { grid-column: 1 / -1; display: flex; gap: 22px; flex-wrap: wrap; font-size: 13.5px; }
+  .checks label { display: inline-flex; gap: 8px; align-items: center; cursor: pointer; }
+  .checks input { accent-color: var(--rust); width: 16px; height: 16px; margin: 0; }
+  .err { grid-column: 1 / -1; color: var(--rust-d); font-size: 13px; margin: 0; min-height: 1px; }
+  .submit { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+  .submit button { font: inherit; font-weight: 600; font-size: 15px; background: var(--rust); color: #fff; border: 0; padding: 14px 22px; border-radius: 2px; cursor: pointer; }
+  .submit button:hover, .submit button:focus-visible { background: var(--rust-d); outline: none; }
+  .submit small { font-size: 11.5px; color: var(--mute); max-width: 30ch; line-height: 1.4; }
+
+  .slip { display: none; background: var(--card); border: 2px solid var(--ink); border-radius: 2px; }
+  .slip.on { display: block; animation: rise .6s ease both; }
+  @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  .slip .hd { background: var(--rust); }
+  .slip .in { padding: 22px 22px 18px; }
+  .slip .stamp { display: inline-block; border: 2px solid var(--rust); color: var(--rust); font-weight: 700; letter-spacing: .16em; text-transform: uppercase; font-size: 11px; padding: 4px 9px; transform: rotate(-3deg); margin-bottom: 10px; }
+  .slip h3 { font-size: 26px; font-weight: 600; letter-spacing: -.02em; margin: 0 0 6px; }
+  .slip p { margin: 0 0 12px; color: #3a3e39; font-size: 14px; }
+  .slip ol { margin: 6px 0 14px; padding: 0; list-style: none; counter-reset: c; columns: 2; column-gap: 24px; font-size: 13px; }
+  .slip li { counter-increment: c; padding: 5px 0; border-bottom: 1px solid var(--line); break-inside: avoid; }
+  .slip li::before { content: "FW-0" counter(c) "  "; font-size: 10.5px; font-weight: 700; color: var(--mute); letter-spacing: .06em; white-space: pre; }
+  .slip .fine2 { font-size: 11.5px; color: var(--mute); margin: 0; }
+
+  .next { list-style: none; padding: 0; margin: var(--s4) 0 0; display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--ink); counter-reset: n; }
+  .next li { counter-increment: n; padding: 14px 16px 0 0; font-size: 13.5px; color: #3a3e39; }
+  .next li + li { padding-left: 16px; border-left: 1px solid var(--line); }
+  .next li::before { content: counter(n); display: block; font-size: 24px; font-weight: 300; color: var(--rust); line-height: 1; margin-bottom: 6px; }
+  .next b { display: block; color: var(--ink); font-size: 14px; }
+  footer { display: grid; grid-template-columns: var(--left) var(--right); font-size: 13px; }
+  footer .fl { background: var(--cream); padding: var(--s4) 44px; font-family: var(--serif); font-style: italic; color: var(--wsoft); border-right: 1px dashed var(--rust-l); }
+  footer .fl .tag { font-style: normal; font-variant-caps: all-small-caps; letter-spacing: .14em; color: var(--rust); margin-right: .35em; }
+  footer .fr { background: var(--slate-d); color: var(--oat); padding: var(--s4) var(--s6); display: flex; justify-content: space-between; gap: var(--s3); align-items: center; }
+  footer .fr a { font-weight: 600; text-decoration: none; }
+  footer .fr a:hover { text-decoration: underline; }
+
+  @media (max-width: 1180px) {
+    .bar nav { gap: 14px; font-size: 12px; }
+    .bar .br { padding: 0 var(--s3); }
+    .vx { display: none; }
+  }
+
+  /* narrower catalog column (e.g. 960–1180px windows) */
+  @container cat (max-width: 720px) {
+    .cover { grid-template-columns: 1fr; }
+    .fig { display: none; }
+    .rated { grid-template-columns: 1fr; }
+    .kit { grid-template-columns: repeat(2, 1fr); }
+    .label { grid-template-columns: 1fr 1fr; }
+    .label > div:nth-child(3) { border-left: 0; }
+    .label > div:nth-child(n+3) { border-top: 1px solid var(--line); }
+  }
+
+  /* ───────── mobile: stack the halves ───────── */
+  @media (max-width: 900px) {
+    :root { --bar: 44px; }
+    .bar { grid-template-columns: 1fr auto; }
+    .bar .bl { padding: 0 var(--s2); border-right: 0; }
+    .bar .bl .club { display: none; }
+    .bar .br { padding: 0 var(--s2); }
+    .bar nav { display: none; }
+    .split, .meet .halves, footer { display: block; }
+    .left { display: none; }
+    .sec { padding: var(--s6) 20px; }
+    .snip { display: block; margin: calc(-1 * var(--s6)) -20px var(--s4); padding: var(--s4) 24px var(--s3); background: var(--cream); border-bottom: 1px dashed var(--rust-l); font-family: var(--serif); color: var(--wink); font-size: 17px; line-height: 1.65; position: relative; }
+    .snip p { margin: 0 0 .7em; }
+    .snip .who { font-family: var(--sans); font-size: 10.5px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--rust); margin: 0 0 8px; }
+    .snip .m { text-align: right; font-style: italic; color: var(--rust); margin: 0; }
+    .snip::after { content: ""; position: absolute; left: 32px; bottom: -8px; width: 14px; height: 14px; background: var(--cream); border-right: 1px dashed var(--rust-l); border-bottom: 1px dashed var(--rust-l); transform: rotate(45deg); }
+    .sec.alt .snip { margin-bottom: var(--s4); }
+    .snip .mmast { text-align: center; margin-bottom: var(--s2); }
+    .snip .mmast .club { font-variant-caps: all-small-caps; letter-spacing: .3em; color: var(--rust); font-size: 16px; margin: 0; }
+    .snip .mmast .sub { font-style: italic; color: var(--wsoft); font-size: 14.5px; margin: 0; }
+    .cover h1 { font-size: 36px; }
+    .chips b { font-size: 21px; }
+    .chips div { padding-right: 8px; }
+    .chips div + div { padding-left: 8px; }
+    .tagline { gap: var(--s2); padding: var(--s2); }
+    .tagline svg { width: 48px; height: 48px; }
+    .sh { flex-direction: column; align-items: start; gap: 4px; }
+    .sh h2 { font-size: 26px; }
+    .layers { grid-template-columns: 1fr; gap: 0; }
+    .plus { width: auto; height: 30px; }
+    .kit { grid-template-columns: 1fr; }
+    .swap { grid-template-columns: 1fr; }
+    .swap .sr { border-left: 1px solid var(--line); border-top: 0; }
+    .steps { grid-template-columns: 1fr; }
+    .steps div + div { border-left: 0; padding-left: 0; border-top: 1px solid var(--line); margin-top: var(--s2); }
+    .label { grid-template-columns: 1fr; }
+    .label > div + div { border-left: 0; border-top: 1px solid var(--line); }
+    .meet .ml { padding: var(--s6) 24px var(--s8); border-right: 0; border-bottom: 1px dashed var(--rust-l); }
+    .meet .strip { display: block; text-align: center; font-size: 17px; padding: 18px 20px 0; }
+    .meet .strip .sa, .meet .strip .sb { display: inline; padding: 0; text-align: center; }
+    .seal { position: relative; top: auto; left: auto; margin: 14px auto -50px; transform: rotate(-8deg); }
+    .meet .ml { padding-top: 84px; }
+    .meet .mr { padding: var(--s4) 20px var(--s6); }
+    .meet .mr .intro { grid-template-columns: 1fr; gap: var(--s2); }
+    .meet .mr h2 { font-size: 27px; }
+    .ofm .bdy { grid-template-columns: 1fr; }
+    .submit { flex-direction: column-reverse; align-items: stretch; }
+    .slip ol { columns: 1; }
+    .next { grid-template-columns: 1fr; }
+    .next li + li { padding-left: 0; border-left: 0; border-top: 1px solid var(--line); margin-top: 12px; }
+    footer .fl { border-right: 0; padding: var(--s3) 24px; }
+    footer .fr { padding: var(--s3) 20px; flex-direction: column; align-items: start; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .letter-in, .beat, .card { transition: none; }
+    .pps-reply.show, .slip.on { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="bl">
+    <a href="../">← Gallery</a>
+    <span class="club">First Winter Club</span>
+  </div>
+  <div class="br">
+    <nav aria-label="Catalog sections">
+      <a href="#system" data-nav="system">Layers</a>
+      <a href="#kit" data-nav="kit">The Kit</a>
+      <a href="#rated" data-nav="rated">Rated To</a>
+      <a href="#swap" data-nav="swap">Gear Swap</a>
+      <a href="#care" data-nav="care">Care</a>
+      <a href="#join" data-nav="join">Checklist</a>
+    </nav>
+    <span class="ver">v15<span class="vx"> · SIDE BY SIDE</span></span>
+  </div>
+</header>
+
+<div class="split">
+
+  <!-- ═════════ LEFT: Meera's letter, sticky, synced to the catalog ═════════ -->
+  <aside class="left" aria-label="A letter from Meera">
+    <div class="letter" id="letter">
+      <div class="letter-in w" id="letterIn">
+        <header class="mast">
+          <p class="club">First Winter Club</p>
+          <span class="rule" aria-hidden="true"></span>
+          <h2>a letter, for your first Chicago winter</h2>
+        </header>
+        <p class="dateline">Hyde Park, the first week of October</p>
+
+        <div class="beat on" data-id="cover">
+          <p class="salute">Dear you, arriving this fall,</p>
+          <p class="first">I don’t know your name yet, or where you’re flying in from. But if it’s somewhere like Chennai, where January means about 84°F and the warmest thing I owned was a school cardigan, then I know a little about the winter you’re about to have. Three winters ago it was mine.</p>
+          <p>So on this side of the page is what I wish someone had told me. On the other side is everything you’ll actually need, with prices. The short version: <em>a Chicago winter is survivable if you prepare.</em></p>
+        </div>
+
+        <div class="beat" data-id="system">
+          <a class="to" href="#system">→ 01 · The Layering System</a>
+          <p><span class="sc">I made the cotton hoodie mistake,</span> which I think everyone from somewhere warm makes exactly once. One thick hoodie under one enormous coat. I sweated on the walk to my nine o’clock, the cotton held onto every drop, and by evening I was colder than if I’d worn less.</p>
+          <p>What works is three thin things instead of one thick one. And when you walk into an overheated classroom, you can take one off.</p>
+        </div>
+
+        <div class="beat" data-id="kit">
+          <a class="to" href="#kit">→ 02 · The Kit</a>
+          <p><span class="sc">The small things matter more</span> than I expected. A hat that comes down over your ears. Mittens, not gloves, so your fingers keep each other company. Something you can pull up over your nose.</p>
+          <p>And boots with real grip on the sole. I fell twice on the ice in my sneakers before I gave in.</p>
+        </div>
+
+        <div class="beat" data-id="rated">
+          <a class="to" href="#rated">→ 03 · Rated To</a>
+          <p><span class="sc">The first really cold morning</span> came in early January. My phone said 2°F, and I thought, fine, I have a coat. Then the wind came off the lake, and the number that mattered was the small one underneath: <em>feels like −20°F.</em> My eyelashes stuck together.</p>
+          <p>In Chicago, the wind chill matters more than the temperature. I copied this onto a sticky note by my door:</p>
+          <div class="sticky-note">
+            <p class="row" data-at="-18"><b>feels like −18°F</b><i></i><span>frostbite in ~30 min</span></p>
+            <p class="row" data-at="-35"><b>feels like −35°F</b><i></i><span>about 10 min</span></p>
+            <p class="row" data-at="-48"><b>feels like −48°F</b><i></i><span>about 5 min</span></p>
+          </div>
+          <p>It isn’t meant to frighten you. It’s only the number to check before you leave, the way at home you’d glance at the sky for rain.</p>
+        </div>
+
+        <div class="beat" data-id="swap">
+          <a class="to" href="#swap">→ 04 · The Gear Swap</a>
+          <p><span class="sc">You don’t need to spend much,</span> which surprised me most. My first real parka came from a thrift store and cost less than a textbook. My base layers were Uniqlo HEATTECH. A friend with a Costco membership took a few of us along for wool socks in bulk.</p>
+          <p>And every November there’s the gear swap. Half of what I wear now once kept someone else warm.</p>
+        </div>
+
+        <div class="beat" data-id="care">
+          <a class="to" href="#care">→ 05 · Care Instructions</a>
+          <p><span class="sc">The part nobody mentions</span> is the dark. On December 21 the sun sets around 4:20, and there are about nine hours of daylight. For weeks I didn’t understand why I felt so heavy. It wasn’t only homesickness. It was the light, too.</p>
+          <p>What helped: fifteen minutes outside at midday. Asking a doctor about vitamin D instead of guessing. And letting people check in on me.</p>
+          <p class="onward">The last part of this letter is at the bottom,<br>where the two sides of the page meet. ↓</p>
+        </div>
+      </div>
+      <div class="folio" aria-hidden="true"><span id="folioTxt">page 1 of 6</span><span class="pips" id="pips"></span></div>
+    </div>
+  </aside>
+
+  <!-- ═════════ RIGHT: the catalog ═════════ -->
+  <main class="right" id="top">
+
+    <section class="sec" id="cover" data-beat="cover">
+      <div class="snip">
+        <div class="mmast"><p class="club">First Winter Club</p><p class="sub">a letter, for your first Chicago winter</p></div>
+        <p>Dear you, arriving this fall,</p>
+        <p>If you’re flying in from somewhere like Chennai, where January means 84°F, then I know a little about the winter you’re about to have. Three winters ago it was mine. <em>It’s survivable if you prepare.</em></p>
+        <p class="m">— Meera, third year</p>
+      </div>
+      <div class="cover">
+        <div>
+          <span class="kicker">The First Winter Catalog · Fall/Winter 2026</span>
+          <h1>Dressed for your first <em>−20°.</em> Built on a student budget.</h1>
+          <p class="lede">Everything a UChicago international student from somewhere warm needs to walk to a 9 AM in a Chicago January. Field-tested by First Winter Club, a student-run peer support group. Nothing here is for sale. All of it is findable cheap.</p>
+          <div class="btns">
+            <a class="btn primary" href="#join">Get the free First Winter Checklist</a>
+            <a class="btn ghost" href="#system">Start with layers →</a>
+          </div>
+        </div>
+        <figure class="fig">
+          <svg viewBox="190 180 240 360" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustration: a student in a rust parka, hat, neck gaiter, mittens and boots on a snowy lakefront">
+            <rect x="190" y="180" width="240" height="360" fill="#9aa8af"/>
+            <rect x="190" y="330" width="240" height="70" fill="#c3ccce"/>
+            <path d="M190 400 Q260 390 330 398 T430 394 L430 540 L190 540 Z" fill="#f4f2ed"/>
+            <g stroke="#f4f2ed" stroke-width="2.5" stroke-linecap="round" fill="none" opacity=".85"><path d="M428 236 Q400 234 384 244"/><path d="M430 302 Q404 298 392 306"/></g>
+            <ellipse cx="310" cy="522" rx="86" ry="10" fill="#d9d4c8"/>
+            <rect x="276" y="430" width="26" height="70" fill="#3d4a52"/><rect x="318" y="430" width="26" height="70" fill="#3d4a52"/>
+            <path d="M268 492 L304 492 L306 512 Q306 520 298 520 L262 520 Q258 520 260 512 Z" fill="#3b2f28"/>
+            <path d="M316 492 L352 492 L360 512 Q362 520 354 520 L318 520 Q314 520 314 512 Z" fill="#3b2f28"/>
+            <rect x="264" y="488" width="42" height="7" fill="#e4e2dc"/><rect x="314" y="488" width="42" height="7" fill="#e4e2dc"/>
+            <path d="M266 300 Q236 340 236 404 L258 406 Q262 350 284 322 Z" fill="#9c4522"/>
+            <path d="M354 300 Q384 340 384 404 L362 406 Q358 350 336 322 Z" fill="#9c4522"/>
+            <path d="M262 288 Q310 270 358 288 L374 446 Q310 458 246 446 Z" fill="#b0502a"/>
+            <line x1="310" y1="282" x2="310" y2="452" stroke="#7e3517" stroke-width="2.5"/>
+            <path d="M262 392 L292 392 M328 392 L358 392" stroke="#7e3517" stroke-width="2"/>
+            <ellipse cx="247" cy="414" rx="13" ry="16" fill="#2c363c"/><ellipse cx="373" cy="414" rx="13" ry="16" fill="#2c363c"/>
+            <circle cx="310" cy="252" r="42" fill="#9c4522"/>
+            <circle cx="310" cy="254" r="32" fill="none" stroke="#e4e2dc" stroke-width="9"/>
+            <circle cx="310" cy="256" r="24" fill="#c89574"/>
+            <path d="M286 252 Q286 226 310 224 Q334 226 334 252 Z" fill="#56636c"/>
+            <rect x="285" y="244" width="50" height="10" rx="2" fill="#3d4a52"/>
+            <circle cx="301" cy="262" r="2.2" fill="#1f2421"/><circle cx="319" cy="262" r="2.2" fill="#1f2421"/>
+            <path d="M287 268 L333 268 L336 290 Q310 298 284 290 Z" fill="#2c363c"/>
+            <g fill="#fff" opacity=".9"><circle cx="214" cy="206" r="2.5"/><circle cx="398" cy="200" r="2"/><circle cx="236" cy="300" r="2"/><circle cx="404" cy="350" r="2.5"/><circle cx="380" cy="252" r="1.8"/><circle cx="212" cy="380" r="2"/><circle cx="262" cy="196" r="1.6"/></g>
+          </svg>
+          <figcaption>Shown: the full system. Air 8°F, wind chill −12°F.</figcaption>
+        </figure>
+      </div>
+      <div class="chips">
+        <div><b>31° / 18°</b><span>January average high / low, °F. Before the wind.</span></div>
+        <div><b>−30°</b><span>Wind chill can reach −30°F or lower. Below 0°F is routine.</span></div>
+        <div><b>4:20 PM</b><span>Sunset on Dec 21. About 9 h 08 m of daylight.</span></div>
+      </div>
+      <div class="tagline">
+        <svg viewBox="0 0 92 92" aria-hidden="true">
+          <path d="M30 8 L84 8 L84 84 L30 84 L8 46 Z" fill="#f4f2ed"/>
+          <circle cx="22" cy="46" r="4" fill="#2c363c"/>
+          <text x="58" y="47" text-anchor="middle" font-family="Avenir Next, Helvetica Neue, Arial, sans-serif" font-size="19" font-weight="600" fill="#1f2421">−19°</text>
+          <text x="58" y="62" text-anchor="middle" font-family="Avenir Next, Arial, sans-serif" font-size="7.5" font-weight="700" letter-spacing="1" fill="#b0502a">FEELS LIKE</text>
+        </svg>
+        <p>The temperature is the price tag. <em>The wind chill is what you actually pay.</em> 0°F air plus a 15 mph lake wind feels like −19°F, where frostbite can set in within about 30 minutes.</p>
+      </div>
+    </section>
+
+    <section class="sec alt" id="system" data-beat="system">
+      <div class="snip">
+        <p class="who">Meera writes</p>
+        <p><span class="sc">I made the cotton hoodie mistake.</span> One thick hoodie, one enormous coat. I sweated on the way to class, the cotton stayed damp, and I was colder by evening than if I’d worn less. Three thin things beat one thick one.</p>
+      </div>
+      <div class="sh">
+        <div><span class="kicker">01 · The Layering System</span><h2>Three thin layers beat <em>one big coat.</em></h2></div>
+        <span class="pg">inside → out</span>
+      </div>
+      <div class="layers">
+        <article class="lyr">
+          <div class="ph"><span class="no">01</span>
+            <svg viewBox="0 0 200 130" aria-hidden="true"><g transform="translate(100 14) scale(.42)" stroke="#1f2421" stroke-width="4.5" stroke-linejoin="round"><path d="M-38 0 Q0 26 38 0 L92 14 L146 150 L120 162 L76 72 L76 240 L-76 240 L-76 72 L-120 162 L-146 150 L-92 14 Z" fill="#f4f2ed"/><path d="M-76 226 L76 226" fill="none"/></g><g stroke="#56636c" stroke-width="2" fill="none" stroke-linecap="round"><path d="M36 96 q-7 -10 0 -20 t0 -20"/><path d="M164 96 q7 -10 0 -20 t0 -20"/></g></svg>
+          </div>
+          <div class="bd">
+            <h3>Base layer <small>next to skin</small></h3>
+            <p>Thin and snug. Pulls sweat off your skin so it can’t chill you. <b>Never cotton:</b> it soaks up moisture and stays wet.</p>
+            <dl class="specs"><dt>Material</dt><dd>Merino wool or synthetic</dd><dt>Get it cheap</dt><dd>Uniqlo HEATTECH, Costco multipacks</dd></dl>
+          </div>
+        </article>
+        <span class="plus" aria-hidden="true">+</span>
+        <article class="lyr">
+          <div class="ph"><span class="no">02</span>
+            <svg viewBox="0 0 200 130" aria-hidden="true"><defs><pattern id="fleece" width="8" height="8" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.1" fill="#6b7a82"/><circle cx="6" cy="6" r="1.1" fill="#6b7a82"/></pattern></defs><g transform="translate(100 16) scale(.42)" stroke="#2c363c" stroke-width="4.5" stroke-linejoin="round"><path d="M-40 -6 L40 -6 L42 6 L96 16 L150 156 L122 168 L80 74 L80 246 L-80 246 L-80 74 L-122 168 L-150 156 L-96 16 L-42 6 Z" fill="#56636c"/><path d="M-40 -6 L40 -6 L42 6 L96 16 L150 156 L122 168 L80 74 L80 246 L-80 246 L-80 74 L-122 168 L-150 156 L-96 16 L-42 6 Z" fill="url(#fleece)" stroke="none"/><path d="M0 -6 L0 92" stroke="#e4e2dc" stroke-width="4"/></g></svg>
+          </div>
+          <div class="bd">
+            <h3>Mid layer <small>the warmth</small></h3>
+            <p>Fleece or light down holds a pocket of warm air around you. Unzip or take it off in an overheated lecture hall.</p>
+            <dl class="specs"><dt>Material</dt><dd>Fleece or light down</dd><dt>Get it cheap</dt><dd>Thrift stores, the November gear swap</dd></dl>
+          </div>
+        </article>
+        <span class="plus" aria-hidden="true">+</span>
+        <article class="lyr">
+          <div class="ph"><span class="no">03</span>
+            <svg viewBox="0 0 200 130" aria-hidden="true"><g transform="translate(100 34) scale(.3)" stroke="#5e2a12" stroke-width="6" stroke-linejoin="round"><path d="M-50 6 Q-56 -74 0 -80 Q56 -74 50 6 Z" fill="#8c3c1c"/><path d="M-34 0 Q-38 -56 0 -60 Q38 -56 34 0" fill="none" stroke="#e4e2dc" stroke-width="12"/><path d="M-42 0 Q0 18 42 0 L102 16 L152 172 L124 184 L86 82 L92 304 L-92 304 L-86 82 L-124 184 L-152 172 L-102 16 Z" fill="#b0502a"/><path d="M0 10 L0 304"/></g><g stroke="#56636c" stroke-width="2" stroke-linecap="round" fill="none"><path d="M196 52 L168 52 M196 66 L164 66 M196 80 L168 80"/></g></svg>
+          </div>
+          <div class="bd">
+            <h3>Shell <small>the weather</small></h3>
+            <p>Windproof, waterproof, hooded, and past your hips. This is the layer that stops the lake wind.</p>
+            <dl class="specs"><dt>Material</dt><dd>Windproof, waterproof outer</dd><dt>Fit</dt><dd>Past the hips, room for a fleece</dd></dl>
+          </div>
+        </article>
+      </div>
+      <p class="sysnote"><b>System note</b><span>Three layers trap more air than one heavy coat, and you can adjust them. Cold outside, hot inside: take one off instead of sweating through your only one.</span></p>
+    </section>
+
+    <section class="sec" id="kit" data-beat="kit">
+      <div class="snip">
+        <p class="who">Meera writes</p>
+        <p><span class="sc">The small things matter more</span> than I expected. A hat over your ears. Mittens, so your fingers keep each other company. And boots with grip: I fell twice on the ice in sneakers.</p>
+      </div>
+      <div class="sh">
+        <div><span class="kicker">02 · The Kit · Six essentials</span><h2>Everything you need. <em>Nothing you don’t.</em></h2></div>
+        <span class="pg">FW-01 – FW-06</span>
+      </div>
+      <div class="kit">
+        <article class="card">
+          <div class="top">
+            <div class="ic"><span class="badge">Start here</span><svg viewBox="0 0 200 150" aria-hidden="true"><g transform="translate(76 26) scale(.42)" stroke="#1f2421" stroke-width="5" stroke-linejoin="round"><path d="M-38 0 Q0 26 38 0 L92 14 L146 150 L120 162 L76 72 L76 240 L-76 240 L-76 72 L-120 162 L-146 150 L-92 14 Z" fill="#f4f2ed"/></g><g transform="translate(150 30)" stroke="#1f2421" stroke-width="2.4" stroke-linejoin="round"><path d="M-22 0 L22 0 L26 100 L8 100 L0 30 L-8 100 L-26 100 Z" fill="#56636c"/></g></svg></div>
+            <div><span class="code">FW-01 · BASE</span><h3>The Base Layer Set</h3></div>
+          </div>
+          <div class="bd">
+            <table>
+              <tr><td>Warmth</td><td><span class="dots" aria-label="2 of 4">●●<s>●●</s></span></td></tr>
+              <tr><td>Get it cheap</td><td>Uniqlo HEATTECH, Costco multipacks</td></tr>
+              <tr><td>Budget</td><td class="budget"><b>$</b><s>$$</s></td></tr>
+            </table>
+            <p class="fine">“Buy two sets, so one is always in the wash.” — M.</p>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="top">
+            <div class="ic"><svg viewBox="0 0 200 150" aria-hidden="true"><circle cx="100" cy="30" r="13" fill="#e4e2dc" stroke="#1f2421" stroke-width="2.4"/><path d="M48 104 Q48 42 100 40 Q152 42 152 104 Z" fill="#56636c" stroke="#1f2421" stroke-width="2.4"/><rect x="44" y="96" width="112" height="30" rx="3" fill="#3d4a52" stroke="#1f2421" stroke-width="2.4"/><g stroke="#6b7a82" stroke-width="2.5"><path d="M56 100 v22 M70 100 v22 M84 100 v22 M98 100 v22 M112 100 v22 M126 100 v22 M140 100 v22"/></g></svg></div>
+            <div><span class="code">FW-02 · HEAD</span><h3>The Over-the-Ears Hat</h3></div>
+          </div>
+          <div class="bd">
+            <table>
+              <tr><td>Warmth</td><td><span class="dots" aria-label="3 of 4">●●●<s>●</s></span></td></tr>
+              <tr><td>Get it cheap</td><td>Thrift stores, Costco, the gear swap</td></tr>
+              <tr><td>Budget</td><td class="budget"><b>$</b><s>$$</s></td></tr>
+            </table>
+            <p class="fine">“Not perched on top. All the way down.” — M.</p>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="top">
+            <div class="ic"><span class="badge">Staff pick</span><svg viewBox="0 0 200 150" aria-hidden="true"><g transform="translate(28 18)" stroke="#1f2421" stroke-width="2.4" stroke-linejoin="round"><path d="M20 96 L20 40 Q20 10 44 10 Q66 10 66 40 L66 96 Z" fill="#b0502a"/><path d="M20 58 Q2 52 4 36 Q8 26 20 36" fill="#b0502a"/><rect x="16" y="90" width="54" height="22" rx="2" fill="#e4e2dc"/></g><g transform="translate(172 18) scale(-1 1)" stroke="#1f2421" stroke-width="2.4" stroke-linejoin="round"><path d="M20 96 L20 40 Q20 10 44 10 Q66 10 66 40 L66 96 Z" fill="#b0502a"/><path d="M20 58 Q2 52 4 36 Q8 26 20 36" fill="#b0502a"/><rect x="16" y="90" width="54" height="22" rx="2" fill="#e4e2dc"/></g></svg></div>
+            <div><span class="code">FW-03 · HANDS</span><h3>Mittens, Not Gloves</h3></div>
+          </div>
+          <div class="bd">
+            <table>
+              <tr><td>Warmth</td><td><span class="dots" aria-label="4 of 4">●●●●</span></td></tr>
+              <tr><td>Get it cheap</td><td>Costco, thrift stores, the gear swap</td></tr>
+              <tr><td>Budget</td><td class="budget"><b>$</b><s>$$</s></td></tr>
+            </table>
+            <p class="fine">“Thin liner gloves inside, for your phone.” — M.</p>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="top">
+            <div class="ic"><svg viewBox="0 0 200 150" aria-hidden="true"><path d="M58 34 Q100 22 142 34 L146 116 Q100 130 54 116 Z" fill="#56636c" stroke="#1f2421" stroke-width="2.4" stroke-linejoin="round"/><ellipse cx="100" cy="32" rx="42" ry="9" fill="#3d4a52" stroke="#1f2421" stroke-width="2.4"/><path d="M56 70 Q100 82 144 70 M56 84 Q100 96 144 84" stroke="#e4e2dc" stroke-width="4" fill="none"/></svg></div>
+            <div><span class="code">FW-04 · FACE</span><h3>The Neck Gaiter</h3></div>
+          </div>
+          <div class="bd">
+            <table>
+              <tr><td>Warmth</td><td><span class="dots" aria-label="3 of 4">●●●<s>●</s></span></td></tr>
+              <tr><td>Get it cheap</td><td>Uniqlo, Costco, thrift-store scarves</td></tr>
+              <tr><td>Budget</td><td class="budget"><b>$</b><s>$$</s></td></tr>
+            </table>
+            <p class="fine">“Pull it over your nose. It’s exposed skin.” — M.</p>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="top">
+            <div class="ic"><span class="badge">Biggest buy</span><svg viewBox="0 0 200 150" aria-hidden="true"><g transform="translate(100 36) scale(.34)" stroke="#5e2a12" stroke-width="6" stroke-linejoin="round"><path d="M-50 6 Q-56 -74 0 -80 Q56 -74 50 6 Z" fill="#8c3c1c"/><path d="M-34 0 Q-38 -56 0 -60 Q38 -56 34 0" fill="none" stroke="#e4e2dc" stroke-width="14"/><path d="M-42 0 Q0 18 42 0 L102 16 L152 172 L124 184 L86 82 L92 304 L-92 304 L-86 82 L-124 184 L-152 172 L-102 16 Z" fill="#b0502a"/><path d="M0 10 L0 304"/></g></svg></div>
+            <div><span class="code">FW-05 · SHELL</span><h3>The Past-the-Hips Parka</h3></div>
+          </div>
+          <div class="bd">
+            <table>
+              <tr><td>Warmth</td><td><span class="dots" aria-label="4 of 4">●●●●</span> <small>over layers</small></td></tr>
+              <tr><td>Get it cheap</td><td>Thrift stores, the gear swap. Shop early.</td></tr>
+              <tr><td>Budget</td><td class="budget"><b>$$–$$$</b></td></tr>
+            </table>
+            <p class="fine">“Mine cost less than a textbook.” — M.</p>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="top">
+            <div class="ic"><svg viewBox="0 0 200 150" aria-hidden="true"><g stroke="#1f2421" stroke-width="2.4" stroke-linejoin="round"><g transform="translate(34 24)"><path d="M4 10 L40 10 L42 70 Q72 72 80 90 L80 100 L0 100 Z" fill="#3b2f28"/><rect x="0" y="0" width="46" height="16" rx="3" fill="#e4e2dc"/><rect x="-2" y="98" width="84" height="12" rx="2" fill="#1f2421"/></g><g transform="translate(90 32)"><path d="M4 10 L40 10 L42 70 Q72 72 80 90 L80 100 L0 100 Z" fill="#4a3b32"/><rect x="0" y="0" width="46" height="16" rx="3" fill="#e4e2dc"/><rect x="-2" y="98" width="84" height="12" rx="2" fill="#1f2421"/></g></g></svg></div>
+            <div><span class="code">FW-06 · FEET</span><h3>The Grip-Sole Winter Boot</h3></div>
+          </div>
+          <div class="bd">
+            <table>
+              <tr><td>Warmth</td><td><span class="dots" aria-label="3 of 4">●●●<s>●</s></span> <small>+ wool socks</small></td></tr>
+              <tr><td>Get it cheap</td><td>Costco, thrift stores, the gear swap</td></tr>
+              <tr><td>Budget</td><td class="budget"><b>$$</b><s>$</s></td></tr>
+            </table>
+            <p class="fine">“Check the tread before the color.” — M.</p>
+          </div>
+        </article>
+      </div>
+      <div class="legend">
+        <span><b>Warmth</b> ●○○○ light → ●●●● warmest, club rating</span>
+        <span><b>Budget</b> $ under ~$25 · $$ ~$25–75 · $$$ ~$75+</span>
+        <span>Store names are examples, not sponsors.</span>
+      </div>
+    </section>
+
+    <section class="sec alt" id="rated" data-beat="rated">
+      <div class="snip">
+        <p class="who">Meera writes</p>
+        <p><span class="sc">My first really cold morning,</span> my phone said 2°F. Then the wind came off the lake and the number that mattered was the small one underneath: <em>feels like −20°F.</em> Check the feels-like, not the temperature.</p>
+      </div>
+      <div class="sh">
+        <div><span class="kicker">03 · Rated To · Wind chill tool</span><h2>Dress for the number <em>that hits you.</em></h2></div>
+        <span class="pg">NWS formula</span>
+      </div>
+      <div class="rated">
+        <div class="panel ctl">
+          <div class="lbl"><span>Feels-like calculator</span><span>°F · mph</span></div>
+          <label for="tIn">Air temperature <b id="tOut">10°F</b></label>
+          <input id="tIn" type="range" min="-30" max="40" value="10" step="1">
+          <label for="vIn">Wind speed <b id="vOut">15 mph</b></label>
+          <input id="vIn" class="wind" type="range" min="3" max="45" value="15" step="1">
+          <div class="readout" aria-live="polite">
+            <span class="fl">Feels like</span>
+            <div class="num"><span id="wcOut">−7</span><sup>°F</sup></div>
+            <div><span class="risk zb" id="riskOut">Below zero: cover skin</span><div class="air" id="airOut">The wind takes 17° off.</div></div>
+          </div>
+          <div class="wear"><span class="k">Rated-to kit</span><b id="wearOut">Full kit, no bare skin</b><span id="wearSub">FW-01 to FW-06: add mittens, gaiter, boots</span></div>
+          <div class="presets" aria-label="Try a real morning">
+            <button type="button" data-t="2" data-v="21"><em>Meera’s first cold morning</em><span>2°F · 21 mph</span></button>
+            <button type="button" data-t="10" data-v="15">Typical January night<span>10°F · 15 mph</span></button>
+            <button type="button" data-t="-23" data-v="17">Polar vortex, Jan 2019<span>−23°F · 17 mph</span></button>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="lbl"><span>Wind chill chart · tap a cell</span><span>°F</span></div>
+          <table class="wc" id="wc" aria-label="Wind chill chart: air temperature across, wind speed down"></table>
+          <div class="key">
+            <span style="--c:var(--z0)">Cold, manageable</span>
+            <span style="--c:var(--zb)">Below zero, cover up</span>
+            <span style="--c:var(--z30)">≤ −18°: frostbite ~30 min</span>
+            <span style="--c:var(--z10)">≤ −35°: ~10 min</span>
+            <span style="--c:var(--z5)">≤ −48°: ~5 min</span>
+          </div>
+          <p class="formula">Wind chill = <code>35.74 + 0.6215T − 35.75V<sup>0.16</sup> + 0.4275TV<sup>0.16</sup></code>, with T in °F and V in mph. Frostbite times are for exposed skin.</p>
+        </div>
+      </div>
+      <p class="caveat">Club guidance, not a guarantee. If skin feels numb, stings, or turns pale, go inside and warm up gradually.</p>
+    </section>
+
+    <section class="sec" id="swap" data-beat="swap">
+      <div class="snip">
+        <p class="who">Meera writes</p>
+        <p><span class="sc">You don’t need to spend much.</span> My first parka came from a thrift store and cost less than a textbook. Half of what I wear now once kept someone else warm.</p>
+      </div>
+      <div class="sh">
+        <div><span class="kicker">04 · The Gear Swap</span><h2>Free coats, <em>from last year’s first-years.</em></h2></div>
+        <span class="pg">November</span>
+      </div>
+      <div class="swap">
+        <div class="sl">
+          <span class="kicker">Feature</span>
+          <h3>The Gear Swap.</h3>
+          <em>November. Free. On campus.</em>
+          <p>Second-years have closets full of parkas, boots and mittens they’ve outgrown or replaced. Once a year, right before the real cold, we put it all on racks and you take what fits. No money changes hands.</p>
+          <dl>
+            <dt>When</dt><dd>November, before the deep cold. Date sent to members.</dd>
+            <dt>Bring</dt><dd>Clean coats, boots, hats, mittens. Optional.</dd>
+            <dt>Take</dt><dd>Whatever fits and keeps you warm.</dd>
+            <dt>Cost</dt><dd>$0.00</dd>
+          </dl>
+        </div>
+        <div class="sr">
+          <span class="cap">On the rack this year: whatever you bring.</span>
+          <svg viewBox="0 0 520 440" role="img" aria-label="Illustration: a clothing rack with four donated jackets, boots underneath, and a tag reading FREE">
+            <g stroke="#1f2421" stroke-width="3" stroke-linecap="round" fill="none"><path d="M40 60 L480 60"/><path d="M60 60 L40 400 M460 60 L480 400"/><path d="M20 400 L80 400 M440 400 L500 400"/></g>
+            <g stroke="#1f2421" stroke-width="2" fill="none"><path d="M120 60 q0 -14 10 -14 M130 46 q10 0 10 10 L140 70 L100 92 M140 70 L180 92"/><path d="M215 60 q0 -14 10 -14 M225 46 q10 0 10 10 L235 70 L195 92 M235 70 L275 92"/><path d="M310 60 q0 -14 10 -14 M320 46 q10 0 10 10 L330 70 L290 92 M330 70 L370 92"/><path d="M395 60 q0 -14 10 -14 M405 46 q10 0 10 10 L415 70 L375 92 M415 70 L455 92"/></g>
+            <g stroke="#1f2421" stroke-width="2" stroke-linejoin="round">
+              <path d="M112 90 L168 90 L184 110 L180 300 L100 300 L96 110 Z" fill="#b0502a"/><path d="M140 92 L140 300" stroke="#7e3517"/>
+              <path d="M206 90 L264 90 L282 110 L276 260 L194 260 L188 110 Z" fill="#56636c"/><path d="M235 92 L235 260" stroke="#e4e2dc"/>
+              <path d="M302 90 L358 90 L374 110 L370 320 L290 320 L286 110 Z" fill="#2c363c"/>
+              <path d="M388 90 L442 90 L458 110 L452 240 L378 240 L374 110 Z" fill="#efe2cb"/><path d="M388 130 L442 130 M388 160 L442 160 M388 190 L442 190" stroke="#c7c5bc"/>
+            </g>
+            <g transform="rotate(10 300 300)"><path d="M282 330 L300 312" stroke="#1f2421" stroke-width="1.5"/><path d="M262 334 L304 334 L304 382 L262 382 L254 358 Z" fill="#fff6ec" stroke="#1f2421" stroke-width="1.5"/><text x="282" y="364" text-anchor="middle" font-family="Avenir Next, Arial, sans-serif" font-weight="700" font-size="12" letter-spacing="1" fill="#b0502a">FREE</text></g>
+            <g stroke="#1f2421" stroke-width="1.7" stroke-linejoin="round"><path d="M120 350 L146 350 L148 384 Q168 386 172 396 L172 402 L116 402 Z" fill="#3b2f28"/><path d="M176 356 L200 356 L202 386 Q220 388 224 398 L224 402 L172 402 Z" fill="#4a3b32"/><path d="M360 352 L386 352 L388 384 Q408 386 412 396 L412 402 L356 402 Z" fill="#1f2421"/></g>
+            <path d="M0 404 L520 404" stroke="#c7c5bc" stroke-width="2"/>
+          </svg>
+        </div>
+      </div>
+      <div class="steps">
+        <div><b>1</b><h4>Join the club</h4><p>Members get the swap date and room by email.</p></div>
+        <div><b>2</b><h4>Drop off (optional)</h4><p>Anything warm and clean you no longer need. Nothing to give? Come anyway.</p></div>
+        <div><b>3</b><h4>Try on, take home</h4><p>Second-years help with fit: sleeves past wrists, hem past hips.</p></div>
+      </div>
+    </section>
+
+    <section class="sec alt" id="care" data-beat="care">
+      <div class="snip">
+        <p class="who">Meera writes</p>
+        <p><span class="sc">The part nobody mentions</span> is the dark. By December the sun sets around 4:20. It wasn’t only homesickness. It was the light, too. What helped was midday sun, and letting people check in on me.</p>
+      </div>
+      <div class="sh">
+        <div><span class="kicker">05 · Care Instructions</span><h2>For the wearer, <em>not the clothes.</em></h2></div>
+        <span class="pg">Dec – Feb</span>
+      </div>
+      <div class="label">
+        <div>
+          <svg viewBox="0 0 34 34" aria-hidden="true"><circle cx="17" cy="17" r="7" fill="none" stroke="#b0502a" stroke-width="2"/><g stroke="#b0502a" stroke-width="2" stroke-linecap="round"><path d="M17 3v4M17 27v4M3 17h4M27 17h4M7 7l3 3M24 24l3 3M27 7l-3 3M10 24l-3 3"/></g></svg>
+          <h4>Get midday light</h4><p>On Dec 21 the sun sets around 4:20 PM, after about 9 h 08 m of daylight. Step outside at lunch.</p>
+        </div>
+        <div>
+          <svg viewBox="0 0 34 34" aria-hidden="true"><rect x="6" y="11" width="22" height="12" rx="6" fill="none" stroke="#56636c" stroke-width="2"/><rect x="6" y="11" width="11" height="12" rx="6" fill="#56636c"/></svg>
+          <h4>Vitamin D</h4><p>Less sun means less vitamin D. Ask a doctor whether you should take it.</p>
+        </div>
+        <div>
+          <svg viewBox="0 0 34 34" aria-hidden="true"><circle cx="12" cy="11" r="4.5" fill="none" stroke="#56636c" stroke-width="2"/><circle cx="23" cy="11" r="4.5" fill="none" stroke="#56636c" stroke-width="2"/><path d="M4 28c0-6 4-9 8-9s8 3 8 9M15 28c0-6 4-9 8-9s8 3 8 9" fill="none" stroke="#56636c" stroke-width="2"/></svg>
+          <h4>Check in on friends</h4><p>February is long. If someone goes quiet, knock on their door.</p>
+        </div>
+        <div>
+          <svg viewBox="0 0 34 34" aria-hidden="true"><rect x="5" y="7" width="24" height="22" rx="2" fill="none" stroke="#1f2421" stroke-width="2"/><path d="M5 13h24M11 4v6M23 4v6" stroke="#1f2421" stroke-width="2"/><rect x="18" y="18" width="6" height="6" fill="#b0502a"/></svg>
+          <h4>Thursdays, 6 PM</h4><p>The club meets on campus every week. Come cold, leave warmer.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- ═════════ where both halves meet ═════════ -->
+<section class="meet" id="join" data-beat="join" aria-label="Join First Winter Club">
+  <div class="strip">
+    <span class="sa">Where the letter ends,</span><span class="sb">the list begins. Come cold, leave warmer.</span>
+    <div class="seal" aria-hidden="true"><div><b>THU</b><span>6 PM</span><b>ON CAMPUS</b></div></div>
+  </div>
+  <div class="halves">
+    <div class="ml">
+      <div class="w">
+        <p><span class="sc">Thursday nights are what saved me.</span> In my first November, a girl from Lagos I’d met in a lab section asked if I wanted to come to a thing at six. It was First Winter Club: a room on campus, a kettle, a pile of mismatched mittens, and a couple of dozen people from Manila and São Paulo and Jakarta, comparing the coldest they had ever been.</p>
+        <p>Nobody made me talk if I didn’t want to. Most weeks we just sat near the radiator and were warm together, which turned out to be the whole point.</p>
+        <p>The first snow usually comes in November. When it does, please go outside and look up.</p>
+        <div class="signoff">
+          <p>Warmly,</p>
+          <p class="name">Meera</p>
+          <p class="who">third year · still from Chennai · now also a little from here</p>
+        </div>
+        <p class="ps"><span class="tag">P.S.</span>Leave your name on the order form and I’ll make sure you get the <em>First Winter Checklist</em>, the one page I wish someone had folded into my suitcase. It’s free, and so is the tea.</p>
+        <div class="pps-reply" id="ppsReply" role="status" aria-live="polite">
+          <p style="margin:0"><span class="sc">P.P.S.</span> Dear <em id="ppsName">friend</em>, I’ve saved you a seat by the radiator. You don’t need to bring anything. See you Thursday. <em>— M.</em></p>
+        </div>
+      </div>
+    </div>
+    <div class="mr">
+      <div class="intro">
+        <div><span class="kicker">Item FW-00 · Free with membership</span><h2>The First Winter <em>Checklist.</em></h2></div>
+        <ul class="incl">
+          <li>Every layer, in order, with budget picks</li>
+          <li>What to wear at each wind chill number</li>
+          <li>Gear swap date and Thursday reminders</li>
+          <li>A short routine for the dark months</li>
+        </ul>
+      </div>
+      <form class="ofm" id="of" novalidate>
+        <div class="hd"><span>Order form · First Winter Club</span><span>Total $0.00</span></div>
+        <div class="bdy">
+          <div class="fld"><label for="nm">Name</label><input id="nm" name="name" autocomplete="off" placeholder="your name"></div>
+          <div class="fld"><label for="em">UChicago email</label><input id="em" name="email" type="email" autocomplete="off" placeholder="cnetid@uchicago.edu"></div>
+          <div class="fld"><label for="hm">Coming from</label><input id="hm" name="home" autocomplete="off" placeholder="e.g. Chennai, Lagos"></div>
+          <div class="checks">
+            <label><input type="checkbox" id="mb" checked> Save me a seat on Thursday</label>
+            <label><input type="checkbox" id="sw" checked> Remind me about the gear swap</label>
+          </div>
+          <p class="err" id="err" role="alert"></p>
+          <div class="submit">
+            <small>Prototype: nothing you type here is sent or stored.</small>
+            <button type="submit">Send my checklist · $0.00</button>
+          </div>
+        </div>
+      </form>
+      <div class="slip" id="slip" role="status" aria-live="polite">
+        <div class="hd"><span>Packing slip</span><span id="ono">Order FW-0000</span></div>
+        <div class="in">
+          <span class="stamp">Seat saved</span>
+          <h3 id="thx">Welcome to the club.</h3>
+          <p id="slipmsg">Your First Winter Checklist is packed. Here’s what’s on it:</p>
+          <ol>
+            <li>Base layer, merino or synthetic</li>
+            <li>Over-the-ears hat</li>
+            <li>Mittens, plus thin liners</li>
+            <li>Neck gaiter or long scarf</li>
+            <li>Past-the-hips parka</li>
+            <li>Insulated grip-sole boots</li>
+            <li>Mid layer: fleece or light down</li>
+            <li>Weather app set to feels-like</li>
+          </ol>
+          <p class="fine2">See you Thursday at 6 PM. Prototype only: nothing was sent or stored.</p>
+        </div>
+      </div>
+      <ol class="next">
+        <li><b>Today</b><span>The checklist, in your inbox</span></li>
+        <li><b>Thursday, 6 PM</b><span>A seat by the radiator, tea included</span></li>
+        <li><b>November</b><span>The gear swap, before the deep cold</span></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="fl"><span class="tag">P.P.S.</span>Bring the cotton hoodie anyway. It’s perfect for indoors.</div>
+  <div class="fr"><span>First Winter Club is a student-run peer support group for UChicago international students. Not medical advice.</span><span style="white-space:nowrap"><a href="../">← Gallery</a> · v15</span></div>
+</footer>
+
+<script>
+(function () {
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var neg = function (n) { return String(n).replace('-', '−'); };
+
+  /* ── 1. Sync the letter to the catalog ── */
+  var letter = document.getElementById('letter');
+  var inner = document.getElementById('letterIn');
+  var beats = [].slice.call(document.querySelectorAll('.beat'));
+  var navs = [].slice.call(document.querySelectorAll('[data-nav]'));
+  var pips = document.getElementById('pips');
+  var folio = document.getElementById('folioTxt');
+  beats.forEach(function () { pips.appendChild(document.createElement('i')); });
+  var pipEls = [].slice.call(pips.children);
+  var current = null;
+
+  function place(beat) {
+    if (!letter.offsetParent) return;          // letter hidden on mobile
+    var H = letter.clientHeight;
+    var idx = beats.indexOf(beat);
+    var y = 0;
+    if (idx > 0) {
+      var room = H - beat.offsetHeight;
+      y = beat.offsetTop - Math.max(40, Math.min(room * .28, 180));
+      var max = inner.scrollHeight - H;       // padding-bottom keeps this generous
+      y = Math.max(0, Math.min(y, max));
+    }
+    inner.style.transform = 'translateY(' + (-y) + 'px)';
+  }
+
+  function activate(id) {
+    navs.forEach(function (a) { a.classList.toggle('on', a.dataset.nav === id); });
+    var beat = beats.filter(function (b) { return b.dataset.id === id; })[0];
+    if (!beat || id === current) return;
+    current = id;
+    beats.forEach(function (b, i) {
+      var on = b === beat;
+      b.classList.toggle('on', on);
+      pipEls[i].classList.toggle('on', on);
+      if (on) folio.textContent = 'page ' + (i + 1) + ' of ' + beats.length;
+    });
+    place(beat);
+  }
+
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) activate(e.target.dataset.beat); });
+    }, { rootMargin: '-42% 0px -56% 0px' });
+    document.querySelectorAll('[data-beat]').forEach(function (s) { io.observe(s); });
+  }
+  activate('cover');
+  addEventListener('resize', function () {
+    var b = beats.filter(function (x) { return x.dataset.id === current; })[0];
+    if (b) place(b);
+  });
+
+  /* ── 2. Rated To: calculator + chart ── */
+  var tIn = document.getElementById('tIn'), vIn = document.getElementById('vIn');
+  var TEMPS = [40, 30, 20, 10, 0, -10, -20, -30];
+  var WINDS = [5, 10, 15, 20, 25, 30, 35, 40];
+  function chill(t, v) {
+    if (t > 50 || v < 3) return t;
+    var p = Math.pow(v, 0.16);
+    return 35.74 + 0.6215 * t - 35.75 * p + 0.4275 * t * p;
+  }
+  function zone(w) { return w <= -48 ? 'z5' : w <= -35 ? 'z10' : w <= -18 ? 'z30' : w < 0 ? 'zb' : 'z0'; }
+
+  var tbl = document.getElementById('wc');
+  var html = '<thead><tr><th scope="col">mph</th>' + TEMPS.map(function (t) { return '<th scope="col" data-t="' + t + '">' + neg(t) + '°</th>'; }).join('') + '</tr></thead><tbody>';
+  WINDS.forEach(function (v) {
+    html += '<tr><th scope="row" data-v="' + v + '">' + v + '</th>' + TEMPS.map(function (t) {
+      var w = Math.round(chill(t, v));
+      return '<td class="' + zone(w) + '" data-t="' + t + '" data-v="' + v + '" title="' + neg(t) + '°F air, ' + v + ' mph wind: feels like ' + neg(w) + '°F">' + neg(w) + '</td>';
+    }).join('') + '</tr>';
+  });
+  tbl.innerHTML = html + '</tbody>';
+  tbl.addEventListener('click', function (e) {
+    var td = e.target.closest('td'); if (!td) return;
+    tIn.value = td.dataset.t; vIn.value = td.dataset.v; calc();
+  });
+
+  var RISK = { z0: 'Cold, manageable: layers', zb: 'Below zero: cover skin', z30: 'Frostbite in ~30 min', z10: 'Frostbite in ~10 min', z5: 'Frostbite in ~5 min' };
+  var noteRows = [].slice.call(document.querySelectorAll('.sticky-note .row'));
+
+  function calc() {
+    var t = +tIn.value, v = +vIn.value, w = Math.round(chill(t, v)), z = zone(w);
+    document.getElementById('tOut').textContent = neg(t) + '°F';
+    document.getElementById('vOut').textContent = v + ' mph';
+    document.getElementById('wcOut').textContent = neg(w);
+    var r = document.getElementById('riskOut'); r.textContent = RISK[z]; r.className = 'risk ' + z;
+    var d = t - w;
+    document.getElementById('airOut').textContent = d > 0 ? 'The wind takes ' + d + '° off the thermometer.' : 'Barely any wind chill.';
+    var wear, sub;
+    if (w > 32) { wear = 'Hoodie + light jacket'; sub = 'Fine for October. Enjoy it.'; }
+    else if (w > 0) { wear = 'Three layers + hat'; sub = 'FW-01, a mid layer, FW-05 parka, FW-02 hat'; }
+    else if (w > -25) { wear = 'Full kit, no bare skin'; sub = 'All of FW-01 to FW-06: add mittens, gaiter, boots'; }
+    else { wear = 'Full kit, short trips only'; sub = 'Cover everything. Stay inside when you can.'; }
+    document.getElementById('wearOut').textContent = wear;
+    document.getElementById('wearSub').textContent = sub;
+
+    // highlight the nearest chart cell
+    var nt = Math.max(-30, Math.min(40, Math.round(t / 10) * 10));
+    var nv = Math.max(5, Math.min(40, Math.round(v / 5) * 5));
+    tbl.querySelectorAll('.hit, th.on').forEach(function (el) { el.classList.remove('hit', 'on'); });
+    var cell = tbl.querySelector('td[data-t="' + nt + '"][data-v="' + nv + '"]');
+    if (cell) cell.classList.add('hit');
+    var ch = tbl.querySelector('thead th[data-t="' + nt + '"]'); if (ch) ch.classList.add('on');
+    var rh = tbl.querySelector('tbody th[data-v="' + nv + '"]'); if (rh) rh.classList.add('on');
+
+    // and the matching line on Meera's sticky note
+    var hot = null;
+    noteRows.forEach(function (row) { if (w <= +row.dataset.at) hot = row; });
+    noteRows.forEach(function (row) { row.classList.toggle('hot', row === hot); });
+  }
+  tIn.addEventListener('input', calc); vIn.addEventListener('input', calc);
+  document.querySelectorAll('.presets button').forEach(function (b) {
+    b.addEventListener('click', function () { tIn.value = b.dataset.t; vIn.value = b.dataset.v; calc(); });
+  });
+  calc();
+
+  /* ── 3. The checklist form: nothing leaves the page ── */
+  document.getElementById('of').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var err = document.getElementById('err');
+    var nm = document.getElementById('nm'), em = document.getElementById('em'), hm = document.getElementById('hm');
+    if (!nm.value.trim()) { err.textContent = 'Just your first name is fine.'; nm.focus(); return; }
+    if (!em.value.trim() || !em.checkValidity()) { err.textContent = 'Please add an email Meera can write to.'; em.focus(); return; }
+    err.textContent = '';
+    var first = nm.value.trim().split(/\s+/)[0];
+    var home = hm.value.trim();
+    document.getElementById('ono').textContent = 'Order FW-' + String(Math.floor(1000 + Math.random() * 9000));
+    document.getElementById('thx').textContent = 'Welcome to the club, ' + first + '.';
+    var extras = [];
+    if (document.getElementById('mb').checked) extras.push('a seat on Thursday at 6 PM');
+    if (document.getElementById('sw').checked) extras.push('a November gear swap reminder');
+    document.getElementById('slipmsg').textContent = 'Your First Winter Checklist is packed' +
+      (extras.length ? ', with ' + extras.join(' and ') : '') +
+      (home ? '. Shipping from ' + home + ' to Hyde Park' : '') + '. Here’s what’s on it:';
+    e.target.style.display = 'none';
+    document.getElementById('slip').classList.add('on');
+    document.getElementById('ppsName').textContent = first;
+    document.getElementById('ppsReply').classList.add('show');
+    document.getElementById('join').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+  });
+})();
+</script>
+</body>
+</html>
