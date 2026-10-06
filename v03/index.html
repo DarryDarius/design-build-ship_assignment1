@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>v03 · FÖRSTVINTER assembly instructions</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #d9d9d4; font-family: "Futura", "Avenir Next", "Verdana", sans-serif; color: #111; }
+    .bar { display: flex; justify-content: space-between; padding: 10px 18px; font-size: 13px; font-weight: bold; }
+    .bar a { color: #111; text-decoration: none; }
+
+    .sheet { background: #fff; max-width: 980px; margin: 0 auto 40px; box-shadow: 0 8px 30px rgba(0,0,0,.15); }
+
+    .cover { display: grid; grid-template-columns: 1.1fr 1fr; min-height: 520px; border-bottom: 2px solid #111; }
+    .cover .left { padding: 50px; display: flex; flex-direction: column; justify-content: space-between; }
+    .cover h1 { font-size: 76px; letter-spacing: -2px; margin: 0; line-height: .9; font-weight: 800; }
+    .cover .sub { font-size: 15px; margin-top: 14px; max-width: 32ch; line-height: 1.5; }
+    .cover .meta { display: flex; gap: 22px; align-items: flex-end; font-size: 12px; }
+    .cover .meta b { display: block; font-size: 30px; }
+    .cover .right { background: #f3f3ef; display: grid; place-items: center; border-left: 2px solid #111; position: relative; }
+    .cover .right svg { width: 62%; }
+    .cover .tag { position: absolute; bottom: 20px; right: 20px; font-size: 11px; text-align: right; }
+
+    .parts { padding: 34px 40px; border-bottom: 2px solid #111; }
+    .parts h2, .steps h2 { margin: 0 0 18px; font-size: 13px; letter-spacing: 3px; }
+    .parts-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 14px; }
+    .part { border: 1.5px solid #111; border-radius: 6px; padding: 10px 6px 8px; text-align: center; }
+    .part svg { width: 100%; height: 70px; }
+    .part .q { font-size: 15px; font-weight: bold; }
+    .part .l { font-size: 11px; }
+    .part.no { position: relative; }
+    .part.no::after { content: ""; position: absolute; inset: 0; background:
+      linear-gradient(45deg, transparent 47%, #111 47%, #111 53%, transparent 53%),
+      linear-gradient(-45deg, transparent 47%, #111 47%, #111 53%, transparent 53%); opacity: .85; }
+
+    .steps { padding: 34px 40px; }
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1.5px solid #111; border-left: 1.5px solid #111; }
+    .step { border-right: 1.5px solid #111; border-bottom: 1.5px solid #111; padding: 14px; position: relative; min-height: 300px; }
+    .step .n { font-size: 44px; font-weight: 800; line-height: 1; }
+    .step svg { width: 100%; height: 230px; }
+    .step .bub { position: absolute; top: 18px; right: 16px; font-size: 13px; font-weight: bold; border: 1.5px solid #111; border-radius: 50%; width: 38px; height: 38px; display: grid; place-items: center; }
+
+    .help { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 20px; padding: 40px; border-top: 2px solid #111; }
+    .help svg { width: 100%; height: 200px; }
+    .arrow { font-size: 60px; font-weight: 800; }
+    .join { background: #111; color: #fff; padding: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: center; }
+    .join h3 { font-size: 34px; margin: 0; line-height: 1; }
+    .join p { font-size: 14px; line-height: 1.5; margin: 10px 0 0; opacity: .85; }
+    .join form { display: grid; gap: 10px; }
+    .join input { padding: 12px; border: 2px solid #fff; background: #111; color: #fff; font: inherit; }
+    .join button { padding: 14px; background: #ffda1a; color: #111; border: 0; font: inherit; font-weight: 800; font-size: 16px; cursor: pointer; }
+    .done { display: none; font-weight: bold; color: #ffda1a; }
+    .foot { display: flex; justify-content: space-between; padding: 12px 40px; font-size: 11px; border-top: 2px solid #111; }
+
+    @media (max-width: 760px) { .cover, .join { grid-template-columns: 1fr; } .cover .right { border-left: 0; border-top: 2px solid #111; } .grid { grid-template-columns: 1fr 1fr; } .parts-grid { grid-template-columns: repeat(4, 1fr); } .help { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <!-- shared line-art pieces -->
+  <svg width="0" height="0" style="position:absolute">
+    <defs>
+      <pattern id="stripes" width="6" height="6" patternUnits="userSpaceOnUse"><rect width="6" height="6" fill="#fff"/><line x1="0" y1="3" x2="6" y2="3" stroke="#111" stroke-width="1.2"/></pattern>
+      <symbol id="fig" viewBox="0 0 100 160">
+        <g stroke="#111" stroke-width="2.5" fill="#fff" stroke-linecap="round">
+          <line x1="31" y1="52" x2="18" y2="96"/><line x1="69" y1="52" x2="82" y2="96"/>
+          <line x1="42" y1="98" x2="40" y2="150"/><line x1="58" y1="98" x2="60" y2="150"/>
+          <rect x="30" y="44" width="40" height="56" rx="10"/>
+          <circle cx="50" cy="25" r="14"/>
+          <path d="M45 24 v2 M55 24 v2" /><path d="M45 31 q5 4 10 0" fill="none"/>
+        </g>
+      </symbol>
+      <symbol id="sad" viewBox="0 0 100 160">
+        <g stroke="#111" stroke-width="2.5" fill="#fff" stroke-linecap="round">
+          <line x1="31" y1="52" x2="18" y2="96"/><line x1="69" y1="52" x2="82" y2="96"/>
+          <line x1="42" y1="98" x2="40" y2="150"/><line x1="58" y1="98" x2="60" y2="150"/>
+          <rect x="30" y="44" width="40" height="56" rx="10"/>
+          <circle cx="50" cy="25" r="14"/>
+          <path d="M45 24 v2 M55 24 v2" /><path d="M45 34 q5 -4 10 0" fill="none"/>
+        </g>
+      </symbol>
+      <symbol id="thermal" viewBox="0 0 100 160"><rect x="30" y="44" width="40" height="56" rx="10" fill="url(#stripes)" stroke="#111" stroke-width="2.5"/></symbol>
+      <symbol id="fleece" viewBox="0 0 100 160"><g stroke="#111" stroke-width="2.5"><rect x="27" y="42" width="46" height="62" rx="12" fill="#cfcfcf"/><line x1="50" y1="42" x2="50" y2="104"/></g></symbol>
+      <symbol id="parka" viewBox="0 0 100 160"><g stroke="#111" stroke-width="2.5" fill="#fff"><path d="M30 44 q20 -24 40 0" fill="none"/><rect x="22" y="40" width="56" height="80" rx="14"/><path d="M24 62 h52 M23 82 h54 M23 102 h54" stroke-width="1.5"/><line x1="50" y1="40" x2="50" y2="120"/></g></symbol>
+      <symbol id="hat" viewBox="0 0 100 160"><g stroke="#111" stroke-width="2.5" fill="#111"><path d="M34 24 Q50 -2 66 24 Z"/><circle cx="50" cy="6" r="5"/></g></symbol>
+      <symbol id="scarf" viewBox="0 0 100 160"><g fill="#111"><rect x="35" y="36" width="30" height="9" rx="3"/><rect x="56" y="40" width="8" height="26" rx="2"/></g></symbol>
+      <symbol id="mitts" viewBox="0 0 100 160"><g fill="#111"><ellipse cx="17" cy="99" rx="7" ry="9"/><ellipse cx="83" cy="99" rx="7" ry="9"/></g></symbol>
+      <symbol id="boots" viewBox="0 0 100 160"><g fill="#111"><rect x="32" y="142" width="16" height="14" rx="3"/><rect x="52" y="142" width="16" height="14" rx="3"/></g></symbol>
+      <symbol id="hoodie" viewBox="0 0 100 160"><g stroke="#111" stroke-width="2.5" fill="#eee"><rect x="29" y="43" width="42" height="58" rx="11"/><text x="50" y="78" text-anchor="middle" font-size="10" font-family="Verdana" fill="#111" stroke="none">100%</text><text x="50" y="90" text-anchor="middle" font-size="9" font-family="Verdana" fill="#111" stroke="none">cotton</text></g></symbol>
+      <symbol id="flake" viewBox="0 0 20 20"><g stroke="#111" stroke-width="1.5" stroke-linecap="round"><path d="M10 1v18M1 10h18M3.5 3.5l13 13M16.5 3.5l-13 13"/></g></symbol>
+    </defs>
+  </svg>
+
+  <div class="bar"><a href="../">← Gallery</a><span>v03 · assembly instructions</span></div>
+
+  <div class="sheet">
+    <section class="cover">
+      <div class="left">
+        <div>
+          <h1>FÖRST<br>VINTER</h1>
+          <p class="sub">Assembly instructions for one (1) international student, surviving one (1) Chicago winter. No tools required. Friends recommended.</p>
+        </div>
+        <div class="meta">
+          <div><b>1×</b>you</div>
+          <div><b>7</b>parts</div>
+          <div><b>−30°F</b>rated</div>
+        </div>
+      </div>
+      <div class="right">
+        <svg viewBox="0 0 100 160">
+          <use href="#fig"/><use href="#parka"/><use href="#scarf"/><use href="#hat"/><use href="#mitts"/><use href="#boots"/>
+        </svg>
+        <div class="tag">Design and Quality<br><b>First Winter Club</b> · Hyde Park</div>
+      </div>
+    </section>
+
+    <section class="parts">
+      <h2>PARTS</h2>
+      <div class="parts-grid">
+        <div class="part"><svg viewBox="25 38 50 70"><use href="#thermal" width="100" height="160"/></svg><div class="q">A ×1</div><div class="l">thermal</div></div>
+        <div class="part"><svg viewBox="22 38 56 70"><use href="#fleece" width="100" height="160"/></svg><div class="q">B ×1</div><div class="l">fleece</div></div>
+        <div class="part"><svg viewBox="18 22 64 102"><use href="#parka" width="100" height="160"/></svg><div class="q">C ×1</div><div class="l">parka</div></div>
+        <div class="part"><svg viewBox="30 -2 40 30"><use href="#hat" width="100" height="160"/></svg><div class="q">D ×1</div><div class="l">hat</div></div>
+        <div class="part"><svg viewBox="8 86 84 24"><use href="#mitts" width="100" height="160"/></svg><div class="q">E ×2</div><div class="l">mittens</div></div>
+        <div class="part"><svg viewBox="28 138 44 20"><use href="#boots" width="100" height="160"/></svg><div class="q">F ×2</div><div class="l">boots</div></div>
+        <div class="part no"><svg viewBox="25 38 50 70"><use href="#hoodie" width="100" height="160"/></svg><div class="q">×0</div><div class="l">cotton</div></div>
+      </div>
+    </section>
+
+    <section class="steps">
+      <h2>STEPS</h2>
+      <div class="grid">
+        <div class="step"><div class="n">1</div><div class="bub">A</div>
+          <svg viewBox="0 0 100 160"><use href="#fig"/><use href="#thermal"/></svg></div>
+        <div class="step"><div class="n">2</div><div class="bub">B</div>
+          <svg viewBox="0 0 100 160"><use href="#fig"/><use href="#fleece"/></svg></div>
+        <div class="step"><div class="n">3</div><div class="bub">C</div>
+          <svg viewBox="0 0 100 160"><use href="#fig"/><use href="#parka"/></svg></div>
+        <div class="step"><div class="n">4</div><div class="bub">D E</div>
+          <svg viewBox="0 0 100 160"><use href="#fig"/><use href="#parka"/><use href="#scarf"/><use href="#hat"/><use href="#mitts"/></svg></div>
+        <div class="step"><div class="n">5</div><div class="bub">F</div>
+          <svg viewBox="0 0 100 160"><use href="#fig"/><use href="#parka"/><use href="#scarf"/><use href="#hat"/><use href="#mitts"/><use href="#boots"/></svg></div>
+        <div class="step"><div class="n">6</div>
+          <svg viewBox="0 0 200 160">
+            <g transform="translate(0 0)"><use href="#sad" width="100" height="160"/><use href="#hoodie" width="100" height="160"/></g>
+            <use href="#flake" x="6" y="10" width="14" height="14"/><use href="#flake" x="78" y="30" width="10" height="10"/><use href="#flake" x="10" y="110" width="10" height="10"/>
+            <path d="M10 140 l80 -120 M90 140 l-80 -120" stroke="#111" stroke-width="5"/>
+            <g transform="translate(100 0)"><use href="#fig" width="100" height="160"/><use href="#parka" width="100" height="160"/><use href="#scarf" width="100" height="160"/><use href="#hat" width="100" height="160"/><use href="#mitts" width="100" height="160"/><use href="#boots" width="100" height="160"/></g>
+            <circle cx="186" cy="20" r="12" fill="none" stroke="#111" stroke-width="3"/><path d="M180 20 l5 5 l8 -10" fill="none" stroke="#111" stroke-width="3"/>
+          </svg></div>
+        <div class="step"><div class="n">7</div>
+          <svg viewBox="0 0 200 160" font-family="Futura, Verdana" font-weight="bold">
+            <g stroke="#111" stroke-width="3" stroke-linecap="round" fill="none"><path d="M10 40 h50 M5 60 h70 M15 80 h40"/><path d="M60 40 l-8 -6 M75 60 l-8 -6"/></g>
+            <g transform="translate(80 20)" stroke="#111" stroke-width="3" fill="none"><circle cx="30" cy="30" r="26"/><path d="M30 30 V12 M30 30 l12 8"/></g>
+            <text x="150" y="58" font-size="16" fill="#111">30′</text>
+            <text x="86" y="106" font-size="18" fill="#111">−18°F</text>
+                        <text x="80" y="140" font-size="16" fill="#111">−35°F → 10′</text>
+          </svg></div>
+        <div class="step"><div class="n">8</div>
+          <svg viewBox="0 0 200 160" font-family="Futura, Verdana" font-weight="bold">
+            <line x1="10" y1="100" x2="190" y2="100" stroke="#111" stroke-width="3"/>
+            <path d="M60 100 a40 40 0 0 1 80 0" fill="#111"/>
+            <g stroke="#111" stroke-width="3" stroke-linecap="round"><path d="M100 46 v-14 M62 62 l-10 -10 M138 62 l10 -10 M40 100 h-14 M160 100 h14"/></g>
+            <path d="M100 112 v20 l-8 -8 M100 132 l8 -8" stroke="#111" stroke-width="3" fill="none"/>
+            <text x="100" y="155" font-size="18" text-anchor="middle" fill="#111">16:20</text>
+          </svg></div>
+        <div class="step"><div class="n">9</div>
+          <svg viewBox="0 0 200 160" font-family="Futura, Verdana" font-weight="bold">
+            <rect x="60" y="30" width="80" height="34" rx="17" fill="#fff" stroke="#111" stroke-width="3"/>
+            <path d="M100 30 v34" stroke="#111" stroke-width="3"/><path d="M60 47 a17 17 0 0 1 17 -17 h23 v34 h-23 a17 17 0 0 1 -17 -17z" fill="#111"/>
+            <text x="100" y="100" font-size="22" text-anchor="middle" fill="#111">D</text>
+            <text x="100" y="135" font-size="16" text-anchor="middle" fill="#111">1× / day</text>
+          </svg></div>
+      </div>
+    </section>
+
+    <section class="help">
+      <svg viewBox="0 0 120 160" font-family="Futura, Verdana" font-weight="bold"><use href="#sad" width="100" height="160"/><text x="92" y="40" font-size="40" fill="#111">?</text></svg>
+      <div class="arrow">→</div>
+      <svg viewBox="0 0 300 160">
+        <use href="#fig" x="0" width="100" height="160"/><use href="#parka" x="0" width="100" height="160"/><use href="#hat" x="0" width="100" height="160"/>
+        <use href="#fig" x="100" width="100" height="160"/><use href="#fleece" x="100" width="100" height="160"/>
+        <use href="#fig" x="200" width="100" height="160"/><use href="#parka" x="200" width="100" height="160"/><use href="#scarf" x="200" width="100" height="160"/>
+      </svg>
+    </section>
+
+    <section class="join">
+      <div>
+        <h3>Missing a part?<br>Join the club.</h3>
+        <p>First Winter Club meets Thursdays, runs a November gear swap, and sends every new member the free First Winter Checklist (all 9 steps, printable).</p>
+      </div>
+      <form onsubmit="event.preventDefault(); this.querySelector('.done').style.display='block';">
+        <input type="text" placeholder="Name" required>
+        <input type="email" placeholder="UChicago email" required>
+        <button type="submit">JOIN + GET CHECKLIST →</button>
+        <div class="done">✓ Assembled. Check your inbox.</div>
+      </form>
+    </section>
+    <div class="foot"><span>FÖRSTVINTER · AA-2026-v01</span><span>© First Winter Club · Hyde Park, IL</span><span>v03</span></div>
+  </div>
+</body>
+</html>

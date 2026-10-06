@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>v02 · The Hyde Park Expedition</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; color: #3b2a1a;
+      font-family: "Baskerville", "Iowan Old Style", Georgia, serif;
+      background: #2a2118;
+    }
+    .back { position: fixed; top: 14px; left: 14px; z-index: 5; color: #e9dcc0; font-style: italic; text-decoration: none; font-size: 15px; border-bottom: 1px solid #e9dcc0; }
+    .ver { position: fixed; top: 14px; right: 14px; z-index: 5; color: #e9dcc0; font-family: "American Typewriter", "Courier New", monospace; font-size: 13px; }
+
+    .book { max-width: 860px; margin: 60px auto; padding: 70px 80px 90px; position: relative;
+      background:
+        radial-gradient(circle at 15% 10%, rgba(120,80,30,.18), transparent 40%),
+        radial-gradient(circle at 85% 90%, rgba(120,80,30,.22), transparent 45%),
+        radial-gradient(circle at 70% 30%, rgba(255,255,255,.25), transparent 50%),
+        #e8dbbd;
+      box-shadow: 0 30px 80px rgba(0,0,0,.6), inset 0 0 90px rgba(90,55,20,.35);
+    }
+    .book::before { content: ""; position: absolute; inset: 18px; border: 1px solid rgba(59,42,26,.35); pointer-events: none; }
+
+    .plate { text-align: center; border-bottom: 2px double #3b2a1a; padding-bottom: 28px; margin-bottom: 36px; }
+    .plate .small { font-variant: small-caps; letter-spacing: 3px; font-size: 14px; }
+    .plate h1 { font-size: 54px; margin: 10px 0 6px; font-weight: normal; line-height: 1.05; }
+    .plate h1 em { display: block; font-size: 26px; }
+    .plate .years { font-family: "American Typewriter", "Courier New", monospace; font-size: 14px; }
+
+    .entry { margin: 0 0 34px; }
+    .date { font-family: "Snell Roundhand", "Apple Chancery", "Brush Script MT", cursive; font-size: 30px; color: #5a3b1c; margin-bottom: 4px; }
+    .entry p { font-size: 19px; line-height: 1.65; margin: 0 0 12px; }
+    .entry p:first-of-type::first-letter { float: left; font-size: 58px; line-height: .9; padding: 6px 8px 0 0; color: #7a2e12; }
+
+    .map { margin: 40px -20px; position: relative; }
+    .map svg { width: 100%; height: auto; display: block; }
+    .caption { text-align: center; font-style: italic; font-size: 15px; margin-top: 6px; }
+
+    .provisions { display: grid; grid-template-columns: 1fr 1fr; gap: 0 40px; margin: 30px 0 40px; padding: 24px 28px; border: 1px solid #3b2a1a; background: rgba(255,255,255,.18); }
+    .provisions h3 { grid-column: 1 / -1; margin: 0 0 10px; font-variant: small-caps; letter-spacing: 2px; font-weight: normal; font-size: 22px; text-align: center; }
+    .provisions li { font-size: 17px; line-height: 1.8; list-style: none; border-bottom: 1px dotted rgba(59,42,26,.5); display: flex; justify-content: space-between; }
+    .provisions ul { margin: 0; padding: 0; }
+    .provisions .qty { font-family: "American Typewriter", "Courier New", monospace; font-size: 14px; }
+    .provisions .struck { text-decoration: line-through; color: #8a6a4a; }
+
+    .note { font-family: "Bradley Hand", "Segoe Print", cursive; color: #1d3c6e; font-size: 20px; transform: rotate(-2deg); margin: 0 0 30px 40px; }
+
+    .roster { margin-top: 50px; padding-top: 30px; border-top: 2px double #3b2a1a; text-align: center; }
+    .roster h2 { font-weight: normal; font-size: 34px; margin: 0 0 8px; }
+    .roster p { font-size: 18px; line-height: 1.6; max-width: 540px; margin: 0 auto 22px; }
+    .roster form { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .roster input { background: transparent; border: 0; border-bottom: 1px solid #3b2a1a; font: inherit; font-size: 20px; padding: 6px 4px; width: 260px; font-family: "Snell Roundhand", "Apple Chancery", cursive; color: #1d3c6e; }
+    .roster input::placeholder { color: rgba(59,42,26,.45); font-family: "Baskerville", Georgia, serif; font-size: 16px; font-style: italic; }
+    .roster button { font: inherit; font-size: 17px; font-variant: small-caps; letter-spacing: 2px; background: #3b2a1a; color: #e8dbbd; border: 0; padding: 10px 24px; cursor: pointer; }
+    .signed { display: none; margin-top: 18px; font-family: "Snell Roundhand", "Apple Chancery", cursive; font-size: 26px; color: #1d3c6e; }
+
+    @media (max-width: 700px) { .book { padding: 50px 28px; margin: 40px 0; } .plate h1 { font-size: 38px; } .provisions { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <a class="back" href="../">← return to the Gallery</a>
+  <span class="ver">v02 · expedition journal</span>
+
+  <article class="book">
+    <div class="plate">
+      <div class="small">Being the Journal of</div>
+      <h1>The First Winter Expedition<em>to Hyde Park, Illinois</em></h1>
+      <div class="years">Departing November · Returning, God willing, in April</div>
+    </div>
+
+    <div class="entry">
+      <div class="date">The 14th of November</div>
+      <p>We arrived from warmer latitudes with nothing but a cotton hoodie and misplaced confidence. The locals speak of something called "wind chill" in low voices. Today the thermometer read 28 degrees, yet the wind off the lake made it feel near 15. I could not feel my ears by the time I reached the quadrangle.</p>
+      <p>Resolved: to procure a proper hat, one that covers the ears entirely.</p>
+    </div>
+
+    <div class="map">
+      <svg viewBox="0 0 800 360" fill="none" stroke="#3b2a1a" stroke-width="1.4" font-family="Baskerville, Georgia, serif" font-style="italic">
+        <rect x="10" y="10" width="780" height="340" stroke-width="1"/>
+        <path d="M600 10 C 590 80, 620 120, 600 180 S 640 290, 610 350" stroke-width="2"/>
+        <path d="M612 10 C 602 80, 632 120, 612 180 S 652 290, 622 350" stroke-dasharray="3 5"/>
+        <g fill="#3b2a1a" stroke="none" font-size="22"><text x="660" y="140">Lake</text><text x="650" y="168">Michigan</text></g>
+        <g stroke="#1d3c6e" stroke-width="1"><path d="M760 60 l-60 14 M770 90 l-70 10 M755 120 l-55 6"/><path d="M700 74 l8 -6 M700 100 l8 -6 M700 126 l8 -5"/></g>
+        <text x="640" y="45" fill="#1d3c6e" stroke="none" font-size="15">here the wind is born</text>
+        <rect x="200" y="140" width="150" height="90" stroke-dasharray="4 3"/>
+        <text x="215" y="190" fill="#3b2a1a" stroke="none" font-size="18">The Quadrangle</text>
+        <path d="M120 300 C 200 260, 260 250, 275 230" stroke-dasharray="6 6" stroke="#7a2e12" stroke-width="2"/>
+        <circle cx="120" cy="300" r="6" fill="#7a2e12" stroke="none"/>
+        <text x="40" y="330" fill="#7a2e12" stroke="none" font-size="16">Base Camp (dormitory)</text>
+        <path d="M350 185 C 430 180, 500 200, 590 190" stroke-dasharray="2 6" stroke="#7a2e12"/>
+        <text x="420" y="175" fill="#7a2e12" stroke="none" font-size="15">do not walk to the Point in January</text>
+        <g transform="translate(90 70)"><circle r="34"/><path d="M0 -40 L6 0 L0 40 L-6 0 Z" fill="#3b2a1a"/><text x="-5" y="-46" fill="#3b2a1a" stroke="none" font-style="normal" font-size="14">N</text></g>
+        <text x="300" y="330" fill="#3b2a1a" stroke="none" font-size="15">Shelters marked: library, dining hall, the Reg</text>
+      </svg>
+      <div class="caption">Fig. 1. A rough chart of the territory, drawn with frozen fingers.</div>
+    </div>
+
+    <div class="entry">
+      <div class="date">The 3rd of December</div>
+      <p>The sun now sets at twenty past four. A fellow traveller from Singapore showed me the secret: three layers, not one heavy coat. A thin thermal against the skin, a fleece above it, and a windproof shell over all. I was warm for the first time in a week.</p>
+      <p>She is a member of a society called the First Winter Club. They meet on Thursday evenings, trade boots, and drink a great deal of tea.</p>
+    </div>
+
+    <div class="provisions">
+      <h3>Provisions for the Season</h3>
+      <ul>
+        <li><span>Thermal base layer</span><span class="qty">×2</span></li>
+        <li><span>Fleece mid layer</span><span class="qty">×1</span></li>
+        <li><span>Parka, past the hips</span><span class="qty">×1</span></li>
+        <li><span>Hat over the ears</span><span class="qty">×1</span></li>
+      </ul>
+      <ul>
+        <li><span>Mittens (not gloves)</span><span class="qty">×1 pr</span></li>
+        <li><span>Waterproof boots, with grip</span><span class="qty">×1 pr</span></li>
+        <li><span>Vitamin D</span><span class="qty">daily</span></li>
+        <li><span class="struck">Cotton hoodie</span><span class="qty">×0</span></li>
+      </ul>
+    </div>
+
+    <p class="note">Wind chill of −18°F: frostbite in thirty minutes. Of −35°F: in ten. Check the "feels like," never the temperature!</p>
+
+    <div class="entry">
+      <div class="date">The 30th of January</div>
+      <p>Minus twenty-two with the wind. The campus was silent. I was not afraid. I knew which buildings to cut through, I wore my mittens, and I had friends waiting with tea. We shall all see April.</p>
+    </div>
+
+    <section class="roster">
+      <h2>Sign the Expedition Roster</h2>
+      <p>Join the First Winter Club before the first snow. We will send you the First Winter Checklist and a seat at Thursday tea.</p>
+      <form onsubmit="event.preventDefault(); document.querySelector('.signed').style.display='block';">
+        <input type="text" placeholder="your name" required>
+        <input type="email" placeholder="your UChicago post address" required>
+        <button type="submit">Sign &amp; Embark</button>
+      </form>
+      <div class="signed">Welcome aboard. Your checklist is on its way.</div>
+    </section>
+  </article>
+</body>
+</html>

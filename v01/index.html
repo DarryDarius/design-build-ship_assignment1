@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>v01 · First Winter Warning</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Arial, Helvetica, sans-serif; background: #e8ecf1; color: #1b1b1b; font-size: 15px; }
+    a { color: #0a4a8f; }
+
+    .topbar { background: #0b2545; color: #fff; display: flex; align-items: center; justify-content: space-between; padding: 6px 20px; font-size: 12px; }
+    .topbar a { color: #fff; text-decoration: none; }
+    .topbar .ver { font-family: "Courier New", monospace; opacity: .8; }
+
+    header.site { background: linear-gradient(#134074, #0b2545); color: #fff; padding: 18px 20px; display: flex; align-items: center; gap: 16px; border-bottom: 4px solid #8da9c4; }
+    .seal { width: 58px; height: 58px; border-radius: 50%; border: 3px solid #fff; display: grid; place-items: center; font-size: 28px; background: #0a4a8f; }
+    header.site h1 { margin: 0; font-size: 22px; letter-spacing: .5px; }
+    header.site p { margin: 2px 0 0; font-size: 13px; opacity: .85; }
+
+    nav.tabs { background: #d4dde8; display: flex; gap: 2px; padding: 0 20px; font-size: 13px; font-weight: bold; }
+    nav.tabs a { padding: 8px 14px; background: #eef2f7; color: #0b2545; text-decoration: none; }
+    nav.tabs a.on { background: #fff; }
+
+    .alert { display: flex; align-items: center; gap: 12px; padding: 10px 20px; font-weight: bold; color: #fff; text-transform: uppercase; letter-spacing: .4px; }
+    .alert.red { background: #c1121f; }
+    .alert.amber { background: #e9a100; color: #1b1b1b; }
+    .alert .dot { width: 12px; height: 12px; border-radius: 50%; background: currentColor; animation: blink 1s steps(2) infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    main { max-width: 1100px; margin: 20px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 300px; gap: 20px; }
+    .panel { background: #fff; border: 1px solid #b8c4d2; }
+    .panel h2 { margin: 0; background: #0b2545; color: #fff; font-size: 14px; padding: 8px 12px; text-transform: uppercase; letter-spacing: .5px; }
+    .panel .body { padding: 14px; }
+
+    pre.product { margin: 0; font-family: "Courier New", Courier, monospace; font-size: 14px; line-height: 1.45; white-space: pre-wrap; background: #fbfbf7; padding: 16px; border-left: 6px solid #c1121f; }
+
+    table.wc { border-collapse: collapse; width: 100%; font-size: 12px; text-align: center; }
+    table.wc th, table.wc td { border: 1px solid #fff; padding: 5px 2px; }
+    table.wc thead th { background: #0b2545; color: #fff; }
+    table.wc tbody th { background: #134074; color: #fff; }
+    .t0 { background: #cfe3f5; } .t30 { background: #8fbbe8; } .t10 { background: #4d74c9; color: #fff; } .t5 { background: #7b2cbf; color: #fff; }
+    .legend { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 10px; font-size: 12px; }
+    .legend span::before { content: ""; display: inline-block; width: 12px; height: 12px; margin-right: 5px; vertical-align: -2px; background: var(--c); }
+
+    .side .row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px dotted #b8c4d2; font-size: 14px; }
+    .side .row b { font-family: "Courier New", monospace; }
+    .big { font-size: 54px; font-weight: bold; color: #0b2545; line-height: 1; }
+    .big small { font-size: 20px; }
+
+    ol.actions { margin: 0; padding-left: 20px; line-height: 1.7; }
+    ol.actions li::marker { font-weight: bold; color: #c1121f; }
+
+    form { display: grid; gap: 8px; }
+    input { padding: 8px; border: 2px solid #0b2545; font: inherit; }
+    button { padding: 10px; background: #c1121f; color: #fff; border: 0; font-weight: bold; text-transform: uppercase; cursor: pointer; font: inherit; font-weight: bold; }
+    button:hover { background: #9d0e19; }
+    .ok { display: none; font-family: "Courier New", monospace; background: #e7f5e9; border: 1px solid #2d6a4f; padding: 8px; font-size: 13px; }
+
+    footer { max-width: 1100px; margin: 0 auto 30px; padding: 0 20px; font-size: 12px; color: #4a5a6a; }
+
+    @media (max-width: 800px) { main { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <a href="../">← Gallery</a>
+    <span class="ver">v01 · NWS ALERT</span>
+  </div>
+
+  <header class="site">
+    <div class="seal">❄</div>
+    <div>
+      <h1>First Winter Club · Weather Service for New Arrivals</h1>
+      <p>Hyde Park Forecast Office · Serving international students since your flight landed</p>
+    </div>
+  </header>
+  <nav class="tabs">
+    <a class="on" href="#">Current Hazards</a>
+    <a href="#chart">Wind Chill</a>
+    <a href="#actions">Preparedness</a>
+    <a href="#join">Sign Up</a>
+  </nav>
+
+  <div class="alert red"><span class="dot"></span>First Winter Warning in effect from Nov 15 through Mar 31</div>
+  <div class="alert amber"><span class="dot"></span>Wind Chill Advisory · Lakefront · Every bus stop you will ever wait at</div>
+
+  <main>
+    <div style="display:grid; gap:20px">
+      <section class="panel">
+        <h2>Hazardous Weather Message</h2>
+<pre class="product">URGENT - WINTER WEATHER MESSAGE
+FIRST WINTER CLUB HYDE PARK IL
+1012 AM CDT MON OCT 5 2026
+
+...FIRST WINTER WARNING IN EFFECT FROM NOVEMBER 15 THROUGH MARCH 31...
+
+* WHAT...HIGHS OF 20 TO 35 F. LOWS BELOW 10 F. WIND CHILLS AS LOW
+  AS -30 F. ABOUT NINE HOURS OF DAYLIGHT. SIDEWALK ICE.
+
+* WHERE...HYDE PARK, THE LAKEFRONT, AND THE WALK TO YOUR 9 AM.
+
+* WHO...INTERNATIONAL STUDENTS WHO HAVE NEVER LIVED THROUGH A
+  CHICAGO WINTER.
+
+* IMPACTS...FROSTBITE CAN DEVELOP ON EXPOSED SKIN IN ABOUT 30
+  MINUTES AT A WIND CHILL OF -18 F, AND IN ABOUT 10 MINUTES AT
+  -35 F. A COTTON HOODIE WILL NOT HELP.
+
+PRECAUTIONARY/PREPAREDNESS ACTIONS...
+
+CHECK THE WIND CHILL, NOT THE TEMPERATURE. DRESS IN THREE LAYERS.
+COVER FACE, HANDS, AND EARS. JOIN FIRST WINTER CLUB AND GET THE
+FREE FIRST WINTER CHECKLIST BEFORE THE FIRST SNOW.
+
+&&
+$$</pre>
+      </section>
+
+      <section class="panel" id="chart">
+        <h2>Wind Chill Chart · Hyde Park Edition</h2>
+        <div class="body">
+          <table class="wc" id="wc"></table>
+          <div class="legend">
+            <span style="--c:#cfe3f5">Cold, manageable</span>
+            <span style="--c:#8fbbe8">Frostbite in ~30 min</span>
+            <span style="--c:#4d74c9">Frostbite in ~10 min</span>
+            <span style="--c:#7b2cbf">Frostbite in ~5 min</span>
+          </div>
+          <p style="font-size:12px;color:#4a5a6a;margin:8px 0 0">Air temperature (°F) across, wind speed (mph) down. Calculated with the standard NWS wind chill formula.</p>
+        </div>
+      </section>
+
+      <section class="panel" id="actions">
+        <h2>Preparedness Actions</h2>
+        <div class="body">
+          <ol class="actions">
+            <li><b>Base layer:</b> thermal top and leggings (merino or synthetic, never cotton).</li>
+            <li><b>Mid layer:</b> fleece or light down to trap heat.</li>
+            <li><b>Shell:</b> a windproof, waterproof parka that covers your hips.</li>
+            <li><b>Extremities:</b> hat over the ears, mittens beat gloves, scarf or neck gaiter over the face.</li>
+            <li><b>Feet:</b> insulated waterproof boots with real grip. Ice season lasts months.</li>
+            <li><b>Light:</b> sunset is around 4:20 PM in December. Get daylight at lunch and take vitamin D.</li>
+          </ol>
+        </div>
+      </section>
+    </div>
+
+    <aside class="side" style="display:grid; gap:20px; align-content:start">
+      <section class="panel">
+        <h2>Typical January Night</h2>
+        <div class="body">
+          <div class="big">-8<small>°F</small></div>
+          <p style="margin:4px 0 12px;font-size:13px">Feels like, with a 15 mph lake wind</p>
+          <div class="row"><span>Air temp</span><b>10°F</b></div>
+          <div class="row"><span>Wind</span><b>NE 15 MPH</b></div>
+          <div class="row"><span>Daylight</span><b>9 HR 20 MIN</b></div>
+          <div class="row"><span>Your coat</span><b>NOT ENOUGH</b></div>
+        </div>
+      </section>
+
+      <section class="panel" id="join">
+        <h2>Sign Up for Alerts</h2>
+        <div class="body">
+          <p style="margin-top:0;font-size:14px">Join First Winter Club. Weekly check-ins, a November gear swap, and the free First Winter Checklist.</p>
+          <form onsubmit="event.preventDefault(); this.querySelector('.ok').style.display='block';">
+            <input type="text" placeholder="Name" required>
+            <input type="email" placeholder="UChicago email" required>
+            <button type="submit">Join + Get Checklist</button>
+            <div class="ok">ALERT RECEIVED. WELCOME TO FIRST WINTER CLUB. CHECKLIST INCOMING. $$</div>
+          </form>
+        </div>
+      </section>
+    </aside>
+  </main>
+
+  <footer>First Winter Club is a student-run peer support group. Not affiliated with the National Weather Service. Stay warm.</footer>
+
+  <script>
+    const temps = [40, 30, 20, 10, 0, -10, -20];
+    const winds = [5, 10, 15, 20, 25, 30];
+    const wc = (t, v) => Math.round(35.74 + 0.6215 * t - 35.75 * v ** 0.16 + 0.4275 * t * v ** 0.16);
+    const cls = w => w <= -45 ? 't5' : w <= -32 ? 't10' : w <= -18 ? 't30' : 't0';
+    let html = '<thead><tr><th>mph</th>' + temps.map(t => `<th>${t}°</th>`).join('') + '</tr></thead><tbody>';
+    for (const v of winds) {
+      html += `<tr><th>${v}</th>` + temps.map(t => { const w = wc(t, v); return `<td class="${cls(w)}">${w}</td>`; }).join('') + '</tr>';
+    }
+    document.getElementById('wc').innerHTML = html + '</tbody>';
+  </script>
+</body>
+</html>
