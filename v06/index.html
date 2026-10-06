@@ -1,0 +1,640 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>v06 · The Hyde Park Winter Gazette</title>
+<style>
+  :root {
+    --paper: #f2eee2;
+    --ink: #161513;
+    --soft: #4a4740;
+    --spot: #1f4f8a;
+    --serif: "Times New Roman", Times, "Liberation Serif", Georgia, serif;
+    --didone: "Didot", "Bodoni 72", "Bodoni MT", "Times New Roman", serif;
+    --gothic: "Avenir Next Condensed", "Helvetica Neue", "Arial Narrow", Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { background: #cfc9ba; }
+  body {
+    margin: 0; color: var(--ink); font-family: var(--serif); font-size: 15px; line-height: 1.38;
+    background:
+      radial-gradient(circle at 20% 30%, rgba(0,0,0,.05), transparent 60%),
+      repeating-linear-gradient(90deg, rgba(0,0,0,.018) 0 1px, transparent 1px 3px),
+      #cfc9ba;
+    padding: 26px 16px 60px;
+  }
+  .sheet {
+    max-width: 1220px; margin: 0 auto; padding: 18px 34px 34px;
+    background:
+      radial-gradient(rgba(60,50,30,.05) 1px, transparent 1.2px) 0 0 / 3px 3px,
+      linear-gradient(180deg, #f5f1e6, var(--paper) 40%, #ece6d6);
+    box-shadow: 0 1px 0 #bdb6a5, 0 18px 50px rgba(40,30,10,.25);
+    position: relative;
+  }
+  a { color: inherit; }
+
+  /* ---------- top strip ---------- */
+  .strip { display: flex; justify-content: space-between; align-items: center; gap: 12px;
+    font-family: var(--gothic); font-size: 12px; text-transform: uppercase; letter-spacing: .12em; font-weight: 600;
+    padding-bottom: 8px; }
+  .strip a { text-decoration: none; border-bottom: 1px solid var(--ink); }
+  .strip a:hover { color: var(--spot); border-color: var(--spot); }
+  .strip .edition { color: var(--spot); }
+
+  /* ---------- masthead ---------- */
+  .mast { display: grid; grid-template-columns: 150px minmax(0,1fr) 150px; align-items: center; gap: 14px;
+    border-top: 1px solid var(--ink); padding: 12px 0 10px; }
+  .ear { border: 1px solid var(--ink); padding: 7px 9px; font-size: 12px; line-height: 1.25; text-align: center; }
+  .ear b { display: block; font-family: var(--gothic); text-transform: uppercase; letter-spacing: .1em; font-size: 11px; }
+  .ear .big { font-family: var(--didone); font-size: 26px; line-height: 1.05; display: block; margin: 2px 0; }
+  .mast h1 { margin: 0; text-align: center; font-family: var(--didone); font-weight: 700; line-height: .95;
+    font-size: clamp(36px, 5vw, 64px); letter-spacing: -.01em; white-space: nowrap; }
+  .mast h1 .the { display: block; font-size: .32em; font-style: italic; font-weight: 400; letter-spacing: .3em; margin-bottom: 4px; }
+  .motto { text-align: center; font-style: italic; font-size: 13px; margin-top: 4px; color: var(--soft); }
+
+  .dateline { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
+    border-top: 3px double var(--ink); border-bottom: 1px solid var(--ink); padding: 5px 2px;
+    font-family: var(--gothic); font-size: 12px; text-transform: uppercase; letter-spacing: .1em; font-weight: 600; }
+  .dateline span:nth-child(2) { text-align: center; }
+  .dateline span:last-child { text-align: right; }
+  .index { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 22px; padding: 5px 0; border-bottom: 3px solid var(--ink);
+    font-size: 12.5px; }
+  .index b { font-family: var(--gothic); text-transform: uppercase; letter-spacing: .08em; font-size: 11px; }
+  .index a { text-decoration: none; }
+  .index a:hover { text-decoration: underline; }
+
+  /* ---------- lead headline ---------- */
+  .lead-head { text-align: center; padding: 14px 0 10px; border-bottom: 1px solid var(--ink); }
+  .flag { display: inline-block; font-family: var(--gothic); font-weight: 700; font-size: 13px; letter-spacing: .3em; text-transform: uppercase;
+    background: var(--spot); color: var(--paper); padding: 3px 10px 3px 14px; margin-bottom: 8px; }
+  .lead-head h2 { margin: 0; font-family: var(--didone); font-weight: 700; text-transform: uppercase;
+    font-size: clamp(30px, 4.6vw, 58px); line-height: 1; letter-spacing: -.012em; text-wrap: balance; }
+  .lead-head h2 .semi { color: var(--spot); }
+  .lead-head .deck { margin: 10px auto 0; max-width: 64em; font-style: italic; font-size: 19px; line-height: 1.28; }
+
+  /* ---------- page grid ---------- */
+  .grid { display: grid; grid-template-columns: repeat(12, 1fr); }
+  .grid > * { padding: 14px 16px; border-left: 1px solid var(--ink); min-width: 0; }
+  .grid > *:first-child { border-left: 0; padding-left: 0; }
+  .grid > *:last-child { padding-right: 0; }
+  .row-b { border-bottom: 3px double var(--ink); }
+  .row-c { border-bottom: 1px solid var(--ink); }
+  .c3 { grid-column: span 3; } .c4 { grid-column: span 4; } .c5 { grid-column: span 5; } .c6 { grid-column: span 6; }
+
+  .kicker { font-family: var(--gothic); text-transform: uppercase; letter-spacing: .14em; font-weight: 700; font-size: 11px; color: var(--spot); margin: 0 0 4px; }
+  h3 { font-family: var(--didone); font-weight: 700; text-transform: uppercase; margin: 0; line-height: 1.02; letter-spacing: -.005em; }
+  h3.l { font-size: 30px; } h3.m { font-size: 24px; } h3.s { font-size: 19px; }
+  .sub { font-style: italic; font-size: 15.5px; line-height: 1.25; margin: 6px 0 8px; padding-bottom: 8px; border-bottom: 1px solid var(--ink); }
+  .by { font-family: var(--gothic); font-size: 11px; text-transform: uppercase; letter-spacing: .12em; font-weight: 600; margin: 0 0 8px; }
+
+  .body p { margin: 0; text-align: justify; hyphens: auto; -webkit-hyphens: auto; text-indent: 1.2em; }
+  .body p.first, .body h4 + p { text-indent: 0; }
+  .body h4 { font-family: var(--gothic); text-transform: uppercase; letter-spacing: .1em; font-size: 12px; margin: 8px 0 2px; text-align: center; }
+  .cols2 { column-count: 2; column-gap: 26px; column-rule: 1px solid var(--ink); }
+  .cols3 { column-count: 3; column-gap: 22px; column-rule: 1px solid var(--ink); }
+  .dropcap::first-letter { float: left; font-family: var(--didone); font-weight: 700; font-size: 74px; line-height: .78;
+    padding: 6px 7px 0 0; color: var(--spot); }
+  .dateline-inline { font-family: var(--gothic); font-weight: 700; letter-spacing: .08em; font-size: 13px; }
+  .jump { font-style: italic; font-size: 13px; margin-top: 6px !important; text-indent: 0 !important; }
+  .jump a { color: var(--spot); }
+
+  figure { margin: 0 0 10px; }
+  figure svg { display: block; width: 100%; height: auto; border: 1px solid var(--ink); background: #f6f2e7; }
+  figcaption { font-size: 12.5px; line-height: 1.3; margin-top: 5px; text-align: justify; }
+  figcaption b { font-family: var(--gothic); text-transform: uppercase; letter-spacing: .1em; font-size: 11px; }
+
+  /* ---------- formula & tables ---------- */
+  .formula { border: 1px solid var(--ink); border-left: 5px solid var(--spot); padding: 8px 10px; margin: 10px 0; background: rgba(255,255,255,.35); }
+  .formula code { font-family: var(--serif); font-style: italic; font-size: 15px; display: block; text-align: center; margin: 4px 0; }
+  .formula small { display: block; font-size: 12px; line-height: 1.3; }
+  .tbl { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; font-variant-numeric: tabular-nums; }
+  .tbl caption { font-family: var(--gothic); text-transform: uppercase; letter-spacing: .12em; font-weight: 700; font-size: 11.5px;
+    text-align: left; border-top: 3px solid var(--ink); border-bottom: 1px solid var(--ink); padding: 4px 0; }
+  .tbl th, .tbl td { padding: 3px 2px; border-bottom: 1px dotted var(--soft); text-align: left; }
+  .tbl th { font-family: var(--gothic); font-size: 10.5px; text-transform: uppercase; letter-spacing: .08em; }
+  .tbl td.n { text-align: right; font-weight: 700; }
+  .tbl .dn { color: var(--spot); }
+
+  /* ---------- weather box ---------- */
+  .weather { border: 2px solid var(--ink); padding: 0; margin-bottom: 14px; }
+  .weather h5 { margin: 0; background: var(--ink); color: var(--paper); font-family: var(--gothic); letter-spacing: .26em;
+    text-transform: uppercase; font-size: 13px; text-align: center; padding: 5px; }
+  .weather .today { display: flex; gap: 10px; align-items: center; padding: 8px 10px; border-bottom: 1px solid var(--ink); font-size: 13.5px; line-height: 1.25; }
+  .weather .today svg { flex: 0 0 52px; }
+  .weather dl { margin: 0; padding: 4px 10px 8px; display: grid; grid-template-columns: 1fr auto; font-size: 13px; }
+  .weather dt, .weather dd { margin: 0; padding: 4px 0; border-bottom: 1px dotted var(--soft); }
+  .weather dd { text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .weather dd.cold { color: var(--spot); }
+  .weather .rec { font-size: 12px; padding: 6px 10px 9px; border-top: 1px solid var(--ink); font-style: italic; line-height: 1.3; }
+
+  /* ---------- pull quote ---------- */
+  .pull { margin: 0 0 14px; padding: 12px 4px 10px; border-top: 3px solid var(--ink); border-bottom: 1px solid var(--ink); text-align: center; }
+  .pull blockquote { margin: 0; font-family: var(--didone); font-style: italic; font-size: 22px; line-height: 1.2; }
+  .pull blockquote::before { content: "\201C"; display: block; font-size: 60px; line-height: .6; color: var(--spot); margin-bottom: 4px; }
+  .pull cite { display: block; margin-top: 8px; font-style: normal; font-family: var(--gothic); text-transform: uppercase; letter-spacing: .1em; font-size: 11px; font-weight: 600; }
+
+  .box { border: 1px solid var(--ink); padding: 8px 10px; font-size: 13px; line-height: 1.32; margin-bottom: 12px; }
+  .box h6 { margin: 0 0 4px; font-family: var(--gothic); text-transform: uppercase; letter-spacing: .14em; font-size: 11.5px; text-align: center; border-bottom: 1px solid var(--ink); padding-bottom: 3px; }
+  .box p { margin: 0; text-align: justify; hyphens: auto; -webkit-hyphens: auto; }
+  .box.notice { background: rgba(31,79,138,.07); }
+  .box.notice dl { margin: 4px 0 0; display: grid; grid-template-columns: auto 1fr; gap: 3px 8px; }
+  .box.notice dt { font-family: var(--gothic); font-weight: 700; text-transform: uppercase; font-size: 11px; letter-spacing: .08em; padding-top: 2px; }
+  .box.notice dd { margin: 0; }
+
+  .sunsvg { margin: 8px 0; }
+  .sunsvg svg { width: 100%; height: auto; display: block; }
+
+  /* ---------- classifieds ---------- */
+  .classified-head { text-align: center; border-top: 3px solid var(--ink); border-bottom: 1px solid var(--ink); padding: 4px 0 3px; margin-bottom: 6px; }
+  .classified-head h3 { font-size: 22px; }
+  .classified-head p { margin: 2px 0 0; font-family: var(--gothic); font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; font-weight: 600; }
+  .ads { column-count: 2; column-gap: 14px; column-rule: 1px solid var(--ink); font-size: 12.5px; line-height: 1.26; }
+  .ad { break-inside: avoid; border-bottom: 1px solid var(--soft); padding: 4px 0 6px; margin-bottom: 4px; text-align: justify; hyphens: auto; -webkit-hyphens: auto; }
+  .ad b { font-family: var(--gothic); text-transform: uppercase; letter-spacing: .06em; font-size: 11.5px; }
+  .ad.boxed { border: 2px solid var(--ink); padding: 5px 6px; text-align: center; }
+  .ad.boxed b { display: block; font-family: var(--didone); font-size: 17px; letter-spacing: 0; }
+
+  /* ---------- coupon ---------- */
+  .coupon-wrap { padding: 26px 0 6px; }
+  .coupon { position: relative; border: 3px dashed var(--ink); padding: 20px 26px 18px; display: grid; grid-template-columns: 1.1fr 1fr; gap: 28px;
+    background: repeating-linear-gradient(-45deg, rgba(31,79,138,.04) 0 6px, transparent 6px 12px); }
+  .coupon .scissors { position: absolute; top: -17px; left: 34px; background: var(--paper); padding: 0 8px; font-size: 24px; line-height: 1; transform: scaleX(-1); }
+  .coupon .cut { position: absolute; top: -13px; right: 30px; background: var(--paper); padding: 0 8px; font-family: var(--gothic); font-size: 11px; letter-spacing: .2em; text-transform: uppercase; font-weight: 700; }
+  .coupon .left { border-right: 1px solid var(--ink); padding-right: 26px; }
+  .coupon .tag { font-family: var(--gothic); font-weight: 700; letter-spacing: .3em; font-size: 12px; text-transform: uppercase; color: var(--spot); }
+  .coupon h3 { font-size: 40px; margin: 4px 0 6px; }
+  .coupon .worth { display: flex; align-items: center; gap: 14px; margin: 10px 0; }
+  .coupon .seal { flex: 0 0 96px; height: 96px; border-radius: 50%; border: 2px solid var(--ink); display: grid; place-items: center; text-align: center;
+    font-family: var(--didone); font-weight: 700; line-height: 1; box-shadow: inset 0 0 0 4px var(--paper), inset 0 0 0 5px var(--ink); }
+  .coupon .seal span { font-size: 40px; display: block; }
+  .coupon .seal small { font-family: var(--gothic); font-size: 9px; letter-spacing: .14em; text-transform: uppercase; }
+  .coupon .worth p { margin: 0; font-size: 15px; line-height: 1.3; }
+  .coupon ul { margin: 6px 0 0; padding-left: 18px; font-size: 14px; }
+  .coupon .fine { font-size: 11px; color: var(--soft); margin-top: 10px; font-style: italic; }
+  form { display: grid; gap: 10px; align-content: start; }
+  form label { display: grid; gap: 1px; font-family: var(--gothic); text-transform: uppercase; letter-spacing: .12em; font-size: 11px; font-weight: 700; }
+  form input[type=text], form input[type=email] { font: 17px/1.2 var(--serif); font-style: italic; color: var(--ink); background: transparent; border: 0;
+    border-bottom: 1px solid var(--ink); padding: 6px 2px 4px; outline: none; border-radius: 0; }
+  form input:focus { border-bottom: 2px solid var(--spot); background: rgba(31,79,138,.05); }
+  form .check { display: flex; gap: 8px; align-items: flex-start; text-transform: none; letter-spacing: 0; font-family: var(--serif); font-size: 14px; font-weight: 400; }
+  form .check input { accent-color: var(--spot); margin-top: 3px; }
+  form button { justify-self: start; margin-top: 4px; font-family: var(--gothic); font-weight: 700; text-transform: uppercase; letter-spacing: .2em; font-size: 14px;
+    background: var(--ink); color: var(--paper); border: 0; padding: 12px 22px; cursor: pointer; box-shadow: 4px 4px 0 var(--spot); }
+  form button:hover { background: var(--spot); box-shadow: 4px 4px 0 var(--ink); }
+  form button:focus-visible, .strip a:focus-visible { outline: 2px solid var(--spot); outline-offset: 3px; }
+  .redeemed { display: none; position: relative; align-content: center; text-align: center; padding: 10px 0; }
+  .redeemed .stamp { display: inline-block; border: 4px double var(--spot); color: var(--spot); font-family: var(--gothic); font-weight: 700; letter-spacing: .3em;
+    font-size: 34px; padding: 6px 14px 4px 22px; transform: rotate(-7deg); text-transform: uppercase; opacity: .9; margin-bottom: 14px;
+    animation: thump .35s cubic-bezier(.2,1.6,.4,1); }
+  @keyframes thump { from { transform: rotate(-7deg) scale(1.8); opacity: 0; } }
+  .redeemed p { margin: 6px 0; font-size: 16px; }
+  .redeemed p.note { font-size: 12px; font-style: italic; color: var(--soft); }
+  .coupon.done form { display: none; }
+  .coupon.done .redeemed { display: grid; }
+
+  footer { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-top: 18px; padding-top: 6px; border-top: 3px double var(--ink);
+    font-family: var(--gothic); font-size: 11px; text-transform: uppercase; letter-spacing: .12em; font-weight: 600; }
+  footer a { text-decoration: none; border-bottom: 1px solid var(--ink); }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 1080px) {
+    .row-b .c3:first-child { grid-column: span 12; order: 3; border-left: 0; padding-left: 0; border-top: 1px solid var(--ink); }
+    .row-b .c6 { grid-column: span 8; border-left: 0; padding-left: 0; }
+    .row-b .c3:last-child { grid-column: span 4; }
+    .row-c > * { grid-column: span 6; }
+    .row-c > *:nth-child(3) { grid-column: span 12; border-left: 0; padding-left: 0; border-top: 1px solid var(--ink); }
+    .mast { grid-template-columns: 1fr; }
+    .ear { display: none; }
+  }
+  @media (max-width: 720px) {
+    body { padding: 0; font-size: 16px; }
+    .sheet { padding: 12px 16px 24px; }
+    .strip { font-size: 11px; letter-spacing: .06em; }
+    .mast h1 { white-space: normal; font-size: 44px; }
+    .dateline { grid-template-columns: 1fr; text-align: center; gap: 2px; }
+    .dateline span:last-child { text-align: center; }
+    .lead-head .deck { font-size: 16px; }
+    .grid > *, .row-b > *, .row-c > * { grid-column: span 12 !important; border-left: 0 !important; padding: 14px 0 !important; border-top: 1px solid var(--ink); }
+    .grid > *:first-child { border-top: 0; }
+    .cols2, .cols3 { column-count: 1; }
+    .coupon { grid-template-columns: 1fr; padding: 18px 16px; gap: 16px; }
+    .coupon .left { border-right: 0; padding-right: 0; border-bottom: 1px solid var(--ink); padding-bottom: 14px; }
+    .coupon h3 { font-size: 30px; }
+    .ads { column-count: 1; }
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="strip">
+    <a href="../">← Gallery</a>
+    <span class="edition">Late Winter Edition · v06</span>
+    <span>Price: Free to Newcomers</span>
+  </div>
+
+  <header class="mast">
+    <div class="ear">
+      <b>January Normals</b>
+      <span class="big">31° / 18°</span>
+      High / low, °F.<br>Wind chill: lower.
+    </div>
+    <div>
+      <h1><span class="the">The</span>Hyde Park Winter Gazette</h1>
+      <div class="motto">“All the Layers Fit to Wear” · Published by the First Winter Club for International Students</div>
+    </div>
+    <div class="ear">
+      <b>Sunset, Dec. 21</b>
+      <span class="big">4:20 P.M.</span>
+      9 h 08 m of daylight.<br>Go outside at lunch.
+    </div>
+  </header>
+
+  <div class="dateline">
+    <span>Vol. I · No. 6</span>
+    <span>Hyde Park, Chicago · Monday, October 5, 2026</span>
+    <span>First Snow Due: November</span>
+  </div>
+
+  <nav class="index" aria-label="In this edition">
+    <span><b>Inside:</b></span>
+    <a href="#lead">Layering, A1</a>
+    <a href="#windchill">Wind Chill, A1</a>
+    <a href="#sunset">The 4:20 Sunset, A2</a>
+    <a href="#gear">Cheap Gear, A2</a>
+    <a href="#classifieds">Gear Swap Classifieds, A3</a>
+    <a href="#coupon">Membership Coupon, A3</a>
+  </nav>
+
+  <!-- ===== LEAD HEADLINE ===== -->
+  <section class="lead-head">
+    <div class="flag">Extra</div>
+    <h2>First Winter Arrives<span class="semi">;</span><br>Newcomers Urged to Layer Up</h2>
+    <p class="deck">Student Club Calls Chicago’s Cold “Entirely Survivable” for Those Who Prepare Before November — Wind Chill, Not the Thermometer, Named the Real Danger; Three Thin Layers Said to Beat One Enormous Coat</p>
+  </section>
+
+  <!-- ===== ROW B ===== -->
+  <div class="grid row-b">
+
+    <!-- Left rail: wind chill -->
+    <article class="c3" id="windchill">
+      <p class="kicker">Science of the Cold</p>
+      <h3 class="m">Wind Chill, Not the Thermometer, Is What Bites</h3>
+      <p class="sub">A Zero-Degree Morning With a 15 m.p.h. Breeze Feels Like −19° on Bare Skin</p>
+      <div class="body">
+        <p class="first">The number on your phone’s weather app is the air temperature. The number that matters is the <b>wind chill</b>: how cold it feels on exposed skin once the wind strips away the thin blanket of warm air your body makes.</p>
+        <p>In Chicago, wind chills below zero are routine in January, and readings of −30°F or lower are not rare. During the polar vortex of January 2019, the air fell to −23°F and the wind chill approached −50°F.</p>
+        <p>The National Weather Service computes the figure by formula, printed here for the curious:</p>
+      </div>
+      <div class="formula">
+        <code>WC = 35.74 + 0.6215T<br>− 35.75V<sup>0.16</sup> + 0.4275TV<sup>0.16</sup></code>
+        <small><i>T</i> = air temperature, °F; <i>V</i> = wind speed, m.p.h. Thus 0°F in a 15 m.p.h. wind gives about −19°F, and 15°F in a 20 m.p.h. wind feels like −2°F.</small>
+      </div>
+      <div class="body">
+        <p class="first">The practical lesson is simpler: read the wind chill before leaving home, and cover every patch of skin.</p>
+      </div>
+      <table class="tbl">
+        <caption>The Cold Exchange · Frostbite Times</caption>
+        <thead><tr><th>Wind chill</th><th>Exposed skin</th><th style="text-align:right">Time</th></tr></thead>
+        <tbody>
+          <tr><td class="dn">▼ −18°F</td><td>frostbite in</td><td class="n">~30 min</td></tr>
+          <tr><td class="dn">▼ −35°F</td><td>frostbite in</td><td class="n">~10 min</td></tr>
+          <tr><td class="dn">▼ −48°F</td><td>frostbite in</td><td class="n">~5 min</td></tr>
+        </tbody>
+      </table>
+    </article>
+
+    <!-- Center: lead story -->
+    <article class="c6" id="lead">
+      <figure>
+        <svg viewBox="0 0 600 430" role="img" aria-labelledby="figt">
+          <title id="figt">Engraving: a student dressed correctly for Chicago winter, with labels for hat, scarf, shell, mittens and boots, and a cross-section of the three layers.</title>
+          <defs>
+            <pattern id="hz" width="6" height="4" patternUnits="userSpaceOnUse"><path d="M0 2H6" stroke="#161513" stroke-width=".55"/></pattern>
+            <pattern id="hzd" width="6" height="3" patternUnits="userSpaceOnUse"><path d="M0 1.5H6" stroke="#161513" stroke-width=".9"/></pattern>
+            <pattern id="vt" width="3" height="6" patternUnits="userSpaceOnUse"><path d="M1.5 0V6" stroke="#161513" stroke-width=".9"/></pattern>
+            <pattern id="dg" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><path d="M0 2.5H5" stroke="#161513" stroke-width="1.1"/></pattern>
+            <pattern id="xh" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 2H4M2 0V4" stroke="#161513" stroke-width=".9"/></pattern>
+            <pattern id="dots" width="5" height="5" patternUnits="userSpaceOnUse"><circle cx="2.5" cy="2.5" r=".9" fill="#161513"/></pattern>
+            <pattern id="fine" width="2.4" height="6" patternUnits="userSpaceOnUse"><path d="M1.2 0V6" stroke="#161513" stroke-width=".45"/></pattern>
+            <pattern id="spotx" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(-40)"><path d="M0 2H4" stroke="#1f4f8a" stroke-width="1.3"/></pattern>
+          </defs>
+
+          <!-- sky -->
+          <rect x="0" y="0" width="600" height="360" fill="url(#hz)" opacity=".75"/>
+          <!-- distant gothic skyline -->
+          <path d="M0 300 V250 h30 v-30 l10 -26 l10 26 v30 h24 v-60 l8 -34 l8 34 v60 h18 v20 h40 v-46 l14 -40 l14 40 v46 h22 v34 H0Z" fill="url(#vt)" stroke="#161513" stroke-width="1"/>
+          <path d="M470 300 v-52 h16 v-40 l12 -44 l12 44 v40 h16 v-24 l9 -22 l9 22 v24 h20 v-30 h12 v-20 l8 -18 l8 18 v20 h8 V300Z" fill="url(#vt)" stroke="#161513" stroke-width="1"/>
+          <!-- windows -->
+          <g fill="#f6f2e7" stroke="#161513" stroke-width=".8">
+            <path d="M88 252 v-16 a4 4 0 0 1 8 0 v16z"/><path d="M152 262 v-16 a4 4 0 0 1 8 0 v16z"/>
+            <path d="M494 250 v-18 a4 4 0 0 1 8 0 v18z"/><path d="M552 262 v-14 a4 4 0 0 1 8 0 v14z"/>
+          </g>
+          <!-- snow ground -->
+          <path d="M0 300 C120 286 220 304 320 296 S520 286 600 298 V430 H0Z" fill="#f6f2e7" stroke="#161513" stroke-width="1.2"/>
+          <path d="M20 330 q40 -6 80 0 M380 322 q50 -8 100 0 M60 380 q60 -8 120 0 M420 392 q60 -7 120 0" fill="none" stroke="#161513" stroke-width=".7"/>
+          <!-- wind streaks -->
+          <g fill="none" stroke="#1f4f8a" stroke-width="1.6" stroke-linecap="round">
+            <path d="M18 120 q60 -14 120 0 t70 -4"/>
+            <path d="M8 150 q70 -12 140 2"/>
+            <path d="M30 182 q50 -10 100 0 t50 -2"/>
+            <path d="M206 160 l-10 -6 m10 6 l-10 6" />
+          </g>
+          <text x="20" y="104" font-family="Avenir Next Condensed, Helvetica Neue, Arial" font-weight="700" font-size="11" letter-spacing="2" fill="#1f4f8a">WIND, 20 M.P.H. →</text>
+          <!-- snowflakes -->
+          <g fill="#f6f2e7" stroke="#161513" stroke-width=".6">
+            <circle cx="40" cy="40" r="3"/><circle cx="110" cy="70" r="2.4"/><circle cx="180" cy="30" r="3.2"/><circle cx="250" cy="60" r="2"/>
+            <circle cx="330" cy="26" r="2.8"/><circle cx="380" cy="84" r="2.2"/><circle cx="60" cy="230" r="2.6"/><circle cx="150" cy="210" r="2"/>
+            <circle cx="440" cy="40" r="2.6"/><circle cx="520" cy="80" r="3"/><circle cx="575" cy="30" r="2"/><circle cx="560" cy="150" r="2.4"/>
+            <circle cx="300" cy="120" r="2.2"/><circle cx="90" cy="280" r="2"/><circle cx="215" cy="100" r="2.6"/><circle cx="410" cy="150" r="2"/>
+          </g>
+
+          <!-- figure -->
+          <g transform="translate(70,0)" stroke="#161513" stroke-width="1.6" stroke-linejoin="round">
+            <ellipse cx="210" cy="402" rx="88" ry="9" fill="url(#hzd)" stroke="none" opacity=".6"/>
+            <!-- legs -->
+            <rect x="180" y="300" width="26" height="80" fill="url(#vt)"/>
+            <rect x="214" y="300" width="26" height="80" fill="url(#vt)"/>
+            <!-- boots -->
+            <path d="M174 372 h36 v22 q0 8 -8 8 h-40 q-6 0 -4 -8 q4 -10 16 -12z" fill="url(#xh)"/>
+            <path d="M210 372 h36 q12 2 16 12 q2 8 -4 8 h-40 q-8 0 -8 -8z" fill="url(#xh)"/>
+            <path d="M158 400 h50 M212 400 h50" stroke-width="3"/>
+            <!-- parka -->
+            <path d="M160 150 Q210 132 260 150 L284 318 Q210 334 136 318 Z" fill="url(#dg)"/>
+            <path d="M136 318 Q210 334 284 318" fill="none" stroke-width="2.2"/>
+            <path d="M144 262 Q210 276 276 262" fill="none" stroke-width="1"/>
+            <path d="M152 206 Q210 218 268 206" fill="none" stroke-width="1"/>
+            <!-- open front showing mid + base -->
+            <path d="M210 150 L196 150 L210 236 Z" fill="url(#dots)"/>
+            <path d="M210 150 L224 150 L210 236 Z" fill="url(#dots)"/>
+            <path d="M210 152 L203 152 L210 196 L217 152 Z" fill="url(#fine)"/>
+            <path d="M210 236 V328" stroke-width="1.4" stroke-dasharray="3 2"/>
+            <!-- arms -->
+            <path d="M162 156 Q128 210 124 286 L148 290 Q152 226 176 186 Z" fill="url(#dg)"/>
+            <path d="M258 156 Q292 210 296 286 L272 290 Q268 226 244 186 Z" fill="url(#dg)"/>
+            <!-- mittens -->
+            <path d="M122 284 h28 v18 q0 18 -14 18 q-14 0 -14 -18z" fill="url(#xh)"/>
+            <path d="M120 292 q-8 2 -6 10 q3 6 10 2" fill="#f6f2e7"/>
+            <path d="M270 284 h28 v18 q0 18 -14 18 q-14 0 -14 -18z" fill="url(#xh)"/>
+            <path d="M300 292 q8 2 6 10 q-3 6 -10 2" fill="#f6f2e7"/>
+            <!-- hood ruff -->
+            <path d="M172 150 q-8 -44 38 -58 q46 14 38 58" fill="none" stroke-width="7" stroke-dasharray="2 2"/>
+            <!-- head -->
+            <circle cx="210" cy="112" r="26" fill="#f6f2e7"/>
+            <path d="M199 108 h6 M215 108 h6" stroke-width="1.6"/>
+            <!-- scarf -->
+            <rect x="184" y="116" width="52" height="22" rx="8" fill="url(#spotx)" stroke="#1f4f8a"/>
+            <path d="M222 134 l10 52 l-14 2 l-4 -50z" fill="url(#spotx)" stroke="#1f4f8a"/>
+            <!-- hat -->
+            <path d="M184 104 Q184 66 210 64 Q236 66 236 104 Z" fill="url(#vt)"/>
+            <rect x="180" y="96" width="60" height="12" rx="3" fill="url(#xh)"/>
+            <circle cx="210" cy="60" r="8" fill="url(#dots)"/>
+          </g>
+
+          <!-- callouts -->
+          <g font-family="Avenir Next Condensed, Helvetica Neue, Arial" font-size="11.5" font-weight="700" letter-spacing="1.2" fill="#161513" stroke="#f6f2e7" stroke-width="4" paint-order="stroke" stroke-linejoin="round">
+            <g stroke="#161513" stroke-width=".8" fill="none">
+              <path d="M306 78 L340 46 H400"/><path d="M302 128 L330 116 H400"/><path d="M350 230 L400 230"/>
+              <path d="M188 300 L120 334 H40"/><path d="M234 392 L160 414 H60"/><path d="M276 200 L120 200 H40"/>
+            </g>
+            <text x="404" y="50">I. HAT, OVER THE EARS</text>
+            <text x="404" y="120">II. SCARF OR GAITER</text>
+            <text x="404" y="226">III. SHELL: WINDPROOF,</text>
+            <text x="404" y="240">WATERPROOF, PAST HIPS</text>
+            <text x="40" y="194">IV. MID + BASE BENEATH</text>
+            <text x="40" y="328">V. MITTENS, NOT GLOVES</text>
+            <text x="60" y="408">VI. INSULATED BOOTS, GRIP</text>
+          </g>
+          <!-- inset: cross-section -->
+          <g transform="translate(430,264)">
+            <rect x="0" y="0" width="156" height="128" fill="#f6f2e7" stroke="#161513" stroke-width="1.2"/>
+            <text x="78" y="14" text-anchor="middle" font-family="Didot, Bodoni 72, Times New Roman" font-style="italic" font-size="11">Fig. 1a. Section through a sleeve</text>
+            <rect x="10" y="22" width="30" height="96" fill="url(#hz)" stroke="none"/>
+            <g fill="none" stroke="#1f4f8a" stroke-width="1.3"><path d="M12 44 h20 m-6 -4 l6 4 l-6 4"/><path d="M12 70 h20 m-6 -4 l6 4 l-6 4"/><path d="M12 96 h20 m-6 -4 l6 4 l-6 4"/></g>
+            <rect x="40" y="22" width="26" height="96" fill="url(#xh)" stroke="#161513"/>
+            <rect x="66" y="22" width="34" height="96" fill="url(#dots)" stroke="#161513"/>
+            <rect x="100" y="22" width="18" height="96" fill="url(#fine)" stroke="#161513"/>
+            <rect x="118" y="22" width="28" height="96" fill="#efe2cf" stroke="#161513"/>
+            <g font-family="Avenir Next Condensed, Helvetica Neue, Arial" font-weight="700" font-size="9" letter-spacing="1" fill="#161513">
+              <text transform="translate(56,112) rotate(-90)" fill="#f6f2e7" stroke="#f6f2e7" stroke-width="3" paint-order="stroke">3. SHELL</text>
+              <text transform="translate(56,112) rotate(-90)">3. SHELL</text>
+              <text transform="translate(86,112) rotate(-90)" stroke="#f6f2e7" stroke-width="3" paint-order="stroke">2. MID</text>
+              <text transform="translate(112,112) rotate(-90)" stroke="#f6f2e7" stroke-width="3" paint-order="stroke">1. BASE</text>
+              <text transform="translate(135,112) rotate(-90)">SKIN</text>
+            </g>
+          </g>
+        </svg>
+        <figcaption><b>Fig. 1 — The Correct Dress for a Chicago January.</b> Drawn for the Gazette. Note the absence of cotton, the presence of mittens, and the parka that reaches past the hips. Wind arrives from the left, as it so often does on the lakefront.</figcaption>
+      </figure>
+
+      <p class="by">By the Gazette Staff · With Reporting From Members Who Survived Last Year</p>
+      <div class="body cols2">
+        <p class="first dropcap"><span class="dateline-inline">HYDE PARK —</span> The leaves are still on the trees and the lakefront still smells faintly of summer, but veterans of this city’s winters say newcomers have about six weeks to get ready. The first snow usually falls in November. By January, the average high is 31°F and the average low is 18°F — figures that, to a student arriving from Lagos, Mumbai, São Paulo or Jakarta, may read like a misprint.</p>
+        <p>They are not a misprint, and they are not a catastrophe. “Chicago winter is survivable,” said a spokesperson for the First Winter Club, a student-run peer support group for international students facing their first season of snow. “Millions of people do it every year. The difference is preparation, not toughness.”</p>
+        <p>The club’s advice begins with one word: <i>layers</i>. A single enormous coat, members say, is the classic first-year mistake. It is too hot on the train, too thin at the bus stop, and miserable once wet. Three thinner layers trap warm air between them and come off indoors.</p>
+        <h4>The Three Layers</h4>
+        <p><b>Base.</b> A thermal top and leggings of merino wool or synthetic fabric that moves sweat off the skin. Never cotton, which holds moisture and turns cold.</p>
+        <p><b>Mid.</b> A fleece or light down jacket — the layer that actually holds heat.</p>
+        <p><b>Shell.</b> A windproof, waterproof parka long enough to cover the hips. It stops the wind, which the club calls the real enemy (see <a href="#windchill">Wind Chill</a>, at left).</p>
+        <h4>Then the Edges</h4>
+        <p>A hat pulled over the ears. Mittens rather than gloves, since fingers kept together stay warmer. A scarf or neck gaiter over the face. Insulated, waterproof boots with real grip, for sidewalks that stay icy for weeks.</p>
+        <p>None of it need be expensive (see <a href="#gear">Gear</a>, below), and none of it need be figured out alone. The club meets <b>Thursdays at 6 P.M. on campus</b>, runs a gear swap in November, and hands every member a free <b>First Winter Checklist</b>: one page on what to buy, what to skip, and what to do on the coldest days.</p>
+        <p>“Nobody where I grew up owns a hat,” one member said. “Now I own four. I’m fine. You will be too.”</p>
+        <p class="jump">Join the club: <a href="#coupon">clip the coupon, Page A3 ↓</a></p>
+      </div>
+    </article>
+
+    <!-- Right rail -->
+    <aside class="c3">
+      <div class="weather">
+        <h5>The Weather</h5>
+        <div class="today">
+          <svg viewBox="0 0 52 52" width="52" height="52" aria-hidden="true">
+            <circle cx="20" cy="20" r="10" fill="none" stroke="#161513" stroke-width="1.5"/>
+            <g stroke="#161513" stroke-width="1.5"><path d="M20 3v5M20 32v5M3 20h5M32 20h5M8 8l3.5 3.5M28.5 28.5L32 32M8 32l3.5-3.5M28.5 11.5L32 8"/></g>
+            <path d="M18 44 q0 -10 10 -10 q4 -8 12 -4 q8 0 8 8 q4 2 2 6z" fill="#f2eee2" stroke="#161513" stroke-width="1.5"/>
+            <path d="M24 40h20" stroke="#1f4f8a" stroke-width="1"/>
+          </svg>
+          <span><b>Today:</b> Mild and autumnal. Enjoy it. Use the time to shop for boots before the rush.</span>
+        </div>
+        <dl>
+          <dt>January avg. high</dt><dd>31°F</dd>
+          <dt>January avg. low</dt><dd>18°F</dd>
+          <dt>Typical Jan. wind chill</dt><dd class="cold">below 0°F</dd>
+          <dt>Bad days</dt><dd class="cold">−30°F or lower</dd>
+          <dt>First snow</dt><dd>usually Nov.</dd>
+          <dt>Sunset, Dec. 21</dt><dd>4:20 P.M.</dd>
+          <dt>Daylight, Dec. 21</dt><dd>9 h 08 m</dd>
+        </dl>
+        <div class="rec"><b>For the record:</b> In the polar vortex of January 2019 the air reached −23°F; the wind chill, nearly −50°F.</div>
+      </div>
+
+      <figure class="pull">
+        <blockquote>I flew in from Chennai thinking my hoodie was a coat. By December I had three layers, real boots, and friends who texted me when the wind chill dropped.</blockquote>
+        <cite>— Ananya K., second-year, member since her first November</cite>
+      </figure>
+
+      <div class="box notice">
+        <h6>Club Notices</h6>
+        <dl>
+          <dt>When</dt><dd>Thursdays, 6 P.M.</dd>
+          <dt>Where</dt><dd>On campus; room sent to members.</dd>
+          <dt>Nov.</dt><dd>Annual gear swap. Bring what you outgrew; take what you need.</dd>
+          <dt>Free</dt><dd>The First Winter Checklist, for every member.</dd>
+        </dl>
+      </div>
+
+      <div class="box">
+        <h6>Corrections</h6>
+        <p>An item in an earlier edition described a cotton hoodie as “a layer.” Cotton holds moisture and loses its warmth when damp. It is not a layer. The Gazette regrets the error.</p>
+      </div>
+    </aside>
+  </div>
+
+  <!-- ===== ROW C ===== -->
+  <div class="grid row-c">
+    <article class="c4" id="sunset">
+      <p class="kicker">Light &amp; Mood</p>
+      <h3 class="m">Sun to Set at 4:20 P.M.; Lunchtime Light Prescribed</h3>
+      <p class="sub">Shortest Day Brings 9 Hours, 8 Minutes of Daylight. Members Urge Newcomers to Look After Each Other.</p>
+      <div class="sunsvg">
+        <svg viewBox="0 0 320 112" role="img" aria-label="Diagram: on December 21 the sun rises around 7:12 A.M. and sets around 4:20 P.M., about 9 hours 8 minutes of daylight.">
+          <defs><pattern id="nh" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><path d="M0 2H4" stroke="#161513" stroke-width="1"/></pattern></defs>
+          <rect x="0" y="0" width="320" height="86" fill="#f6f2e7" stroke="#161513"/>
+          <rect x="1" y="1" width="92" height="84" fill="url(#nh)" opacity=".55"/>
+          <rect x="227" y="1" width="92" height="84" fill="url(#nh)" opacity=".55"/>
+          <path d="M93 80 Q160 -6 227 80" fill="none" stroke="#1f4f8a" stroke-width="2" stroke-dasharray="4 3"/>
+          <circle cx="160" cy="38" r="10" fill="#f6f2e7" stroke="#161513" stroke-width="1.5"/>
+          <g stroke="#161513" stroke-width="1.2"><path d="M160 22v-5M160 54v5M144 38h-5M176 38h5"/></g>
+          <path d="M0 80 H320" stroke="#161513" stroke-width="1.5"/>
+          <g font-family="Avenir Next Condensed, Helvetica Neue, Arial" font-size="10" font-weight="700" fill="#161513" letter-spacing=".8">
+            <text x="93" y="100" text-anchor="middle">≈7:12 A.M.</text>
+            <text x="227" y="100" text-anchor="middle" fill="#1f4f8a">4:20 P.M.</text>
+            <text x="160" y="72" text-anchor="middle">9 H 08 M</text>
+            <text x="47" y="48" text-anchor="middle" font-size="9">NIGHT</text>
+            <text x="273" y="48" text-anchor="middle" font-size="9">NIGHT</text>
+          </g>
+          <text x="160" y="111" text-anchor="middle" font-family="Times New Roman, serif" font-style="italic" font-size="10">Fig. 2. The day of December 21, to scale.</text>
+        </svg>
+      </div>
+      <div class="body">
+        <p class="first">On Dec. 21, the shortest day of the year, Chicago gets about nine hours and eight minutes of daylight, and the sun sets around 4:20 P.M. — often before the last seminar lets out.</p>
+        <p>Short, gray days can wear on anyone’s mood, and especially on students raised near the equator. Members recommend getting outdoors, or at least beside a big window, in the middle of the day; asking a doctor whether a vitamin D supplement makes sense; and keeping a standing plan with friends so that no one spends a January week indoors alone.</p>
+        <p>“Check in on each other,” the club says, “is the most important line on the checklist.”</p>
+      </div>
+    </article>
+
+    <article class="c4" id="gear">
+      <p class="kicker">Consumer Report</p>
+      <h3 class="m">Warmth Need Not Cost a Fortune</h3>
+      <p class="sub">Thrift Racks, Warehouse Aisles and a Free Club Swap Can Outfit a Newcomer for Far Less Than Feared</p>
+      <div class="body">
+        <p class="first">A full winter outfit does not require a luxury parka. Members point first to <b>thrift stores</b>, where wool sweaters, fleeces and sturdy coats turn up all season long, and second to <b>Uniqlo’s HEATTECH</b> line for inexpensive base layers.</p>
+        <p><b>Costco</b> is the club’s pick for multipacks of warm socks and thermal basics. And at the club’s own <b>November gear swap</b>, seniors and second-years hand down the parkas, boots and mittens they no longer need — free to members.</p>
+        <p>The rule of thumb, repeated at every meeting: spend on the shell and the boots, the two pieces that face the wind and the slush. Save on everything else.</p>
+      </div>
+      <table class="tbl">
+        <caption>Market Report · Where to Look</caption>
+        <thead><tr><th>Item</th><th>Try</th><th style="text-align:right">Spend?</th></tr></thead>
+        <tbody>
+          <tr><td>Base layer</td><td>Uniqlo HEATTECH</td><td class="n">Save</td></tr>
+          <tr><td>Fleece / mid</td><td>Thrift, gear swap</td><td class="n">Save</td></tr>
+          <tr><td>Parka (shell)</td><td>Thrift, swap, sales</td><td class="n dn">Spend</td></tr>
+          <tr><td>Boots w/ grip</td><td>Swap, then buy</td><td class="n dn">Spend</td></tr>
+          <tr><td>Socks, hats, mittens</td><td>Costco, thrift</td><td class="n">Save</td></tr>
+        </tbody>
+      </table>
+    </article>
+
+    <section class="c4" id="classifieds">
+      <div class="classified-head">
+        <h3>Classified Advertisements</h3>
+        <p>Gear Swap Listings · Bring Items Thursday · Swap Held in November</p>
+      </div>
+      <div class="ads">
+        <div class="ad"><b>For Swap.</b> Parka, women’s M, covers hips, hood w/ faux-fur ruff. Owner graduating to Singapore; no longer needed, thankfully.</div>
+        <div class="ad"><b>Wanted.</b> Mittens, any color. Gloves have betrayed me. — 1st-yr, Accra.</div>
+        <div class="ad"><b>Free.</b> Ice cleats, size 9 (US). One winter old. Saved me twice on the Quad.</div>
+        <div class="ad"><b>For Swap.</b> Fleece, navy, L. Ideal mid layer. Will trade for neck gaiter.</div>
+        <div class="ad boxed"><b>Gear Swap</b>November · On Campus<br>Members swap free.</div>
+        <div class="ad"><b>Wanted.</b> Someone to walk to Thursday meetings with. I bring tea. — Kuala Lumpur, 1st-yr.</div>
+        <div class="ad"><b>Lost.</b> Feeling in left ear, last January. Finder may keep it. Wear a hat. — Anon.</div>
+        <div class="ad"><b>For Swap.</b> Merino base layer, unworn, wrong size. Bought in a panic in October.</div>
+        <div class="ad"><b>Situations Wanted.</b> Experienced Chicagoan, two winters, will advise on boot purchases in exchange for one (1) dumpling.</div>
+        <div class="ad"><b>Personal.</b> To the girl from Manila who lent me a scarf at the bus stop: you were right about the wind. — R.</div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ===== COUPON ===== -->
+  <div class="coupon-wrap" id="coupon">
+    <div class="coupon" id="couponBox">
+      <span class="scissors" aria-hidden="true">✂</span>
+      <span class="cut" aria-hidden="true">Cut along dotted line</span>
+      <div class="left">
+        <div class="tag">Membership Coupon · No Cash Value</div>
+        <h3>Join the First Winter Club</h3>
+        <div class="worth">
+          <div class="seal" aria-hidden="true"><div><span>1</span><small>Free<br>Checklist</small></div></div>
+          <p>This coupon is good for <b>one (1) free First Winter Checklist</b> and a standing seat at Thursday meetings, 6 P.M., on campus, for the whole of your first winter.</p>
+        </div>
+        <ul>
+          <li>What to buy, what to skip, and in what order</li>
+          <li>Wind chill rules for the walk to your 9 A.M.</li>
+          <li>First pick at the November gear swap</li>
+          <li>People who will check in on you in February</li>
+        </ul>
+      </div>
+      <form id="joinForm" novalidate>
+        <label>Your name <input type="text" name="name" id="fname" autocomplete="name" placeholder="As you’d like it printed" required></label>
+        <label>Email <input type="email" name="email" id="femail" autocomplete="email" placeholder="you@uchicago.edu" required></label>
+        <label>Warmest place you’ve lived <input type="text" name="home" id="fhome" placeholder="e.g. Chennai, Lagos, Manila (optional)"></label>
+        <label class="check"><input type="checkbox" checked> Save me a spot at the November gear swap.</label>
+        <button type="submit">Redeem Coupon →</button>
+        <p class="fine" id="formMsg" aria-live="polite">Prototype coupon: nothing you write here is stored or sent anywhere.</p>
+      </form>
+      <div class="redeemed" aria-live="polite">
+        <div><span class="stamp">Redeemed</span></div>
+        <p id="okLine"><b>Welcome to the club.</b></p>
+        <p id="okLine2">Your First Winter Checklist is reserved. See you Thursday at 6 P.M.</p>
+        <p class="note">This was a prototype: nothing was stored or sent.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <a href="../">← Gallery</a>
+    <span>The Hyde Park Winter Gazette · Edition v06 · Printed in ink that does not freeze</span>
+    <span>First Winter Club · Est. by students, for students</span>
+  </footer>
+</div>
+
+<script>
+  (function () {
+    var form = document.getElementById('joinForm');
+    var box = document.getElementById('couponBox');
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var name = document.getElementById('fname').value.trim();
+      var email = document.getElementById('femail').value.trim();
+      var home = document.getElementById('fhome').value.trim();
+      var msg = document.getElementById('formMsg');
+      if (!name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        msg.textContent = 'The clerk regrets: please print a name and a valid email before redeeming.';
+        msg.style.color = '#1f4f8a';
+        return;
+      }
+      document.getElementById('okLine').innerHTML = '';
+      var b = document.createElement('b');
+      b.textContent = 'Welcome to the club, ' + name + '.';
+      document.getElementById('okLine').appendChild(b);
+      document.getElementById('okLine2').textContent =
+        (home ? 'From ' + home + ' to Hyde Park: you will be fine. ' : '') +
+        'Your First Winter Checklist is reserved under ' + email + '. See you Thursday at 6 P.M.';
+      box.classList.add('done');
+    });
+  })();
+</script>
+</body>
+</html>

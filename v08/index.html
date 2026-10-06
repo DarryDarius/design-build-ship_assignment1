@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>v08 · A letter for your first winter</title>
+  <style>
+    :root {
+      --paper: #f6eddd;
+      --paper-deep: #efe2cb;
+      --ink: #3b2719;
+      --soft: #7d6150;
+      --faint: #b49a85;
+      --terra: #b4583a;
+      --terra-soft: #d98f6f;
+      --glow: rgba(255, 196, 120, .30);
+    }
+    * { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background-color: var(--paper);
+      background-image:
+        radial-gradient(ellipse 70% 45% at 50% 0%, var(--glow), transparent 70%),
+        radial-gradient(ellipse 60% 40% at 50% 100%, rgba(180, 88, 58, .07), transparent 70%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .22 0 0 0 0 .12 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-attachment: fixed, fixed, scroll;
+      font-family: "Iowan Old Style", "Charter", "Bitstream Charter", "Palatino", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+      font-size: clamp(18px, 0.6vw + 14.5px, 21.5px);
+      line-height: 1.74;
+      font-kerning: normal;
+      font-variant-numeric: oldstyle-nums proportional-nums;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+    }
+    ::selection { background: rgba(217, 143, 111, .35); }
+
+    .folio {
+      max-width: 34em; margin: 0 auto; padding: 2.2em 1.4em 0;
+      display: flex; justify-content: space-between; align-items: baseline;
+      font-size: .78em; color: var(--soft); letter-spacing: .04em;
+    }
+    .folio a { color: var(--soft); text-decoration: none; font-style: italic; border-bottom: 1px solid transparent; transition: border-color .4s, color .4s; }
+    .folio a:hover, .folio a:focus-visible { color: var(--terra); border-bottom-color: var(--terra-soft); outline: none; }
+    .folio .no { font-variant-caps: all-small-caps; letter-spacing: .14em; }
+    .folio .no .v { font-variant-caps: normal; font-variant-numeric: lining-nums; letter-spacing: .06em; font-size: 1.05em; }
+
+    main { max-width: 34em; margin: 0 auto; padding: 0 1.4em 8em; }
+
+    .masthead { text-align: center; margin: 5.5em 0 4.5em; }
+    .masthead .club {
+      font-variant-caps: all-small-caps; letter-spacing: .32em; font-size: .92em;
+      color: var(--terra); margin: 0;
+    }
+    .masthead .rule { display: block; width: 2.2em; height: 1px; background: var(--terra-soft); margin: 1.1em auto; }
+    .masthead .sub { font-style: italic; color: var(--soft); margin: 0; font-size: .95em; }
+
+    .dateline { text-align: right; font-style: italic; color: var(--soft); margin: 0 0 2.6em; }
+    .salute { margin: 0 0 1.6em; font-size: 1.08em; }
+
+    p { margin: 0 0 1.25em; hanging-punctuation: first; }
+    em { font-style: italic; }
+    .sc {
+      font-variant-caps: all-small-caps; letter-spacing: .085em;
+      color: var(--terra); font-feature-settings: "c2sc", "smcp";
+    }
+    .open { margin-top: .2em; }
+
+    .first::first-letter {
+      float: left; font-size: 3.55em; line-height: .86; margin: .07em .09em 0 -.02em;
+      color: var(--terra); font-weight: 400;
+    }
+
+    .dinkus { text-align: center; color: var(--terra-soft); letter-spacing: .9em; margin: 3.4em 0 3em; padding-left: .9em; font-size: .9em; user-select: none; }
+
+    .note {
+      margin: 2em 0 2.2em; padding: .2em 0 .2em 1.3em;
+      border-left: 1px solid var(--terra-soft);
+      font-style: italic; color: var(--soft);
+    }
+    .note p { margin: 0 0 .5em; }
+    .note .row { display: flex; gap: .6em; align-items: baseline; margin: 0; font-style: normal; color: var(--ink); }
+    .note .row b { font-weight: 400; min-width: 6.6em; font-variant-numeric: lining-nums tabular-nums; }
+    .note .row i { flex: 1; border-bottom: 1px dotted var(--faint); transform: translateY(-.3em); }
+    .note .last { margin-top: .6em; }
+
+    ol.three { list-style: none; padding: 0; margin: 1.6em 0 1.8em; counter-reset: l; }
+    ol.three li { counter-increment: l; position: relative; padding-left: 2.2em; margin-bottom: .9em; }
+    ol.three li::before {
+      content: counter(l, lower-roman) "."; position: absolute; left: 0; top: 0;
+      font-style: italic; color: var(--terra);
+    }
+
+    figure.sketch { margin: 3.4em auto 3.2em; text-align: center; }
+    figure.sketch svg { width: min(100%, 400px); height: auto; overflow: visible; }
+    figure.sketch figcaption { font-style: italic; color: var(--soft); font-size: .82em; margin-top: .6em; }
+    .flake { animation: fall linear infinite; }
+    @keyframes fall { from { transform: translateY(-18px); } to { transform: translateY(186px); } }
+    .steam { stroke-dasharray: 4 7; animation: rise 5s ease-in-out infinite; }
+    .steam.b { animation-delay: -2.4s; }
+    @keyframes rise { 0% { opacity: 0; transform: translateY(4px); } 40% { opacity: .85; } 100% { opacity: 0; transform: translateY(-10px); } }
+
+    .signoff { margin: 3em 0 0 auto; width: fit-content; min-width: 55%; }
+    .signoff p { margin: 0; }
+    .signoff .name { font-size: 1.7em; font-style: italic; color: var(--terra); line-height: 1.3; margin: .25em 0 .15em; letter-spacing: .01em; }
+    .signoff .who { font-size: .82em; color: var(--soft); font-variant-caps: all-small-caps; letter-spacing: .12em; }
+
+    .ps { margin-top: 5.5em; }
+    .ps .tag { font-variant-caps: all-small-caps; letter-spacing: .14em; color: var(--terra); margin-right: .35em; }
+
+    form.blank { margin: 1.8em 0 .6em; line-height: 2.3; }
+    form.blank label { white-space: nowrap; }
+    form.blank input {
+      font: inherit; color: var(--ink); background: transparent;
+      border: 0; border-bottom: 1px solid var(--faint); border-radius: 0;
+      padding: 0 .2em .05em; margin: 0 .15em; width: 9.5em; max-width: 100%;
+      font-style: italic; transition: border-color .5s;
+    }
+    form.blank input[type=email] { width: 13em; }
+    form.blank input::placeholder { color: var(--faint); }
+    form.blank input:focus { outline: none; border-bottom-color: var(--terra); }
+    form.blank button {
+      display: inline-block; margin-top: 1.1em;
+      font: inherit; font-style: italic; color: var(--terra); background: none; border: 0; padding: 0 0 .1em; cursor: pointer;
+      border-bottom: 1px solid var(--terra-soft); transition: color .4s, border-color .4s, letter-spacing .6s;
+    }
+    form.blank button:hover, form.blank button:focus-visible { color: var(--ink); border-bottom-color: var(--ink); letter-spacing: .015em; outline: none; }
+    .quiet { font-size: .78em; color: var(--faint); font-style: italic; margin-top: .4em; }
+
+    .reply { display: none; margin: 2.2em 0 1em; padding: 1.8em 1.7em 1.5em; background: var(--paper-deep); position: relative; box-shadow: 0 1px 0 rgba(59, 39, 25, .06), 0 18px 40px -26px rgba(59, 39, 25, .45); transform: rotate(-.6deg); }
+    .reply::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; height: 1px; background: rgba(59, 39, 25, .07); }
+    .reply.show { display: block; animation: unfold 1.4s ease both; }
+    @keyframes unfold { from { opacity: 0; transform: rotate(-.6deg) translateY(10px); } to { opacity: 1; transform: rotate(-.6deg) translateY(0); } }
+    .reply p { margin: 0 0 .9em; }
+    .reply ul { list-style: none; padding: 0; margin: .4em 0 1.1em; }
+    .reply li { padding-left: 1.6em; position: relative; margin-bottom: .2em; }
+    .reply li::before { content: ""; position: absolute; left: .1em; top: .55em; width: .7em; height: .62em; border: 1px solid var(--terra-soft); border-radius: 2px 3px 2px 4px; transform: rotate(-3deg); }
+    .reply .m { text-align: right; font-style: italic; color: var(--terra); margin: 0; }
+
+    .pps { margin-top: 2.6em; color: var(--soft); }
+    .end { text-align: center; margin-top: 6em; color: var(--faint); font-size: .78em; font-style: italic; }
+
+    .js .fade { opacity: 0; transform: translateY(8px); transition: opacity 1.6s ease, transform 1.6s ease; }
+    .js .fade.in { opacity: 1; transform: none; }
+
+    @media (max-width: 560px) {
+      .masthead { margin: 3.5em 0 3em; }
+      .signoff { min-width: 0; }
+      form.blank label { white-space: normal; }
+      form.blank input, form.blank input[type=email] { width: 100%; margin: 0 0 .4em; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .flake, .steam { animation: none; }
+      .js .fade { opacity: 1; transform: none; transition: none; }
+      .reply.show { animation: none; }
+    }
+  </style>
+  <script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+  <div class="folio">
+    <a href="../">← Gallery</a>
+    <span class="no"><span class="v">v08</span> · a letter</span>
+  </div>
+
+  <main>
+    <header class="masthead">
+      <p class="club">First Winter Club</p>
+      <span class="rule" aria-hidden="true"></span>
+      <h1 class="sub" style="font-weight:400;font-size:.95em">a letter, for your first Chicago winter</h1>
+    </header>
+
+    <p class="dateline fade">Hyde Park, the first week of October</p>
+
+    <p class="salute fade">Dear you, arriving this fall,</p>
+
+    <p class="first fade">I don’t know your name yet, or where you’re flying in from. But if it’s somewhere like where I grew up&nbsp;— Chennai, where January means about 84°F and the warmest thing I owned was a school cardigan&nbsp;— then I think I know a little about the winter you’re about to have. Three winters ago it was mine. Nobody wrote me a letter like this, so I’m writing one to you.</p>
+
+    <p class="fade">The short version, in case you only read this far: <em>a Chicago winter is survivable if you prepare.</em> The longer version is below. Make some tea first.</p>
+
+    <div class="dinkus" aria-hidden="true">· · ·</div>
+
+    <p class="open fade"><span class="sc">The first really cold morning</span> came in early January. My phone said 2°F, and I remember thinking, fine, I have a coat. Then I turned the corner and the wind came in off the lake, and the number that actually mattered was the small one underneath: <em>feels like −20°F.</em> My eyelashes stuck together. I couldn’t feel my cheeks for an hour.</p>
+
+    <p class="fade">Here is the thing I wish someone had told me plainly: <em>in Chicago, the wind chill matters more than the temperature.</em> January isn’t usually dramatic&nbsp;— the average high is around 31°F, the average low around 18°F, and most days are just the ordinary kind of cold you can walk through. But the wind turns ordinary cold into something you have to respect. It regularly pushes the feels-like number below zero, and some years well past −30°F. In the polar vortex of January 2019, before my time, the air itself reached −23°F and the wind chill came close to −50°F. People still talk about it the way my grandmother talks about the cyclones.</p>
+
+    <div class="note fade">
+      <p>What I eventually copied onto a sticky note and put by my door:</p>
+      <p class="row"><b>feels like −18°F</b><i></i><span>frostbite on bare skin in about 30 minutes</span></p>
+      <p class="row"><b>feels like −35°F</b><i></i><span>about 10 minutes</span></p>
+      <p class="row"><b>feels like −48°F</b><i></i><span>about 5 minutes</span></p>
+      <p class="last">Check the feels-like, not the temperature. Cover your face.</p>
+    </div>
+
+    <p class="fade">It isn’t meant to frighten you. It’s only the number to look at before you leave the house, the way at home you’d glance at the sky for rain.</p>
+
+    <div class="dinkus" aria-hidden="true">· · ·</div>
+
+    <p class="open fade"><span class="sc">I made the cotton hoodie mistake,</span> which I think everyone from somewhere warm makes exactly once. I wore my thickest cotton hoodie under one enormous coat, because more fabric seemed like more warmth. I walked fast to my nine o’clock, sweated under all of it, and the cotton held onto every drop. By the time I walked home in the dark I was colder than if I’d worn less. Cotton gets damp and stays damp, and damp is cold.</p>
+
+    <p class="fade">What actually works is three thin things instead of one thick one:</p>
+
+    <ol class="three fade">
+      <li><em>A base layer</em> against your skin&nbsp;— merino wool or synthetic, never cotton&nbsp;— that moves sweat away.</li>
+      <li><em>A middle layer</em>&nbsp;— a fleece or a light down jacket&nbsp;— that holds the warm air close.</li>
+      <li><em>A shell</em> on the outside&nbsp;— a windproof, waterproof parka long enough to cover your hips&nbsp;— so the wind can’t steal all of it.</li>
+    </ol>
+
+    <p class="fade">And when you walk into an overheated classroom, you can take one off. A single giant coat can’t do that for you.</p>
+
+    <p class="fade">The small things matter more than I expected. A hat that comes down over your ears. Mittens rather than gloves&nbsp;— your fingers keep each other company. A scarf or a neck gaiter you can pull up over your nose. And boots that are insulated, waterproof, and have real grip on the sole; I fell twice on the ice in my sneakers before I gave in.</p>
+
+    <figure class="sketch fade" aria-label="A sketch of a window at dusk with snow falling, books and a mug of tea on the sill">
+      <svg viewBox="0 0 320 250" role="img" aria-hidden="true">
+        <defs>
+          <linearGradient id="dusk" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#7f7f99"/>
+            <stop offset=".62" stop-color="#b9958f"/>
+            <stop offset="1" stop-color="#e3a77f"/>
+          </linearGradient>
+          <clipPath id="pane">
+            <path d="M58 22 C110 19 210 21 262 23 C263 80 261 140 262 196 C205 198 112 197 57 195 C59 140 56 80 58 22 Z"/>
+          </clipPath>
+        </defs>
+        <path d="M58 22 C110 19 210 21 262 23 C263 80 261 140 262 196 C205 198 112 197 57 195 C59 140 56 80 58 22 Z" fill="url(#dusk)"/>
+        <g clip-path="url(#pane)" fill="#fbf3e6">
+          <circle class="flake" cx="76"  cy="10" r="2.1" style="animation-duration:9s;animation-delay:-1s"/>
+          <circle class="flake" cx="98"  cy="10" r="1.5" style="animation-duration:12s;animation-delay:-6s"/>
+          <circle class="flake" cx="121" cy="10" r="2.4" style="animation-duration:10s;animation-delay:-3s"/>
+          <circle class="flake" cx="140" cy="10" r="1.3" style="animation-duration:14s;animation-delay:-9s"/>
+          <circle class="flake" cx="178" cy="10" r="2"   style="animation-duration:11s;animation-delay:-4s"/>
+          <circle class="flake" cx="196" cy="10" r="1.6" style="animation-duration:13s;animation-delay:-11s"/>
+          <circle class="flake" cx="219" cy="10" r="2.3" style="animation-duration:9.5s;animation-delay:-7s"/>
+          <circle class="flake" cx="243" cy="10" r="1.4" style="animation-duration:12.5s;animation-delay:-2s"/>
+          <circle class="flake" cx="88"  cy="10" r="1.2" style="animation-duration:15s;animation-delay:-12s"/>
+          <circle class="flake" cx="208" cy="10" r="1.2" style="animation-duration:16s;animation-delay:-5s"/>
+          <circle class="flake" cx="160" cy="10" r="1.8" style="animation-duration:10.5s;animation-delay:-8s"/>
+          <circle class="flake" cx="252" cy="10" r="2"   style="animation-duration:11.5s;animation-delay:-10s"/>
+          <!-- far rooftops -->
+          <path d="M57 170 L80 170 L80 158 L104 158 L104 166 L128 166 L128 150 L146 150 L146 168 L178 168 L178 156 L206 156 L206 164 L230 164 L230 152 L262 152 L262 198 L57 198 Z" fill="#6e6273" opacity=".45"/>
+          <!-- snow drifts in the corners of the panes -->
+          <path d="M57 196 C66 186 80 183 92 189 C104 184 118 186 128 192 C140 189 150 190 160 195 Z" fill="#fbf3e6" opacity=".95"/>
+          <path d="M160 196 C172 188 186 186 198 191 C212 185 230 186 244 191 C252 189 258 189 263 192 L263 197 Z" fill="#fbf3e6" opacity=".95"/>
+          <path d="M58 106 C70 101 82 101 92 105 C106 102 118 103 130 106 L160 108 Z" fill="#fbf3e6" opacity=".8"/>
+          <path d="M160 108 C176 102 196 103 208 106 C224 101 246 102 262 106 Z" fill="#fbf3e6" opacity=".8"/>
+        </g>
+        <g fill="none" stroke="#5a3a28" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M58 22 C110 19 210 21 262 23 C263 80 261 140 262 196 C205 198 112 197 57 195 C59 140 56 80 58 22 Z"/>
+          <path d="M53 18 C112 15 208 16 267 19 C268 80 266 140 267 198" opacity=".45" stroke-width="1.4"/>
+          <path d="M160 23 C159 80 161 140 160 195"/>
+          <path d="M58 108 C120 106 200 110 262 107"/>
+        </g>
+        <!-- sill -->
+        <path d="M34 197 C110 193 214 194 288 197 L290 208 C212 206 112 205 32 209 Z" fill="#c98a66" stroke="#5a3a28" stroke-width="2.2" stroke-linejoin="round"/>
+        <!-- books -->
+        <path d="M70 184 C90 183 112 183 132 184 L133 196 C112 196 90 196 69 197 Z" fill="#8c5a3d" stroke="#5a3a28" stroke-width="2"/>
+        <path d="M78 172 C94 171 110 171 124 172 L126 184 C110 184 94 184 76 184 Z" fill="#dcb88f" stroke="#5a3a28" stroke-width="2"/>
+        <path d="M84 178 L118 177.5" stroke="#5a3a28" stroke-width="1.1" opacity=".55"/>
+        <!-- mug -->
+        <path class="steam" d="M207 150 C201 140 214 133 207 121 C202 113 210 108 208 102" fill="none" stroke="#9a7a66" stroke-width="2" stroke-linecap="round"/>
+        <path class="steam b" d="M223 150 C217 139 230 132 223 119 C219 111 226 106 224 99" fill="none" stroke="#9a7a66" stroke-width="2" stroke-linecap="round"/>
+        <path d="M241 166 C256 163 259 188 239 189" fill="none" stroke="#5a3a28" stroke-width="2.6" stroke-linecap="round"/>
+        <path d="M195 157 C210 155 228 155 242 157 C242 172 241 186 237 196 C224 197 211 197 200 196 C196 186 195 172 195 157 Z" fill="#b4583a" stroke="#5a3a28" stroke-width="2.2" stroke-linejoin="round"/>
+        <path d="M196 158 C210 161 228 161 241 158" fill="none" stroke="#5a3a28" stroke-width="1.4" opacity=".6"/>
+        <path d="M209 174 C212 170 216 171 218 174 C220 171 224 170 226 174 C226 179 218 183 218 183 C218 183 209 179 209 174 Z" fill="#f2d3b8" opacity=".85"/>
+      </svg>
+      <figcaption>the view from my desk, a December afternoon, 4:21 p.m.</figcaption>
+    </figure>
+
+    <p class="open fade"><span class="sc">You don’t need to spend much,</span> which surprised me most of all. My first real parka came from a thrift store and cost less than one of my textbooks. My base layers were Uniqlo HEATTECH&nbsp;— two tops and two leggings, so one set could always be in the wash. A friend with a Costco membership took a few of us along one Saturday for wool socks in bulk. And every November the club holds a gear swap, where people who are graduating, or who finally bought the right boots, leave behind the things that got them through. Half of what I wear now once kept someone else warm.</p>
+
+    <div class="dinkus" aria-hidden="true">· · ·</div>
+
+    <p class="open fade"><span class="sc">The part nobody mentions</span> is the dark. On the shortest day of the year, December&nbsp;21, the sun sets at around 4:20 in the afternoon, and there are only about nine hours of daylight&nbsp;— nine hours and eight minutes, if you’re counting, and by then you will be. I’d come out of the library at five and it would already be night. For weeks I didn’t understand why I felt so heavy, why I couldn’t call my mother without crying into the phone about her kitchen. It wasn’t only homesickness. It was the light, too.</p>
+
+    <p class="fade">What helped, slowly: going outside in the middle of the day, even for fifteen minutes, while the sun was properly up. Asking a doctor about vitamin&nbsp;D, instead of guessing. And&nbsp;— this is the big one&nbsp;— letting people check in on me, and learning to check in on them.</p>
+
+    <div class="dinkus" aria-hidden="true">· · ·</div>
+
+    <p class="open fade"><span class="sc">Thursday nights are what saved me.</span> In my first November, a girl from Lagos I’d met in a lab section asked if I wanted to come to a thing on Thursday at six. It was First Winter Club: a room on campus, a kettle, a pile of mismatched mittens, and a couple of dozen people from Manila and São Paulo and Jakarta and Dubai, all comparing the coldest they had ever been. Someone showed me how to tuck my scarf so the wind couldn’t find my neck. Someone else walked me to the right bus stop. Nobody made me talk if I didn’t want to.</p>
+
+    <p class="fade">I went every Thursday after that. Some weeks we talked about boots. Most weeks we just sat near the radiator and were warm together, which turned out to be the whole point.</p>
+
+    <p class="fade">So that is what I wanted to tell you. The winter here is real, and it is survivable&nbsp;— more than survivable, if you get ready for it, and if you don’t do it alone. The first snow usually comes in November. When it does, please go outside and look up. It is the most beautiful thing, and you will have earned it.</p>
+
+    <div class="signoff fade">
+      <p>Warmly,</p>
+      <p class="name">Meera</p>
+      <p class="who">third year · still from Chennai · now also a little from here</p>
+    </div>
+
+    <section class="ps fade" id="join" aria-label="Join First Winter Club">
+      <p><span class="tag">P.S.</span>Come on a Thursday. Six o’clock, on campus&nbsp;— we’ll keep a seat for you by the radiator. If you leave your name below, I’ll make sure you get the <em>First Winter Checklist</em>, the one page I wish someone had folded into my suitcase. It’s free, and so is the tea.</p>
+
+      <form class="blank" id="seat" novalidate>
+        <label for="n">My name is</label><input id="n" name="name" type="text" placeholder="your name" autocomplete="off" required>,
+        <label for="e">and you can write to me at</label><input id="e" name="email" type="email" placeholder="you@uchicago.edu" autocomplete="off" required>.
+        <br>
+        <button type="submit">Save me a seat on Thursday&nbsp;→</button>
+        <p class="quiet">Nothing you write here is sent or kept. It’s only a letter.</p>
+      </form>
+
+      <div class="reply" id="reply" role="status" aria-live="polite">
+        <p>Dear <em id="rname">friend</em>,</p>
+        <p>I’ve saved you a seat. Thursday, six o’clock. You don’t need to bring anything. Here is the checklist, folded in:</p>
+        <ul>
+          <li>a base layer&nbsp;— merino or synthetic, not cotton</li>
+          <li>a fleece or light down middle layer</li>
+          <li>a windproof, waterproof parka past your hips</li>
+          <li>a hat over the ears, mittens, a scarf or gaiter</li>
+          <li>insulated waterproof boots with grip</li>
+          <li>the feels-like number, checked every morning</li>
+          <li>fifteen minutes of midday light</li>
+          <li>a friend to check on, and one to check on you</li>
+          <li>Thursday, 6&nbsp;PM</li>
+        </ul>
+        <p class="m">See you soon,<br>M.</p>
+      </div>
+
+      <p class="pps"><span class="tag">P.P.S.</span>Bring the cotton hoodie anyway. It’s perfect for indoors.</p>
+    </section>
+
+    <p class="end">First Winter Club is a student-run peer support group for international students at UChicago.</p>
+  </main>
+
+  <script>
+    // slow fade as you read
+    const items = document.querySelectorAll('.fade');
+    const revealAll = () => items.forEach(el => el.classList.add('in'));
+    // anything already on screen appears right away
+    items.forEach(el => { if (el.getBoundingClientRect().top < innerHeight) el.classList.add('in'); });
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(entries => entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      }), { rootMargin: '0px 0px -8% 0px' });
+      items.forEach(el => io.observe(el));
+      // safety net: never leave the letter invisible
+      setTimeout(() => { if (!document.querySelector('.fade.in')) revealAll(); }, 1200);
+    } else {
+      revealAll();
+    }
+
+    // the P.S. form: nothing is sent or stored
+    const form = document.getElementById('seat');
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const name = form.elements.name, email = form.elements.email;
+      if (!name.value.trim()) { name.focus(); name.placeholder = 'just your first name is fine'; return; }
+      if (!email.value.trim() || !email.checkValidity()) { email.focus(); email.value = ''; email.placeholder = 'an email I can write to'; return; }
+      document.getElementById('rname').textContent = name.value.trim().split(/\s+/)[0];
+      form.style.display = 'none';
+      const reply = document.getElementById('reply');
+      reply.classList.add('show');
+      reply.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  </script>
+</body>
+</html>

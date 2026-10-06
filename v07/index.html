@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>v07 · THE FIRST WINTER MANIFESTO</title>
+<style>
+  :root { --k: #000; --w: #fff; --o: #ff4d00; --b: 4px; }
+  * { box-sizing: border-box; margin: 0; padding: 0; border-radius: 0; }
+  html { background: #fff; }
+  body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; color: #000; background: #fff; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+  ::selection { background: var(--o); color: #000; }
+  a { color: inherit; }
+  .mono { font-family: Menlo, "Courier New", Courier, monospace; }
+  .heavy { font-family: "Helvetica Neue", "Arial Black", Arial, sans-serif; font-weight: 900; letter-spacing: -.045em; text-transform: uppercase; }
+
+  /* ---------- top bar ---------- */
+  .bar { display: grid; grid-template-columns: auto 1fr auto auto; border-bottom: var(--b) solid #000; font-family: Menlo, "Courier New", monospace; font-size: 13px; text-transform: uppercase; }
+  .bar > * { padding: 12px 16px; border-right: var(--b) solid #000; display: flex; align-items: center; }
+  .bar > *:last-child { border-right: 0; }
+  .bar a { background: #000; color: #fff; text-decoration: none; font-weight: 700; }
+  .bar a:hover, .bar a:focus-visible { background: var(--o); color: #000; outline: none; }
+  .bar .v { font-family: "Helvetica Neue", "Arial Black", Arial, sans-serif; font-weight: 900; font-size: 30px; letter-spacing: -.05em; padding: 2px 18px; text-transform: none; }
+
+  /* ---------- hero ---------- */
+  .hero { position: relative; border-bottom: var(--b) solid #000; }
+  .fit { display: block; white-space: nowrap; line-height: .8; font-size: 12vw; padding: 0 .02em; }
+  .fit > span { display: inline-block; }
+  .hero .l1 { padding-top: .06em; }
+  .hero .l2 { margin-left: -.04em; }
+  .black { background: #000; color: #fff; }
+  .hero .l3 { padding-top: .08em; border-top: var(--b) solid #000; }
+  .will-row { display: grid; grid-template-columns: auto 1fr; align-items: stretch; background: #000; color: #fff; }
+  .will-row .will { line-height: .8; padding: 0 .04em .06em .02em; color: var(--o); white-space: nowrap; }
+  .will-row .say { font-size: 15px; line-height: 1.45; padding: 18px 22px; border-left: var(--b) solid #fff; align-self: stretch; display: flex; flex-direction: column; justify-content: space-between; gap: 14px; text-transform: uppercase; }
+  .will-row .say b { font-family: "Helvetica Neue", Arial, sans-serif; font-weight: 900; font-size: 22px; letter-spacing: -.02em; }
+  .will-row .say a { color: #fff; font-weight: 700; }
+  .will-row .say a:hover { background: var(--o); color: #000; }
+  .sticker { position: absolute; bottom: 34px; right: 3.5%; transform: rotate(-4deg); background: var(--o); color: #000; border: var(--b) solid #000; padding: 10px 14px; font-family: Menlo, "Courier New", monospace; font-size: 14px; font-weight: 700; text-transform: uppercase; line-height: 1.3; max-width: 230px; }
+
+  /* ---------- facts ---------- */
+  .facts { display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: var(--b) solid #000; }
+  .facts > div { padding: 22px 20px 20px; border-right: var(--b) solid #000; }
+  .facts > div:last-child { border-right: 0; }
+  .facts .n { font-family: "Helvetica Neue", "Arial Black", Arial, sans-serif; font-weight: 900; font-size: clamp(48px, 6.4vw, 92px); letter-spacing: -.06em; line-height: .85; }
+  .facts .n sup { font-size: .38em; letter-spacing: 0; vertical-align: top; position: relative; top: .1em; }
+  .facts p { font-family: Menlo, "Courier New", monospace; font-size: 12.5px; text-transform: uppercase; margin-top: 14px; line-height: 1.45; }
+  .facts > div:nth-child(3) { background: #000; color: #fff; transform: translateY(-14px); border-top: var(--b) solid #000; margin-bottom: -14px; }
+
+  /* ---------- ticker ---------- */
+  .tick { overflow: hidden; border-bottom: var(--b) solid #000; background: #fff; }
+  .tick div { display: inline-block; white-space: nowrap; padding: 10px 0; font-family: "Helvetica Neue", "Arial Black", Arial, sans-serif; font-weight: 900; font-size: 26px; text-transform: uppercase; letter-spacing: -.02em; animation: run 38s linear infinite; }
+  .tick span { padding: 0 18px; }
+  .tick i { font-style: normal; color: var(--o); }
+  @keyframes run { to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) { .tick div { animation: none; } }
+
+  /* ---------- theses ---------- */
+  .theses-head { display: grid; grid-template-columns: 1fr auto; align-items: end; border-bottom: var(--b) solid #000; }
+  .theses-head h2 { font-size: clamp(56px, 11vw, 168px); line-height: .8; padding: 18px 12px 0 8px; }
+  .theses-head p { font-family: Menlo, "Courier New", monospace; font-size: 13px; text-transform: uppercase; padding: 18px; border-left: var(--b) solid #000; align-self: stretch; display: flex; align-items: flex-end; max-width: 300px; line-height: 1.5; }
+
+  .thesis { display: grid; grid-template-columns: 260px 1fr; border-bottom: var(--b) solid #000; }
+  .thesis .num { border-right: var(--b) solid #000; font-family: Georgia, "Times New Roman", serif; font-weight: 700; font-size: 88px; line-height: 1; padding: 18px 14px; letter-spacing: -.04em; }
+  .thesis .body { padding: 26px 28px 34px; }
+  .thesis h3 { font-family: "Helvetica Neue", "Arial Black", Arial, sans-serif; font-weight: 900; font-size: clamp(40px, 6.2vw, 96px); line-height: .86; letter-spacing: -.05em; text-transform: uppercase; }
+  .thesis h3 s { text-decoration-thickness: .12em; text-decoration-color: var(--o); }
+  .thesis .txt { font-size: 22px; line-height: 1.3; font-weight: 500; max-width: 760px; margin-top: 22px; }
+  .thesis .txt b { font-weight: 900; }
+  .thesis:nth-of-type(even) h3 { margin-left: -56px; background: #fff; position: relative; padding: 4px 0 4px 6px; }
+  .thesis:nth-of-type(even) .body > :not(h3) { margin-left: 48px; }
+  .thesis.inv { background: #000; color: #fff; }
+  .thesis.inv .num { border-right-color: #fff; }
+  .thesis.inv h3 { background: #000; }
+
+  /* II: frostbite clock */
+  .clock { margin-top: 28px; border: var(--b) solid #000; max-width: 900px; }
+  .clock .row { display: grid; grid-template-columns: 210px 1fr; border-bottom: var(--b) solid #000; }
+  .clock .row:last-child { border-bottom: 0; }
+  .clock .lab { padding: 10px 12px; font-family: Menlo, "Courier New", monospace; font-size: 13px; text-transform: uppercase; border-right: var(--b) solid #000; line-height: 1.3; }
+  .clock .lab b { display: block; font-family: "Helvetica Neue", Arial, sans-serif; font-weight: 900; font-size: 28px; letter-spacing: -.04em; }
+  .clock .bar2 { position: relative; display: flex; align-items: stretch; }
+  .clock .bar2 span { background: #000; color: #fff; display: flex; align-items: center; padding: 0 14px; font-family: "Helvetica Neue", Arial, sans-serif; font-weight: 900; font-size: 30px; letter-spacing: -.04em; white-space: nowrap; }
+  .clock .row.hot .bar2 span { background: var(--o); color: #000; }
+  .clock .bar2 em { font-style: normal; font-family: Menlo, "Courier New", monospace; font-size: 12px; text-transform: uppercase; align-self: center; padding: 0 12px; }
+
+  .calc { margin-top: 28px; display: grid; grid-template-columns: auto auto 1fr; border: var(--b) solid #000; max-width: 900px; }
+  .calc label { display: block; padding: 10px 12px; border-right: var(--b) solid #000; font-family: Menlo, "Courier New", monospace; font-size: 12px; text-transform: uppercase; }
+  .calc input { display: block; width: 130px; margin-top: 6px; border: 3px solid #000; background: #fff; padding: 6px 8px; font-family: "Helvetica Neue", Arial, sans-serif; font-weight: 900; font-size: 30px; letter-spacing: -.03em; }
+  .calc input:focus { outline: 4px solid var(--o); outline-offset: 0; }
+  .calc .out { padding: 10px 14px; display: flex; flex-direction: column; justify-content: center; }
+  .calc .out small { font-family: Menlo, "Courier New", monospace; font-size: 12px; text-transform: uppercase; }
+  .calc .out strong { font-family: "Helvetica Neue", "Arial Black", Arial, sans-serif; font-weight: 900; font-size: 56px; letter-spacing: -.05em; line-height: .95; }
+  .calc .out .verdict { font-family: Menlo, "Courier New", monospace; font-size: 13px; text-transform: uppercase; font-weight: 700; }
+  .calc .out .verdict.bad { background: var(--o); align-self: flex-start; padding: 2px 6px; }
+
+  /* III: nested layers */
+  .layers { margin-top: 28px; max-width: 900px; border: 14px solid #000; padding: 0 18px 18px; }
+  .layers > .tag, .layers .in > .tag { display: block; font-family: "Helvetica Neue", Arial, sans-serif; font-weight: 900; text-transform: uppercase; font-size: 24px; letter-spacing: -.03em; padding: 8px 0; }
+  .layers .tag small { font-family: Menlo, "Courier New", monospace; font-weight: 400; font-size: 12px; letter-spacing: 0; margin-left: 10px; }
+  .layers .in { border: 8px solid #000; padding: 0 16px 16px; }
+  .layers .in .in { border: 3px solid #000; padding: 0 14px 14px; }
+  .layers .core { border: 3px dashed #000; padding: 22px 12px; text-align: center; font-family: Menlo, "Courier New", monospace; font-size: 13px; text-transform: uppercase; }
+  .layers .x { margin-top: 14px; font-family: Menlo, "Courier New", monospace; font-size: 13px; text-transform: uppercase; }
+  .layers .x s { text-decoration-thickness: 3px; text-decoration-color: var(--o); }
+
+  /* IV: list */
+  .cover { margin-top: 26px; display: grid; grid-template-columns: repeat(4, 1fr); border: var(--b) solid #000; max-width: 1000px; }
+  .cover div { padding: 14px; border-right: var(--b) solid #000; }
+  .cover div:last-child { border-right: 0; }
+  .cover b { display: block; font-family: "Helvetica Neue", Arial, sans-serif; font-weight: 900; font-size: 30px; letter-spacing: -.04em; text-transform: uppercase; line-height: .95; }
+  .cover p { font-family: Menlo, "Courier New", monospace; font-size: 12.5px; text-transform: uppercase; margin-top: 10px; line-height: 1.45; }
+
+  /* V: cheap */
+  .cheap { margin-top: 26px; font-family: Menlo, "Courier New", monospace; font-size: 15px; text-transform: uppercase; max-width: 760px; border-top: var(--b) solid #000; }
+  .cheap li { list-style: none; display: grid; grid-template-columns: 60px 1fr; border-bottom: 2px solid #000; padding: 10px 0; }
+  .cheap li span:first-child { font-weight: 700; }
+
+  /* ---------- sign ---------- */
+  .sign { background: #000; color: #fff; border-bottom: var(--b) solid #000; }
+  .sign .fit { color: #fff; padding-top: .1em; }
+  .sign-grid { display: grid; grid-template-columns: 1fr 1.25fr; border-top: var(--b) solid #fff; }
+  .sign-grid .get { padding: 28px 26px; border-right: var(--b) solid #fff; }
+  .sign-grid .get h4 { font-family: Menlo, "Courier New", monospace; font-size: 13px; text-transform: uppercase; font-weight: 400; margin-bottom: 18px; }
+  .sign-grid .get ol { list-style: none; counter-reset: g; }
+  .sign-grid .get li { counter-increment: g; font-family: "Helvetica Neue", Arial, sans-serif; font-weight: 900; text-transform: uppercase; font-size: 34px; line-height: .95; letter-spacing: -.04em; padding: 14px 0; border-top: 2px solid #fff; }
+  .sign-grid .get li::before { content: counter(g) ". "; color: var(--o); }
+  .sign-grid .get li small { display: block; font-family: Menlo, "Courier New", monospace; font-weight: 400; font-size: 12.5px; letter-spacing: 0; margin-top: 8px; line-height: 1.4; }
+
+  form { background: #fff; color: #000; padding: 26px 26px 30px; margin: 22px 22px 22px 0; border: var(--b) solid #fff; transform: rotate(.6deg); }
+  form .f { display: block; margin-bottom: 16px; }
+  form .f span { display: block; font-family: Menlo, "Courier New", monospace; font-size: 12px; text-transform: uppercase; margin-bottom: 4px; font-weight: 700; }
+  form input[type=text], form input[type=email] { width: 100%; border: 3px solid #000; background: #fff; padding: 12px 10px; font-family: Menlo, "Courier New", monospace; font-size: 17px; text-transform: uppercase; color: #000; -webkit-appearance: none; appearance: none; }
+  form input:focus { outline: 4px solid var(--o); outline-offset: 0; }
+  form .sigline input { border: 0; border-bottom: 4px solid #000; font-family: Georgia, "Times New Roman", serif; font-style: italic; font-size: 30px; text-transform: none; padding: 6px 2px; }
+  form .checks { border: 3px solid #000; margin-bottom: 18px; }
+  form .checks label { display: flex; gap: 12px; align-items: flex-start; padding: 10px 12px; font-family: Menlo, "Courier New", monospace; font-size: 13px; text-transform: uppercase; border-bottom: 3px solid #000; cursor: pointer; line-height: 1.35; }
+  form .checks label:last-child { border-bottom: 0; }
+  form input[type=checkbox] { -webkit-appearance: none; appearance: none; width: 22px; height: 22px; flex: 0 0 22px; border: 3px solid #000; background: #fff; display: grid; place-items: center; cursor: pointer; margin-top: -2px; }
+  form input[type=checkbox]:checked { background: #000; }
+  form input[type=checkbox]:checked::after { content: "X"; color: #fff; font-family: "Helvetica Neue", Arial, sans-serif; font-weight: 900; font-size: 15px; line-height: 1; }
+  form button { display: block; width: 100%; border: 0; background: #000; color: #fff; font-family: "Helvetica Neue", "Arial Black", Arial, sans-serif; font-weight: 900; font-size: clamp(30px, 3.4vw, 46px); letter-spacing: -.045em; text-transform: uppercase; padding: 18px 12px 16px; cursor: pointer; text-align: left; }
+  form button:hover, form button:focus-visible { background: var(--o); color: #000; outline: none; }
+  form .fine { font-family: Menlo, "Courier New", monospace; font-size: 11px; text-transform: uppercase; margin-top: 12px; }
+
+  .signed { display: none; background: #fff; color: #000; margin: 22px 22px 22px 0; border: var(--b) solid #fff; }
+  .signed.on { display: block; }
+  .signed .stamp { background: var(--o); color: #000; font-family: "Helvetica Neue", "Arial Black", Arial, sans-serif; font-weight: 900; font-size: clamp(64px, 9vw, 130px); letter-spacing: -.06em; line-height: .8; padding: 18px 16px 8px; text-transform: uppercase; border-bottom: var(--b) solid #000; }
+  .signed .msg { padding: 18px 20px; font-family: "Helvetica Neue", Arial, sans-serif; font-weight: 900; font-size: 26px; line-height: 1.05; text-transform: uppercase; letter-spacing: -.03em; border-bottom: var(--b) solid #000; }
+  .signed ul { list-style: none; font-family: Menlo, "Courier New", monospace; font-size: 13px; text-transform: uppercase; }
+  .signed li { padding: 8px 20px; border-bottom: 2px solid #000; }
+  .signed li::before { content: "[ ] "; font-weight: 700; }
+  .signed .h { padding: 10px 20px; font-family: Menlo, "Courier New", monospace; font-size: 12px; text-transform: uppercase; background: #000; color: #fff; }
+  .signed .fine { padding: 12px 20px; font-family: Menlo, "Courier New", monospace; font-size: 11px; text-transform: uppercase; }
+
+  /* ---------- footer ---------- */
+  footer { display: grid; grid-template-columns: auto 1fr auto auto; font-family: Menlo, "Courier New", monospace; font-size: 12.5px; text-transform: uppercase; }
+  footer > * { padding: 16px; border-right: var(--b) solid #000; display: flex; align-items: center; }
+  footer > *:last-child { border-right: 0; }
+  footer b { font-family: "Helvetica Neue", Arial, sans-serif; font-weight: 900; font-size: 20px; letter-spacing: -.03em; }
+  footer a { background: #000; color: #fff; text-decoration: none; font-weight: 700; }
+  footer a:hover { background: var(--o); color: #000; }
+
+  /* ---------- small screens ---------- */
+  @media (max-width: 860px) {
+    .bar { grid-template-columns: auto 1fr auto; }
+    .bar .hide-s { display: none; }
+    .sticker { position: static; display: inline-block; margin: 12px; transform: rotate(-2deg); }
+    .will-row { grid-template-columns: 1fr; }
+    .will-row .say { border-left: 0; border-top: var(--b) solid #fff; }
+    .facts { grid-template-columns: 1fr 1fr; }
+    .facts > div:nth-child(2) { border-right: 0; }
+    .facts > div:nth-child(-n+2) { border-bottom: var(--b) solid #000; }
+    .facts > div:nth-child(3) { transform: none; margin: 0; border-top: 0; }
+    .theses-head { grid-template-columns: 1fr; }
+    .theses-head p { border-left: 0; border-top: var(--b) solid #000; max-width: none; }
+    .thesis { grid-template-columns: 1fr; }
+    .thesis .num { border-right: 0; border-bottom: var(--b) solid #000; font-size: 64px; padding: 10px 14px; }
+    .thesis.inv .num { border-bottom-color: #fff; }
+    .thesis .body, .thesis:nth-of-type(even) .body { padding: 20px 16px 26px; }
+    .thesis:nth-of-type(even) h3 { margin-left: 0; padding-left: 0; }
+    .thesis:nth-of-type(even) .body > :not(h3) { margin-left: 0; }
+    .thesis .txt { font-size: 18px; }
+    .clock .row { grid-template-columns: 130px 1fr; }
+    .clock .bar2 span { font-size: 20px; padding: 0 8px; }
+    .clock .bar2 em { display: none; }
+    .calc { grid-template-columns: 1fr 1fr; }
+    .calc .out { grid-column: 1 / -1; border-top: var(--b) solid #000; }
+    .calc label:nth-child(2) { border-right: 0; }
+    .calc input { width: 100%; }
+    .cover { grid-template-columns: 1fr 1fr; }
+    .cover div:nth-child(2) { border-right: 0; }
+    .cover div:nth-child(-n+2) { border-bottom: var(--b) solid #000; }
+    .sign-grid { grid-template-columns: 1fr; }
+    .sign-grid .get { border-right: 0; border-bottom: var(--b) solid #fff; }
+    form, .signed { margin: 16px; transform: none; }
+    footer { grid-template-columns: 1fr 1fr; }
+    footer > * { border-bottom: var(--b) solid #000; }
+    footer > *:nth-child(2n) { border-right: 0; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="bar">
+  <a href="../">← GALLERY</a>
+  <span>FIRST WINTER CLUB / A MANIFESTO FOR THE FIRST WINTER</span>
+  <span class="hide-s">WINTER 2026–27 / UCHICAGO</span>
+  <span class="v">v07</span>
+</nav>
+
+<header class="hero">
+  <h1 class="heavy">
+    <span class="fit l1"><span>WINTER WILL</span></span>
+    <span class="fit l2"><span>NOT KILL YOU.</span></span>
+    <span class="fit l3 black"><span>IGNORANCE</span></span>
+  </h1>
+  <div class="will-row">
+    <div class="will heavy" id="will">WILL.</div>
+    <div class="say mono">
+      <span>FIRST WINTER CLUB. A STUDENT-RUN PEER SUPPORT GROUP FOR UCHICAGO INTERNATIONAL STUDENTS ABOUT TO MEET THEIR FIRST CHICAGO WINTER. ESPECIALLY IF YOU COME FROM SOMEWHERE WARM.</span>
+      <b>READ THE EIGHT THESES.<br>THEN SIGN.</b>
+      <span><a href="#sign">→ SKIP TO THE SIGNATURE LINE</a></span>
+    </div>
+  </div>
+  <div class="sticker">READ THIS BEFORE THE FIRST SNOW. IT USUALLY COMES IN NOVEMBER.</div>
+</header>
+
+<section class="facts" aria-label="Facts">
+  <div><div class="n">31<sup>°F</sup></div><p>AVERAGE JANUARY HIGH.<br>THAT IS THE WARM PART OF THE DAY.</p></div>
+  <div><div class="n">18<sup>°F</sup></div><p>AVERAGE JANUARY LOW.<br>BEFORE THE WIND.</p></div>
+  <div><div class="n">−50<sup>°F</sup></div><p>WIND CHILL, JANUARY 2019 POLAR VORTEX. AIR TEMPERATURE: −23°F.</p></div>
+  <div><div class="n">4:20</div><p>SUNSET ON DECEMBER 21.<br>9 HOURS 08 MINUTES OF DAYLIGHT.</p></div>
+</section>
+
+<div class="tick" aria-hidden="true"><div>
+  <span>CHECK THE WIND CHILL</span><i>■</i><span>NEVER COTTON</span><i>■</i><span>BASE. MID. SHELL.</span><i>■</i><span>HAT OVER THE EARS</span><i>■</i><span>MITTENS, NOT GLOVES</span><i>■</i><span>BOOTS WITH GRIP</span><i>■</i><span>THURSDAYS 6 PM</span><i>■</i>
+  <span>CHECK THE WIND CHILL</span><i>■</i><span>NEVER COTTON</span><i>■</i><span>BASE. MID. SHELL.</span><i>■</i><span>HAT OVER THE EARS</span><i>■</i><span>MITTENS, NOT GLOVES</span><i>■</i><span>BOOTS WITH GRIP</span><i>■</i><span>THURSDAYS 6 PM</span><i>■</i>
+</div></div>
+
+<section class="theses-head">
+  <h2 class="heavy">THE THESES.</h2>
+  <p>EIGHT RULES. NO EXCEPTIONS. WRITTEN BY STUDENTS WHO WERE COLD SO YOU DO NOT HAVE TO BE.</p>
+</section>
+
+<article class="thesis">
+  <div class="num">I.</div>
+  <div class="body">
+    <h3>COTTON<br>IS A LIE.</h3>
+    <p class="txt">Cotton holds sweat. Wet fabric pulls heat out of your body. Your favorite hoodie is a cold compress. <b>Base layer: merino or synthetic. Never cotton.</b></p>
+  </div>
+</article>
+
+<article class="thesis inv">
+  <div class="num">II.</div>
+  <div class="body">
+    <h3>THE TEMPERATURE IS NOT THE NUMBER. THE WIND CHILL IS.</h3>
+    <p class="txt">The lake wind strips heat off your skin. 0°F with a 15 mph wind feels like <b>−19°F</b>. −10°F with a 20 mph wind feels like <b>−35°F</b>. Set your weather app to show wind chill. Read it before you open the door.</p>
+    <div class="clock" style="border-color:#fff; background:#fff; color:#000">
+      <div class="row"><div class="lab"><b>−18°F</b>WIND CHILL</div><div class="bar2"><span style="width:100%">30 MIN TO FROSTBITE</span></div></div>
+      <div class="row"><div class="lab"><b>−35°F</b>WIND CHILL</div><div class="bar2"><span style="width:33.3%">10 MIN</span><em>EXPOSED SKIN</em></div></div>
+      <div class="row hot"><div class="lab"><b>−48°F</b>WIND CHILL</div><div class="bar2"><span style="width:16.7%">5 MIN</span><em>COVER EVERYTHING. GO INSIDE.</em></div></div>
+    </div>
+    <div class="calc" style="border-color:#fff; background:#fff; color:#000">
+      <label>AIR TEMP °F<input id="t" type="number" value="10" max="50" min="-60" inputmode="numeric"></label>
+      <label>WIND MPH<input id="v" type="number" value="20" min="3" max="80" inputmode="numeric"></label>
+      <div class="out"><small>IT FEELS LIKE</small><strong id="wc">−9°F</strong><span class="verdict" id="vd"></span></div>
+    </div>
+  </div>
+</article>
+
+<article class="thesis">
+  <div class="num">III.</div>
+  <div class="body">
+    <h3>THREE LAYERS.<br><s>ONE BIG COAT.</s></h3>
+    <p class="txt">Air between layers is the insulation. One thick coat traps less of it, and you cannot take half of it off when you walk into a hot classroom. <b>Three layers. Every day. December to March.</b></p>
+    <div class="layers">
+      <span class="tag">03 SHELL <small>WINDPROOF. WATERPROOF. PARKA PAST THE HIPS.</small></span>
+      <div class="in">
+        <span class="tag">02 MID <small>FLEECE OR LIGHT DOWN. TRAPS THE HEAT.</small></span>
+        <div class="in">
+          <span class="tag">01 BASE <small>MERINO OR SYNTHETIC. MOVES SWEAT AWAY.</small></span>
+          <div class="core">YOU</div>
+        </div>
+      </div>
+      <p class="x">NOT: <s>A COTTON HOODIE UNDER A FASHION COAT.</s></p>
+    </div>
+  </div>
+</article>
+
+<article class="thesis">
+  <div class="num">IV.</div>
+  <div class="body">
+    <h3>COVER<br>EVERYTHING.</h3>
+    <p class="txt">Frostbite starts where you forgot. Ears. Fingers. Nose. Toes. <b>No bare skin when the wind chill drops below zero.</b></p>
+    <div class="cover">
+      <div><b>HAT.</b><p>OVER THE EARS. ALL THE WAY. NOT ON TOP OF YOUR HEAD.</p></div>
+      <div><b>MITTENS.</b><p>NOT GLOVES. FINGERS TOGETHER STAY WARMER.</p></div>
+      <div><b>GAITER.</b><p>SCARF OR NECK GAITER. PULL IT OVER YOUR NOSE.</p></div>
+      <div><b>BOOTS.</b><p>INSULATED. WATERPROOF. REAL GRIP. THE ICE STAYS FOR MONTHS.</p></div>
+    </div>
+  </div>
+</article>
+
+<article class="thesis">
+  <div class="num">V.</div>
+  <div class="body">
+    <h3>WARMTH IS CHEAP.<br>PANIC IS EXPENSIVE.</h3>
+    <p class="txt">Do not buy the first $600 coat you see in December. <b>You can dress for Chicago on a student budget.</b></p>
+    <ul class="cheap">
+      <li><span>01</span><span>THRIFT STORES. WOOL, FLEECE, AND PARKAS PEOPLE OUTGREW.</span></li>
+      <li><span>02</span><span>UNIQLO HEATTECH. A CHEAP SYNTHETIC BASE LAYER.</span></li>
+      <li><span>03</span><span>COSTCO. BULK SOCKS, THERMALS, SOMETIMES A GOOD PARKA.</span></li>
+      <li><span>04</span><span>THE CLUB GEAR SWAP. NOVEMBER. FREE. BRING WHAT YOU DON'T NEED. TAKE WHAT YOU DO.</span></li>
+    </ul>
+  </div>
+</article>
+
+<article class="thesis inv">
+  <div class="num">VI.</div>
+  <div class="body">
+    <h3>THE DARK IS PART OF THE COLD.</h3>
+    <p class="txt">On December 21 the sun sets around 4:20 PM. You get about nine hours of daylight. It gets into your head. <b>Go outside at midday. Ask a doctor about vitamin D. Notice when a friend goes quiet.</b></p>
+  </div>
+</article>
+
+<article class="thesis">
+  <div class="num">VII.</div>
+  <div class="body">
+    <h3>NOBODY DOES THEIR FIRST WINTER ALONE.</h3>
+    <p class="txt">We meet every <b>Thursday at 6 PM on campus.</b> Someone who survived last winter. Someone from as far away as you. Hot drinks. Bad jokes about the wind. <b>Check in on each other.</b></p>
+  </div>
+</article>
+
+<article class="thesis">
+  <div class="num">VIII.</div>
+  <div class="body">
+    <h3>PREPARE IN OCTOBER.<br>NOT IN JANUARY.</h3>
+    <p class="txt">The first snow usually arrives in November. The real cold follows. <b>Gear up while the stores are stocked and the sidewalks are dry. Start now.</b></p>
+  </div>
+</article>
+
+<section class="sign" id="sign">
+  <h2 class="heavy fit"><span>SIGN THE MANIFESTO.</span></h2>
+  <div class="sign-grid">
+    <div class="get">
+      <h4>WHAT YOUR SIGNATURE GETS YOU:</h4>
+      <ol>
+        <li>MEMBERSHIP.<small>THURSDAYS. 6 PM. ON CAMPUS. FREE. FOREVER.</small></li>
+        <li>THE FIRST WINTER CHECKLIST.<small>FREE. EVERY ITEM. EVERY CHEAP PLACE TO GET IT.</small></li>
+        <li>THE NOVEMBER GEAR SWAP.<small>BRING WHAT YOU OUTGREW. TAKE WHAT YOU NEED.</small></li>
+        <li>PEOPLE.<small>WHO WILL ASK IF YOU ARE OK IN FEBRUARY.</small></li>
+      </ol>
+    </div>
+    <div>
+      <form id="f" novalidate>
+        <label class="f"><span>NAME</span><input id="nm" type="text" required autocomplete="name"></label>
+        <label class="f"><span>UCHICAGO EMAIL</span><input id="em" type="email" required placeholder="CNETID@UCHICAGO.EDU" autocomplete="email"></label>
+        <label class="f"><span>WHERE YOU ARE FROM (THE WARM PLACE)</span><input type="text" placeholder="E.G. LAGOS / MUMBAI / SÃO PAULO"></label>
+        <div class="checks">
+          <label><input type="checkbox" required id="c1"> I WILL NOT WEAR COTTON AS A BASE LAYER. (REQUIRED)</label>
+          <label><input type="checkbox" required id="c2"> I WILL CHECK THE WIND CHILL, NOT THE TEMPERATURE. (REQUIRED)</label>
+          <label><input type="checkbox"> I HAVE NEVER SEEN SNOW.</label>
+        </div>
+        <label class="f sigline"><span>SIGN HERE (TYPE YOUR NAME)</span><input id="sg" type="text" required></label>
+        <button type="submit">SIGN THE MANIFESTO. →</button>
+        <p class="fine" id="err">PROTOTYPE. THIS FORM SENDS NOTHING. STORES NOTHING.</p>
+      </form>
+      <div class="signed" id="ok" role="status" aria-live="polite">
+        <div class="stamp">SIGNED.</div>
+        <div class="msg" id="okmsg">YOU ARE IN. THURSDAY. 6 PM. THE CHECKLIST IS YOURS.</div>
+        <div class="h">THE FIRST WINTER CHECKLIST / PREVIEW</div>
+        <ul>
+          <li>BASE LAYER. MERINO OR SYNTHETIC. NOT COTTON.</li>
+          <li>MID LAYER. FLEECE OR LIGHT DOWN.</li>
+          <li>SHELL. WINDPROOF, WATERPROOF, PAST THE HIPS.</li>
+          <li>HAT OVER THE EARS. MITTENS. GAITER.</li>
+          <li>INSULATED WATERPROOF BOOTS WITH GRIP.</li>
+          <li>WEATHER APP SET TO SHOW WIND CHILL.</li>
+          <li>MIDDAY LIGHT. ASK A DOCTOR ABOUT VITAMIN D.</li>
+          <li>ONE FRIEND TO CHECK ON. ONE FRIEND WHO CHECKS ON YOU.</li>
+        </ul>
+        <p class="fine">PROTOTYPE. NOTHING WAS SENT. NOTHING WAS STORED.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <b>FIRST WINTER CLUB</b>
+  <span>STUDENT-RUN PEER SUPPORT. NOT A UNIVERSITY OFFICE. NOT MEDICAL ADVICE. STAY WARM.</span>
+  <a href="../">← GALLERY</a>
+  <span style="text-transform:none">v07 / BRUTALIST MANIFESTO</span>
+</footer>
+
+<script>
+  // Fit each .fit line exactly edge to edge.
+  function fitAll() {
+    document.querySelectorAll('.fit').forEach(function (el) {
+      var inner = el.firstElementChild;
+      el.style.fontSize = '100px';
+      var cs = getComputedStyle(el);
+      var avail = el.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+      var w = inner.getBoundingClientRect().width;
+      if (w > 0) el.style.fontSize = (100 * avail / w * 0.995) + 'px';
+    });
+    var ign = document.querySelector('.hero .l3');
+    document.getElementById('will').style.fontSize = ign.style.fontSize;
+  }
+  addEventListener('resize', fitAll);
+  fitAll();
+
+  // Wind chill (NWS formula).
+  var t = document.getElementById('t'), v = document.getElementById('v');
+  function calc() {
+    var T = parseFloat(t.value), V = parseFloat(v.value), out = document.getElementById('wc'), vd = document.getElementById('vd');
+    if (isNaN(T) || isNaN(V)) { out.textContent = '—'; vd.textContent = 'ENTER NUMBERS.'; vd.className = 'verdict'; return; }
+    var w = (T <= 50 && V >= 3) ? Math.round(35.74 + 0.6215 * T - 35.75 * Math.pow(V, 0.16) + 0.4275 * T * Math.pow(V, 0.16)) : Math.round(T);
+    out.textContent = (w < 0 ? '−' + Math.abs(w) : w) + '°F';
+    var msg, bad = false;
+    if (w <= -48) { msg = 'FROSTBITE IN ~5 MIN. STAY INSIDE IF YOU CAN.'; bad = true; }
+    else if (w <= -35) { msg = 'FROSTBITE IN ~10 MIN. NO BARE SKIN.'; bad = true; }
+    else if (w <= -18) { msg = 'FROSTBITE IN ~30 MIN. COVER YOUR FACE.'; bad = true; }
+    else if (w <= 0) { msg = 'BELOW ZERO. ALL THREE LAYERS. HAT. MITTENS.'; }
+    else if (w <= 32) { msg = 'BELOW FREEZING. LAYER UP.'; }
+    else { msg = 'COLD. NOT DANGEROUS. STILL NO COTTON.'; }
+    vd.textContent = msg; vd.className = 'verdict' + (bad ? ' bad' : '');
+  }
+  t.addEventListener('input', calc); v.addEventListener('input', calc); calc();
+
+  // Join form: no data leaves the page.
+  document.getElementById('f').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var f = e.target, err = document.getElementById('err');
+    if (!f.checkValidity()) {
+      err.textContent = 'INCOMPLETE. NAME, UCHICAGO EMAIL, BOTH OATHS, SIGNATURE. NO EXCEPTIONS.';
+      err.style.background = '#ff4d00'; err.style.padding = '4px 6px';
+      var bad = f.querySelector(':invalid'); if (bad) bad.focus();
+      return;
+    }
+    var name = document.getElementById('nm').value.trim().toUpperCase();
+    document.getElementById('okmsg').textContent = name + '. YOU ARE IN. THURSDAY. 6 PM. THE CHECKLIST IS YOURS. WINTER IS NOT.';
+    f.style.display = 'none';
+    var ok = document.getElementById('ok'); ok.classList.add('on'); ok.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+</script>
+</body>
+</html>
