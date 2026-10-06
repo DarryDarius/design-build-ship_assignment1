@@ -40,3 +40,13 @@ Claude proposed two convergence plans with a side-by-side comparison:
 - v15 Side by side: Meera's letter in a sticky left column, the catalog and the v05 wind chill tool on the right.
 
 **My take:** _TODO_
+
+**Chose v15 (Claude's recommendation).** "Company on the left, checklist on the right" is the clearest form of why I picked Plan 1: reassurance and something actionable, side by side. It's also the least likely to look like anyone else's page. v13 was the easiest to scan but closest to a generic product page. v14 was the warmest, but the practical info was buried in the story. v15's weak spot is mobile: the halves stack and the sync is lost. That becomes the problem for the next batch.
+
+## Batch 5 (v16–v19): four variations on v15
+- v16 Mobile fix: on phones, Meera's letter becomes a small synced "Meera says" card that follows you through the catalog.
+- v17 Lead with Meera: the first screen is her, not the product cover.
+- v18 Shorter page with a sticky checklist CTA: about 30% shorter, and the checklist is always one tap away.
+- v19 Cold night palette: facts in cold navy and ice, and warm color only where people are (Meera, the club).
+
+**My take:** _TODO_
