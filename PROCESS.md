@@ -50,3 +50,13 @@ Claude proposed two convergence plans with a side-by-side comparison:
 - v19 Cold night palette: facts in cold navy and ice, and warm color only where people are (Meera, the club).
 
 **My take:** _TODO_
+
+## Converging (v20–v25)
+**Chose Plan A (Claude's recommendation): merge all four variations, including v19's cold night palette.** v19 isn't just a color change. It makes "joining the club" look like "stepping into the warm," which is exactly the feeling this page should give a student who's scared of the cold. Plan B (merge v16–v18 and keep v15's daytime palette) was safer, but flatter and easier to confuse with other pages.
+
+- v20 Merge: v19 palette + v17 opening (Meera's lit window at night) + v18 cuts and sticky checklist CTA + v16 mobile "Meera says" dock.
+- v21 Voice: one consistent Meera, and cut any copy that repeats.
+- v22 Accessibility + mobile: contrast, focus states, keyboard, reduced motion, tap targets.
+- v23 The reward: the First Winter Checklist itself as a real, printable page after joining.
+- v24 Details: micro-interactions, spacing rhythm, performance.
+- v25 Final.

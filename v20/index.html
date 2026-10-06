@@ -1,0 +1,1406 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>v20 · Merge · First Winter Club</title>
+<style>
+  :root {
+    /* PEOPLE: warm (Meera, her letter, her notes, the club, the CTA) */
+    --cream: #f6eddd; --cream-d: #efe2cb; --room: #f6e7cd; --paper: #fffaf1;
+    --wink: #3b2719; --wsoft: #70543f; --wdim: #6f5442; --wline: #e2cba8;
+    --rust: #a6481f; --rust-d: #8c3c1c; --rust-l: #d98f6f;
+    --amber: #f2b45a; --amber-l: #ffcf8a; --candle: #f3c58e;
+    --glow: rgba(255,196,120,.42);
+    /* WINTER: cold (the catalog, the facts) */
+    --night: #0f1b2d; --night-2: #13233a; --night-0: #0b1524;
+    --card: #16263c; --card-2: #1f3550; --line: #2a3f5c; --line-2: #3a5273;
+    --slate: #5d7896; --slate-l: #6f8fb3; --glacier: #8fb4d9; --ice-2: #a9c8e8;
+    --ice: #dbe7f3; --frost: #f4f8fc; --text: #c9d7e6; --mute: #9fb3c8;
+    /* wind chill scale: colder = frostier */
+    --z0: #263c56; --zb: #3a5b80; --z30: #6f97c2; --z10: #a9c8e8; --z5: #eef5fc;
+    --serif: "Iowan Old Style", "Charter", "Bitstream Charter", "Palatino", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+    --sans: "Avenir Next", Avenir, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --bar: 48px;
+    --s1: 8px; --s2: 16px; --s3: 24px; --s4: 32px; --s6: 48px; --s8: 64px;
+    --left: 38fr; --right: 62fr;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; background: var(--night); }
+  body { margin: 0; background: var(--night); color: var(--ice); font-family: var(--sans); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; }
+  section, .meet, #read, #get { scroll-margin-top: var(--bar); }
+  .sc { font-variant-caps: all-small-caps; letter-spacing: .085em; color: var(--rust); }
+  h1 em, h2 em, .fine { font-family: var(--serif); font-style: italic; font-weight: 400; }
+
+  /* falling snow, shared by the opening and the catalog: two tiles that move exactly one tile, so the loop is seamless */
+  .snowfx::before, .snowfx::after { content: ""; position: absolute; left: 0; right: 0; will-change: transform; pointer-events: none; }
+  .snowfx::before { top: -240px; height: calc(100% + 240px); background-size: 240px 240px; animation: fall 22s linear infinite;
+    background-image:
+      radial-gradient(circle at 18px 30px, rgba(244,248,252,.55) 0 1.4px, transparent 2.2px),
+      radial-gradient(circle at 132px 74px, rgba(244,248,252,.4) 0 1px, transparent 1.8px),
+      radial-gradient(circle at 76px 158px, rgba(244,248,252,.5) 0 1.6px, transparent 2.4px),
+      radial-gradient(circle at 200px 196px, rgba(244,248,252,.35) 0 1px, transparent 1.8px),
+      radial-gradient(circle at 210px 20px, rgba(244,248,252,.3) 0 .9px, transparent 1.6px); }
+  .snowfx::after { top: -330px; height: calc(100% + 330px); background-size: 330px 330px; animation: fall2 34s linear infinite; opacity: .7;
+    background-image:
+      radial-gradient(circle at 60px 90px, rgba(219,231,243,.5) 0 2px, transparent 3px),
+      radial-gradient(circle at 250px 40px, rgba(219,231,243,.35) 0 1.3px, transparent 2.2px),
+      radial-gradient(circle at 170px 260px, rgba(219,231,243,.45) 0 1.8px, transparent 2.8px),
+      radial-gradient(circle at 300px 180px, rgba(219,231,243,.3) 0 1px, transparent 1.8px); }
+  @keyframes fall { to { transform: translateY(240px); } }
+  @keyframes fall2 { to { transform: translateY(330px); } }
+
+  /* ───────── top bar: a lit window on the left, the night on the right ───────── */
+  .bar { position: sticky; top: 0; z-index: 30; height: var(--bar); display: grid; grid-template-columns: var(--left) var(--right); }
+  .bar .bl { background: var(--cream-d); display: flex; align-items: center; justify-content: space-between; padding: 0 var(--s4); font-family: var(--serif); color: var(--wsoft); border-bottom: 2px solid var(--amber); }
+  .bar .bl a { font-style: italic; text-decoration: none; border-bottom: 1px solid transparent; }
+  .bar .bl a:hover, .bar .bl a:focus-visible { color: var(--rust); border-bottom-color: var(--rust-l); outline: none; }
+  .bar .bl .club { font-variant-caps: all-small-caps; letter-spacing: .26em; color: var(--rust); font-size: 15px; }
+  .bar .br { background: var(--night-0); color: var(--ice); display: flex; align-items: center; justify-content: space-between; padding: 0 var(--s4); gap: var(--s3); border-bottom: 2px solid var(--line-2); }
+  .bar nav { display: flex; gap: 22px; font-size: 12.5px; font-weight: 600; letter-spacing: .04em; }
+  .bar nav a { white-space: nowrap; text-decoration: none; padding: 4px 0; border-bottom: 2px solid transparent; opacity: .8; transition: opacity .3s, border-color .3s; }
+  .bar nav a:hover, .bar nav a.on { opacity: 1; border-bottom-color: var(--glacier); }
+  .bar nav a.go { opacity: 1; color: var(--amber-l); }
+  .bar nav a.go.on { border-bottom-color: var(--amber); }
+  .bar nav a:focus-visible { outline: 2px solid var(--amber-l); outline-offset: 3px; }
+  .ver { font-size: 11.5px; font-weight: 700; letter-spacing: .16em; border: 1px solid rgba(219,231,243,.5); padding: 2px 9px; border-radius: 2px; white-space: nowrap; }
+
+  /* ───────── the opening: Meera first, a lit window in the night ───────── */
+  .open {
+    position: relative; overflow: hidden;
+    min-height: calc(100vh - var(--bar)); display: flex; flex-direction: column;
+    background-color: var(--night-0);
+    background-image:
+      radial-gradient(ellipse 42% 58% at 74% 44%, rgba(255,184,104,.22), rgba(255,184,104,0) 72%),
+      radial-gradient(ellipse 70% 40% at 50% 0%, rgba(143,180,217,.08), rgba(143,180,217,0) 70%),
+      linear-gradient(180deg, var(--night-0), var(--night) 70%);
+    border-bottom: 1px solid var(--line);
+  }
+  .open > * { position: relative; z-index: 1; }
+  .open > .snowfx { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+  .open-in { flex: 1; width: 100%; max-width: 1200px; margin: 0 auto; padding: 40px 56px 32px; display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr); gap: 56px; align-items: center; }
+  .open .hello { margin: 0 0 18px; font-family: var(--serif); font-size: 17px; color: var(--candle); font-style: italic; }
+  .open .hello .sc { font-style: normal; font-size: 18px; margin-right: .3em; color: var(--amber); }
+  .open h1 { margin: 0 0 22px; font-family: var(--serif); font-weight: 400; font-size: clamp(44px, 5.4vw, 74px); line-height: 1.02; letter-spacing: -.012em; color: var(--cream); text-shadow: 0 0 40px rgba(255,190,110,.18); }
+  .open h1 em { color: var(--amber-l); }
+  .open .promise { margin: 0 0 30px; max-width: 30ch; font-family: var(--serif); font-size: 21px; line-height: 1.5; color: var(--cream-d); }
+  .open .sig { margin: 22px 0 0; font-family: var(--serif); font-style: italic; color: var(--candle); font-size: 15px; max-width: 44ch; }
+  .open .sig b { font-weight: 400; color: var(--amber-l); font-size: 1.35em; margin-right: .2em; }
+  .open .hint { display: none; }
+  .btns { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn { display: inline-block; text-decoration: none; font-weight: 600; font-size: 14.5px; padding: 14px 20px; border-radius: 2px; border: 1.5px solid var(--ice); transition: background .25s, box-shadow .25s, color .25s; }
+  .btn.primary { background: var(--amber); border-color: var(--amber); color: #2a1708; box-shadow: 0 6px 26px -6px rgba(242,180,90,.55); }
+  .btn.primary:hover, .btn.primary:focus-visible { background: var(--amber-l); border-color: var(--amber-l); box-shadow: 0 0 0 4px rgba(242,180,90,.22), 0 8px 34px -6px rgba(255,190,110,.7); outline: none; }
+  .btn.soft { border-color: rgba(243,197,142,.7); color: var(--candle); font-family: var(--serif); font-weight: 400; font-style: italic; font-size: 16px; padding: 12px 20px; }
+  .btn.soft:hover, .btn.soft:focus-visible { background: var(--candle); color: var(--night-0); outline: none; }
+  .portrait { margin: 0; justify-self: center; width: 100%; max-width: 470px; }
+  .portrait svg { display: block; width: 100%; height: auto; border-radius: 3px;
+    box-shadow: 0 0 0 1px rgba(242,180,90,.55), 0 0 90px -6px rgba(255,180,96,.5), 0 34px 60px -30px rgba(0,0,0,.7); }
+  .portrait figcaption { margin-top: 12px; font-family: var(--serif); font-style: italic; font-size: 14px; color: var(--candle); text-align: right; }
+  /* the facts under her: cold */
+  .facts { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 56px; }
+  .facts .row { margin: 0; display: grid; grid-template-columns: auto repeat(3, minmax(0, 1fr)); align-items: baseline; border-top: 1px solid rgba(219,231,243,.3); padding: 16px 0 22px; }
+  .facts .k { margin: 0; font-size: 10.5px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--glacier); padding-right: 32px; line-height: 1.5; }
+  .facts .row > div { display: flex; align-items: baseline; gap: 12px; padding: 0 20px; border-left: 1px solid var(--line-2); }
+  .facts b { font-weight: 500; font-size: 24px; letter-spacing: -.02em; color: var(--frost); white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .facts span { margin: 0; font-size: 12.5px; line-height: 1.4; color: var(--mute); }
+
+  /* ───────── the split ───────── */
+  .split { display: grid; grid-template-columns: var(--left) var(--right); }
+  .left {
+    position: relative; z-index: 2;
+    background-color: var(--cream);
+    min-width: 0;
+    /* the window's light spills a little onto the snow */
+    box-shadow: 1px 0 0 rgba(242,180,90,.55), 22px 0 70px -26px rgba(255,180,96,.45);
+  }
+  /* the sticky column: letter on top, checklist card pinned underneath */
+  .stick {
+    position: sticky; top: var(--bar); height: calc(100vh - var(--bar)); display: flex; flex-direction: column;
+    background-image:
+      radial-gradient(ellipse 70% 46% at 52% 40%, var(--glow), rgba(255,196,120,0) 72%),
+      radial-gradient(ellipse 130% 90% at 50% 45%, rgba(246,237,221,0) 58%, rgba(196,130,70,.13)),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .22 0 0 0 0 .12 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  .letter { position: relative; flex: 1; min-height: 0; overflow: hidden; }
+  .letter::before, .letter::after { content: ""; position: absolute; left: 0; right: 0; height: 56px; z-index: 2; pointer-events: none; }
+  .letter::before { top: 0; background: linear-gradient(var(--cream), rgba(246,237,221,0)); }
+  .letter::after { bottom: 0; height: 110px; background: linear-gradient(rgba(246,237,221,0), var(--cream) 55%); }
+  .letter-in { position: relative; padding: var(--s6) 44px 60vh; transition: transform .9s cubic-bezier(.3,.7,.2,1); will-change: transform; }
+  .folio { position: absolute; z-index: 3; left: 44px; right: 44px; bottom: 10px; display: flex; justify-content: space-between; align-items: center; font-family: var(--serif); font-size: 13px; color: var(--wsoft); font-style: italic; }
+  .folio .pips { display: flex; gap: 6px; }
+  .folio .pips i { width: 7px; height: 7px; border-radius: 50%; border: 1px solid var(--rust-l); transition: background .4s, box-shadow .4s; }
+  .folio .pips i.on { background: var(--amber); border-color: var(--rust); box-shadow: 0 0 6px rgba(242,180,90,.8); }
+
+  .cta { flex: none; position: relative; z-index: 3; margin: 6px 28px 22px; display: grid; grid-template-columns: 30px 1fr auto; gap: 12px; align-items: center;
+    background: var(--paper); border: 1px solid var(--wline); border-top: 3px solid var(--amber); border-radius: 2px; padding: 12px 12px 12px 14px;
+    box-shadow: 0 14px 30px -20px rgba(59,39,25,.55), 0 0 34px -10px rgba(255,190,110,.6);
+    transition: opacity .35s, transform .35s, visibility 0s 0s; }
+  .cta.off { opacity: 0; transform: translateY(12px); visibility: hidden; transition: opacity .35s, transform .35s, visibility 0s .35s; }
+  .cta svg { width: 30px; height: 38px; display: block; }
+  .cta .t { min-width: 0; line-height: 1.3; }
+  .cta .t b { display: block; font-size: 14px; font-weight: 600; color: var(--wink); }
+  .cta .t small { display: block; font-size: 12px; color: var(--wsoft); letter-spacing: .02em; }
+  .cta a { font-weight: 600; font-size: 13.5px; background: var(--rust); color: #fff6ec; text-decoration: none; padding: 10px 14px; border-radius: 2px; white-space: nowrap; box-shadow: 0 6px 18px -10px rgba(166,72,31,.9); transition: background .2s, box-shadow .2s; }
+  .cta a:hover, .cta a:focus-visible { background: var(--rust-d); outline: none; box-shadow: 0 0 0 3px rgba(242,180,90,.55); }
+
+  .w { font-family: var(--serif); color: var(--wink); font-size: 17.5px; line-height: 1.7; font-variant-numeric: oldstyle-nums proportional-nums; }
+  .w p { margin: 0 0 .9em; hanging-punctuation: first; }
+  .mast { text-align: center; margin: 0 0 var(--s4); }
+  .mast .club { margin: 0; font-variant-caps: all-small-caps; letter-spacing: .32em; color: var(--rust); font-size: 17px; }
+  .mast .rule { display: block; width: 2.2em; height: 1px; background: var(--rust-l); margin: .7em auto; }
+  .mast h2 { margin: 0; font-weight: 400; font-style: italic; font-size: 16px; color: var(--wsoft); }
+
+  .beat { position: relative; padding: var(--s2) 0 var(--s2) var(--s3); margin: 0 0 var(--s2); border-left: 2px solid transparent; transition: color .6s, border-color .6s, opacity .6s; color: var(--wdim); }
+  .beat .sc { color: inherit; transition: color .6s; }
+  .beat.on { color: var(--wink); border-left-color: var(--amber); }
+  .beat.on .sc { color: var(--rust-d); }
+  .beat::after { content: ""; position: absolute; top: 26px; right: -44px; width: 0; height: 0; border: 7px solid transparent; border-right-color: var(--amber); opacity: 0; transition: opacity .6s; }
+  .beat.on::after { opacity: 1; }
+  .beat .to { display: inline-block; margin-bottom: 6px; font-family: var(--sans); font-size: 10.5px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; text-decoration: none; color: var(--wdim); transition: color .6s; }
+  .beat.on .to { color: var(--rust-d); }
+  .beat .to:hover, .beat .to:focus-visible { text-decoration: underline; text-underline-offset: 3px; outline: none; }
+  .first::first-letter { float: left; font-size: 3.3em; line-height: .86; margin: .07em .08em 0 -.02em; color: var(--rust); }
+  .beat:not(.on) .first::first-letter { color: var(--rust-l); }
+  .salute { font-size: 1.05em; }
+
+  .sticky-note { margin: .4em 0 1em; padding: .1em 0 .1em 1em; border-left: 1px solid var(--rust-l); font-size: .95em; }
+  .sticky-note .row { display: flex; gap: .5em; align-items: baseline; margin: 0 0 .2em; padding: 1px 6px; margin-left: -6px; border-radius: 2px; transition: background .4s, color .4s; }
+  .sticky-note .row b { font-weight: 400; min-width: 6.4em; font-variant-numeric: lining-nums tabular-nums; white-space: nowrap; }
+  .sticky-note .row span { text-align: right; }
+  .sticky-note .row i { flex: 1; border-bottom: 1px dotted var(--rust-l); transform: translateY(-.3em); }
+  .beat.on .sticky-note .row.hot, .sheet-bd .sticky-note .row.hot { background: rgba(242,180,90,.3); color: var(--rust-d); }
+  .onward { font-style: italic; color: var(--wsoft); text-align: center; margin: var(--s3) 0 0; font-size: 15.5px; }
+
+  /* ───────── the catalog (right): a winter night ───────── */
+  .right { min-width: 0; position: relative; background: var(--night); container-type: inline-size; container-name: cat; }
+  .snow { position: sticky; top: 0; height: 100vh; margin-bottom: -100vh; overflow: hidden; pointer-events: none; z-index: 0;
+    background: radial-gradient(ellipse 60% 40% at 100% 0%, rgba(219,231,243,.07), transparent 70%), radial-gradient(ellipse 50% 35% at 0% 100%, rgba(143,180,217,.06), transparent 70%); }
+
+  .sec { position: relative; z-index: 1; padding: 56px var(--s6); border-bottom: 1px solid var(--line); }
+  .sec.alt { background: rgba(22,38,60,.55); }
+  .kicker { font-size: 11px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--glacier); }
+  .code { font-size: 10.5px; font-weight: 700; letter-spacing: .12em; color: var(--mute); white-space: nowrap; }
+  .sh { display: flex; justify-content: space-between; align-items: end; gap: var(--s3); border-bottom: 1px solid rgba(219,231,243,.45); padding-bottom: 14px; margin-bottom: var(--s4); }
+  .sh h2 { margin: 6px 0 0; font-size: 32px; line-height: 1.1; font-weight: 600; letter-spacing: -.015em; color: var(--frost); }
+  .sh h2 em { color: var(--ice-2); font-size: 1.06em; letter-spacing: 0; }
+  .sh .pg { font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--mute); white-space: nowrap; }
+
+  /* catalog front page, now short: the opening already did the hello */
+  .cover h2 { font-size: 32px; line-height: 1.1; font-weight: 600; letter-spacing: -.02em; margin: 8px 0 12px; color: var(--frost); }
+  .cover h2:focus { outline: none; }
+  .cover h2 em { color: var(--ice-2); letter-spacing: 0; }
+  .lede { font-size: 15.5px; line-height: 1.6; max-width: 56ch; margin: 0; color: var(--text); }
+  .tagline { margin-top: var(--s4); display: grid; grid-template-columns: auto 1fr; gap: var(--s3); align-items: center; background: var(--card); border: 1px solid var(--line); color: var(--ice); padding: var(--s2) var(--s3); border-radius: 2px; }
+  .tagline svg { width: 64px; height: 64px; }
+  .tagline p { margin: 0; font-size: 15px; line-height: 1.5; }
+  .tagline p em { font-family: var(--serif); font-style: italic; color: var(--ice-2); font-size: 17px; }
+
+  /* layering system */
+  .layers { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; gap: 0; align-items: stretch; }
+  .plus { display: grid; place-items: center; width: 28px; font-size: 22px; color: var(--glacier); font-weight: 300; }
+  .lyr { background: var(--card); border: 1px solid var(--line); border-radius: 2px; display: flex; flex-direction: column; }
+  .lyr .ph { background: var(--card-2); border-bottom: 1px solid var(--line); height: 112px; display: grid; place-items: center; position: relative; }
+  .lyr .ph svg { height: 92px; width: auto; }
+  .lyr .no { position: absolute; top: 8px; left: 10px; font-size: 26px; font-weight: 300; color: var(--glacier); line-height: 1; }
+  .lyr .bd { padding: 14px 16px 16px; flex: 1; display: flex; flex-direction: column; }
+  .lyr h3 { margin: 0; font-size: 16px; font-weight: 600; color: var(--frost); }
+  .lyr h3 small { display: block; font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 14px; color: var(--mute); }
+  .lyr p { margin: 8px 0 12px; font-size: 13.5px; color: var(--text); }
+  .lyr p b { color: var(--frost); }
+  .specs { display: grid; grid-template-columns: 1fr; gap: 0; font-size: 12.5px; margin: auto 0 0; }
+  .specs dt { color: var(--mute); text-transform: uppercase; letter-spacing: .1em; font-size: 10px; font-weight: 600; padding-top: 7px; border-top: 1px solid var(--line); }
+  .specs dd { margin: 0; color: var(--ice); }
+
+  /* kit: compact spec cards, one warm line each */
+  .kit { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s2); }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 2px; display: flex; flex-direction: column; transition: border-color .3s, transform .3s; }
+  @media (hover: hover) { .card:hover { border-color: var(--slate-l); transform: translateY(-2px); } }
+  .card .top { display: grid; grid-template-columns: 76px 1fr; gap: 12px; align-items: center; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+  .card .top .ic { background: var(--card-2); border-radius: 2px; height: 60px; display: grid; place-items: center; position: relative; }
+  .card .top svg { width: 70px; height: 52px; }
+  .card h3 { margin: 2px 0 0; font-size: 15px; line-height: 1.2; font-weight: 600; color: var(--frost); }
+  .card .badge { position: absolute; top: -7px; left: -6px; font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; background: var(--ice); color: var(--night); padding: 2px 5px; border-radius: 2px; white-space: nowrap; }
+  .card .rate { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 8px 14px; font-size: 12.5px; }
+  /* Meera's note: the one warm line on every cold card */
+  .card .fine { margin: auto 0 0; padding: 9px 14px 12px 30px; font-size: 13.5px; color: var(--candle); border-top: 1px dotted rgba(242,180,90,.45); position: relative;
+    background: linear-gradient(180deg, rgba(242,180,90,.13), rgba(242,180,90,.04)); }
+  .card .fine::before { content: ""; position: absolute; left: 14px; top: 16px; width: 6px; height: 6px; border-radius: 50%; background: var(--amber-l); box-shadow: 0 0 8px 2px rgba(255,190,110,.6); }
+  .dots { letter-spacing: .12em; color: var(--ice-2); font-size: 13px; }
+  .dots s, .budget s { text-decoration: none; color: var(--slate); }   /* empty slots: dim but still 3:1 */
+  .budget { font-weight: 700; letter-spacing: .04em; color: var(--frost); }
+  .where { margin: var(--s3) 0 0; display: flex; gap: var(--s2); align-items: baseline; flex-wrap: wrap; background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--glacier); padding: 12px 16px; font-size: 14px; color: var(--text); }
+  .where b { color: var(--frost); white-space: nowrap; }
+  .where small { color: var(--mute); font-size: 12px; flex-basis: 100%; }
+
+  /* rated to */
+  .rated { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.12fr); gap: var(--s3); align-items: start; }
+  .panel { background: var(--card); border: 1px solid var(--line); border-radius: 2px; padding: var(--s3); }
+  .panel .lbl { font-size: 10.5px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--mute); display: flex; justify-content: space-between; margin-bottom: 10px; }
+  .ctl label { display: flex; justify-content: space-between; font-size: 13px; color: var(--mute); }
+  .ctl label b { color: var(--frost); font-size: 15px; font-variant-numeric: tabular-nums; }
+  input[type=range] { --track: linear-gradient(90deg, var(--z5), var(--z10) 25%, var(--z30) 50%, var(--zb) 72%, var(--z0)); -webkit-appearance: none; appearance: none; width: 100%; height: 6px; border-radius: 6px; outline: none; margin: 10px 0 20px; background: var(--track); }
+  input[type=range].wind { --track: linear-gradient(90deg, var(--z0), var(--ice-2)); }
+  input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%; background: var(--frost); border: 3px solid var(--slate); box-shadow: 0 2px 8px rgba(0,0,0,.5); cursor: pointer; }
+  input[type=range]::-moz-range-thumb { width: 18px; height: 18px; border-radius: 50%; background: var(--frost); border: 3px solid var(--slate); cursor: pointer; }
+  input[type=range]:focus-visible::-webkit-slider-thumb { outline: 3px solid rgba(143,180,217,.7); outline-offset: 2px; }
+  input[type=range]:focus-visible::-moz-range-thumb { outline: 3px solid rgba(143,180,217,.7); outline-offset: 2px; }
+  .readout { border-top: 1px solid rgba(219,231,243,.45); padding-top: 14px; display: grid; grid-template-columns: auto 1fr; gap: 4px 18px; align-items: center; }
+  .readout .fl { font-size: 10.5px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--glacier); grid-column: 1 / -1; }
+  .readout .num { font-size: 68px; font-weight: 300; line-height: 1; letter-spacing: -.04em; font-variant-numeric: tabular-nums; color: var(--frost); }
+  .readout .num sup { font-size: .4em; vertical-align: .9em; margin-left: 2px; }
+  .risk { display: inline-block; padding: 5px 10px; border-radius: 2px; font-size: 13px; font-weight: 700; background: var(--z0); border: 1px solid var(--line-2); color: var(--ice); }
+  .risk.zb { background: var(--zb); border-color: var(--zb); color: var(--frost); }
+  .risk.z30 { background: var(--z30); border-color: var(--z30); color: var(--night-0); }
+  .risk.z10 { background: var(--z10); border-color: var(--z10); color: var(--night-0); }
+  .risk.z5 { background: var(--z5); border-color: var(--z5); color: var(--night-0); box-shadow: 0 0 14px rgba(238,245,252,.35); }
+  .readout .air { font-size: 12.5px; color: var(--mute); margin-top: 6px; }
+  .wear { margin-top: var(--s2); padding: 12px 14px; background: var(--card-2); border-radius: 2px; font-size: 13.5px; color: var(--text); }
+  .wear .k { font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--mute); display: block; margin-bottom: 2px; }
+  .wear b { display: block; font-size: 15px; color: var(--frost); }
+  .presets { display: flex; flex-direction: column; gap: 6px; margin-top: var(--s2); }
+  .presets button { font: inherit; font-size: 12.5px; text-align: left; display: flex; justify-content: space-between; gap: 10px; background: transparent; border: 1px solid var(--line-2); border-radius: 2px; padding: 7px 10px; cursor: pointer; color: var(--ice); transition: border-color .2s, background .2s, color .2s; }
+  .presets button:hover, .presets button:focus-visible { border-color: var(--ice-2); background: var(--card-2); outline: none; }
+  .presets button span { color: var(--mute); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .presets button em { font-family: var(--serif); font-size: 14px; }
+  .presets button.on { border-color: var(--ice-2); background: var(--card-2); }
+  .presets button.meera { border-color: rgba(242,180,90,.5); background: linear-gradient(90deg, rgba(242,180,90,.12), rgba(242,180,90,0)); }
+  .presets button.meera em { color: var(--candle); }
+  .presets button.meera:hover, .presets button.meera:focus-visible, .presets button.meera.on { border-color: var(--amber); }
+
+  table.wc { border-collapse: separate; border-spacing: 2px; width: 100%; font-size: 12px; text-align: center; font-variant-numeric: tabular-nums; table-layout: fixed; }
+  table.wc th { font-weight: 600; color: var(--mute); padding: 5px 0; font-size: 11px; transition: background .2s, color .2s; border-radius: 2px; }
+  table.wc thead th:first-child { font-size: 9.5px; letter-spacing: .06em; text-transform: uppercase; text-align: left; }
+  table.wc tbody th { text-align: left; padding-left: 4px; }
+  table.wc th.on { background: var(--ice); color: var(--night); }
+  table.wc td { padding: 6px 0; border-radius: 2px; cursor: pointer; position: relative; transition: box-shadow .2s; }
+  table.wc td:hover { box-shadow: inset 0 0 0 2px rgba(244,248,252,.55); }
+  table.wc td.hit { box-shadow: inset 0 0 0 2px var(--night), 0 0 0 2px var(--card), 0 0 0 4px var(--frost); font-weight: 700; z-index: 1; }
+  .z0 { background: var(--z0); color: var(--ice); } .zb { background: var(--zb); color: var(--frost); } .z30 { background: var(--z30); color: var(--night-0); } .z10 { background: var(--z10); color: var(--night-0); } .z5 { background: var(--z5); color: var(--night-0); }
+  .key { display: flex; flex-wrap: wrap; gap: 6px 14px; margin-top: 12px; font-size: 11.5px; color: var(--mute); }
+  .key span { white-space: nowrap; }
+  .key span::before { content: ""; display: inline-block; width: 11px; height: 11px; margin-right: 6px; vertical-align: -1px; background: var(--c); border: 1px solid rgba(219,231,243,.25); border-radius: 2px; }
+  .caveat { font-family: var(--serif); font-style: italic; font-size: 14px; color: var(--mute); margin: var(--s2) 0 0; }
+
+  /* gear swap */
+  .swap { display: grid; grid-template-columns: 1.1fr 1fr; border-radius: 2px; overflow: hidden; }
+  .swap .sl { background: linear-gradient(160deg, #1f3a5a, #182d48); color: var(--ice); padding: var(--s4); border: 1px solid var(--line-2); border-right: 0; }
+  .swap .sl .kicker { color: var(--ice-2); }
+  .swap h3 { font-size: 44px; line-height: .98; font-weight: 600; letter-spacing: -.03em; margin: 10px 0 4px; color: var(--frost); }
+  .swap h3 + em { font-family: var(--serif); font-size: 19px; color: var(--ice-2); }
+  .swap .sl p { font-size: 14.5px; line-height: 1.6; margin: var(--s2) 0 0; color: var(--text); }
+  .swap dl { display: grid; grid-template-columns: 64px 1fr; gap: 8px 14px; margin: var(--s3) 0 0; padding-top: var(--s2); border-top: 1px solid rgba(219,231,243,.3); font-size: 13.5px; }
+  .swap dt { text-transform: uppercase; letter-spacing: .14em; font-size: 10px; font-weight: 700; padding-top: 3px; color: var(--ice-2); }
+  .swap dd { margin: 0; }
+  .swap .sr { background: var(--card); display: grid; place-items: center; padding: var(--s3); position: relative; border: 1px solid var(--line); border-left: 0; }
+  .swap .sr svg { width: 100%; max-width: 340px; height: auto; }
+  .swap .sr .cap { position: absolute; top: 14px; left: 18px; right: 18px; font-family: var(--serif); font-style: italic; font-size: 14px; color: var(--mute); }
+
+  /* ───────── where the halves meet: in from the cold ───────── */
+  .meet { position: relative; }
+  .meet .strip { position: relative; z-index: 4; display: grid; grid-template-columns: var(--left) var(--right); font-family: var(--serif); font-style: italic; font-size: 19px; line-height: 1.3; }
+  .meet .strip .sa { text-align: right; padding: 26px 76px 180px 24px; color: var(--rust-d); background: linear-gradient(var(--cream), var(--cream-d)); }
+  .meet .strip .sb { position: relative; overflow: hidden; padding: 26px 24px 180px 76px; color: var(--ice);
+    background:
+      radial-gradient(ellipse 90% 45% at 35% 100%, rgba(255,220,160,.5), rgba(255,220,160,0) 75%),
+      linear-gradient(180deg, var(--night) 0, var(--night) 18%, #1a2236 32%, #3a2e3e 46%, #74463c 60%, #b8774c 73%, #dfa66c 85%, #f1cd98 94%, var(--room) 100%); }
+  .meet .strip .sb > span { position: relative; z-index: 1; }
+  /* the last of the snow, stopping at the door */
+  .meet .strip .sb::before { content: ""; position: absolute; inset: 0; pointer-events: none;
+    background-image: radial-gradient(circle at 18px 30px, rgba(244,248,252,.55) 0 1.4px, transparent 2.2px), radial-gradient(circle at 132px 74px, rgba(244,248,252,.4) 0 1px, transparent 1.8px), radial-gradient(circle at 76px 10px, rgba(244,248,252,.5) 0 1.6px, transparent 2.4px), radial-gradient(circle at 200px 56px, rgba(244,248,252,.35) 0 1px, transparent 1.8px);
+    background-size: 240px 90px;
+    -webkit-mask-image: linear-gradient(#000 0, #000 25%, transparent 58%); mask-image: linear-gradient(#000 0, #000 25%, transparent 58%); }
+  .meet .strip .sb em { color: var(--ice-2); }
+  .meet .halves { display: grid; grid-template-columns: var(--left) var(--right); position: relative; }
+  .meet .ml { background: var(--cream-d); padding: var(--s8) 44px var(--s6); }
+  .meet .ml .w { color: var(--wink); }
+  .signoff { margin: var(--s4) 0 0 auto; width: fit-content; }
+  .signoff p { margin: 0 !important; }
+  .signoff .name { font-size: 1.75em; font-style: italic; color: var(--rust); line-height: 1.3; margin: .2em 0 .1em !important; }
+  .signoff .who { font-size: .8em; color: var(--wsoft); font-variant-caps: all-small-caps; letter-spacing: .12em; }
+  .ps { margin-top: var(--s4) !important; }
+  .ps .tag { font-variant-caps: all-small-caps; letter-spacing: .14em; color: var(--rust); margin-right: .35em; }
+  .pps-reply { display: none; margin-top: var(--s3); padding: var(--s2) var(--s3); background: var(--paper); transform: rotate(-.6deg); box-shadow: 0 14px 30px -22px rgba(59,39,25,.6), 0 0 30px -10px rgba(255,190,110,.5); }
+  .pps-reply.show { display: block; animation: unfold 1s ease both; }
+  @keyframes unfold { from { opacity: 0; transform: rotate(-.6deg) translateY(8px); } to { opacity: 1; transform: rotate(-.6deg); } }
+
+  .seal { position: absolute; top: 34px; left: 38%; transform: translate(-50%, 0) rotate(-8deg); width: 92px; height: 92px; border-radius: 50%; background: var(--paper); border: 2px solid var(--rust); display: grid; place-items: center; text-align: center; z-index: 2; box-shadow: 0 0 0 5px var(--paper), 0 0 0 6px var(--rust-l), 0 0 40px 6px rgba(255,190,110,.55); color: var(--rust); font-style: normal; font-family: var(--sans); }
+  .seal b { display: block; font-size: 10px; letter-spacing: .2em; font-weight: 700; }
+  .seal span { display: block; font-family: var(--serif); font-style: italic; font-size: 22px; line-height: 1; color: var(--wink); margin: 2px 0; }
+
+  /* the warm room */
+  .meet .mr { background-color: var(--room); background-image: radial-gradient(ellipse 80% 40% at 40% 0%, rgba(255,214,150,.6), rgba(255,214,150,0) 75%), radial-gradient(ellipse 60% 50% at 90% 70%, rgba(255,196,120,.22), rgba(255,196,120,0) 70%); padding: var(--s4) var(--s6) var(--s6); color: var(--wink); }
+  .meet .mr .kicker { color: var(--rust-d); }
+  .meet .mr .intro { display: flex; justify-content: space-between; align-items: end; gap: var(--s3); margin-bottom: var(--s2); }
+  .meet .mr h2 { margin: 6px 0 0; font-size: 32px; line-height: 1.08; font-weight: 600; letter-spacing: -.02em; color: var(--wink); }
+  .meet .mr h2 em { color: var(--rust); }
+  .meta { font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--wsoft); white-space: nowrap; padding-bottom: 4px; }
+
+  /* the preview: a peek at the actual page */
+  .peek { position: relative; background: var(--paper); border: 1px solid var(--wline); border-radius: 2px; padding: 14px 18px 12px; margin-bottom: var(--s2);
+    box-shadow: 0 1px 0 var(--paper), 0 3px 0 -1px var(--wline), 0 4px 0 var(--paper), 0 6px 0 -1px var(--wline), 0 18px 40px -30px rgba(140,60,28,.6); }
+  .peek .lbl { display: flex; justify-content: space-between; font-size: 10.5px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--wsoft); padding-bottom: 8px; border-bottom: 1px solid var(--wink); }
+  .peek ol { list-style: none; margin: 0; padding: 0; }
+  .peek li { display: grid; grid-template-columns: 18px 26px 1fr; gap: 8px; align-items: baseline; padding: 9px 0; border-bottom: 1px solid var(--wline); font-size: 14px; }
+  .peek li::before { content: ""; width: 12px; height: 12px; border: 1.5px solid var(--wsoft); border-radius: 2px; transform: translateY(1px); }
+  .peek li span { font-size: 10.5px; font-weight: 700; color: var(--rust); letter-spacing: .06em; font-variant-numeric: tabular-nums; }
+  .peek li small { color: var(--wsoft); font-size: 12.5px; }
+  .peek .more { margin: 9px 0 0; font-family: var(--serif); font-style: italic; font-size: 14px; color: var(--wsoft); }
+
+  .ofm { background: var(--paper); border: 2px solid var(--wink); border-radius: 2px; box-shadow: 0 18px 50px -30px rgba(140,60,28,.55); color: var(--wink); }
+  .ofm .hd, .slip .hd { display: flex; justify-content: space-between; align-items: center; background: var(--wink); color: var(--cream); padding: 9px 18px; font-size: 11px; letter-spacing: .16em; text-transform: uppercase; font-weight: 700; }
+  .ofm .hd span:last-child { font-weight: 500; letter-spacing: .08em; }
+  .ofm .bdy { padding: 18px 18px 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px 22px; }
+  .fld label { display: block; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--wsoft); font-weight: 700; margin-bottom: 2px; }
+  .fld label .o { font-family: var(--serif); font-style: italic; font-weight: 400; text-transform: none; letter-spacing: 0; font-size: 13px; margin-left: 4px; }
+  .fld.opt { grid-column: 1 / -1; }
+  .fld input { width: 100%; font: inherit; font-size: 15px; color: var(--wink); background: transparent; border: 0; border-bottom: 1.5px solid var(--wink); padding: 7px 0; border-radius: 0; }
+  .fld.opt input { border-bottom-style: dashed; border-bottom-color: var(--wsoft); }
+  .fld input::placeholder { color: #9a7d69; }
+  .fld input:focus { outline: none; border-bottom: 1.5px solid var(--rust); box-shadow: 0 1.5px 0 var(--rust); }
+  .err { grid-column: 1 / -1; color: var(--rust-d); font-size: 13px; margin: 0; min-height: 1px; }
+  .submit { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+  .submit button { font: inherit; font-weight: 600; font-size: 15px; background: var(--rust); color: #fff6ec; border: 0; padding: 14px 22px; border-radius: 2px; cursor: pointer; box-shadow: 0 8px 24px -10px rgba(166,72,31,.8); transition: background .2s, box-shadow .2s; }
+  .submit button:hover, .submit button:focus-visible { background: var(--rust-d); outline: none; box-shadow: 0 0 0 4px rgba(242,180,90,.45), 0 8px 24px -10px rgba(166,72,31,.8); }
+  .submit small { font-size: 11.5px; color: var(--wsoft); max-width: 30ch; line-height: 1.4; }
+
+  .slip { display: none; background: var(--paper); border: 2px solid var(--wink); border-radius: 2px; color: var(--wink); box-shadow: 0 18px 50px -30px rgba(140,60,28,.55); }
+  .slip.on { display: block; animation: rise .6s ease both; }
+  @keyframes rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  .slip .hd { background: var(--rust); color: #fff6ec; }
+  .slip .in { padding: 22px 22px 18px; }
+  .slip .stamp { display: inline-block; border: 2px solid var(--rust); color: var(--rust); font-weight: 700; letter-spacing: .16em; text-transform: uppercase; font-size: 11px; padding: 4px 9px; transform: rotate(-3deg); margin-bottom: 10px; }
+  .slip h3 { font-size: 26px; font-weight: 600; letter-spacing: -.02em; margin: 0 0 6px; }
+  .slip p { margin: 0 0 12px; color: var(--wink); font-size: 14px; }
+  .slip ol { margin: 6px 0 14px; padding: 0; list-style: none; counter-reset: c; columns: 2; column-gap: 24px; font-size: 13px; }
+  .slip li { counter-increment: c; padding: 5px 0; border-bottom: 1px solid var(--wline); break-inside: avoid; }
+  .slip li::before { content: counter(c, decimal-leading-zero) "  "; font-size: 10.5px; font-weight: 700; color: var(--rust); letter-spacing: .06em; white-space: pre; }
+  .slip .fine2 { font-size: 11.5px; color: var(--wsoft); margin: 0; }
+
+  .next { list-style: none; padding: 0; margin: var(--s4) 0 0; display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--wink); counter-reset: n; }
+  .next li { counter-increment: n; padding: 14px 16px 0 0; font-size: 13.5px; color: var(--wsoft); }
+  .next li + li { padding-left: 16px; border-left: 1px solid var(--wline); }
+  .next li::before { content: counter(n); display: block; font-size: 24px; font-weight: 300; color: var(--rust); line-height: 1; margin-bottom: 6px; }
+  .next b { display: block; color: var(--wink); font-size: 14px; }
+  footer { display: grid; grid-template-columns: var(--left) var(--right); font-size: 13px; }
+  footer .fl { background: var(--cream); padding: var(--s4) 44px; font-family: var(--serif); font-style: italic; color: var(--wsoft); }
+  footer .fl .tag { font-style: normal; font-variant-caps: all-small-caps; letter-spacing: .14em; color: var(--rust); margin-right: .35em; }
+  footer .fr { background: var(--wink); color: var(--cream); padding: var(--s4) var(--s6); display: flex; justify-content: space-between; gap: var(--s3); align-items: center; }
+  footer .fr a { font-weight: 600; text-decoration: none; color: var(--amber-l); }
+  footer .fr a:hover, footer .fr a:focus-visible { text-decoration: underline; outline: none; }
+
+  /* mobile-only: Meera docked at the bottom, and her letter as a sheet */
+  .dock, .scrim, .sheet { display: none; }
+
+  @media (max-width: 1180px) {
+    .bar nav { gap: 16px; font-size: 12px; }
+    .bar .br { padding: 0 var(--s3); }
+    .vx { display: none; }
+    .cta { grid-template-columns: 1fr auto; margin: 6px 20px 18px; }
+    .cta svg { display: none; }
+    .open-in { padding: 36px 40px 28px; gap: 40px; }
+    .facts { padding: 0 40px; }
+    .facts .k { display: none; }
+    .facts .row { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .facts .row > div:first-of-type { border-left: 0; padding-left: 0; }
+  }
+  /* short desktop windows: give the letter more room */
+  @media (min-width: 901px) and (max-height: 720px) {
+    .w { font-size: 16.5px; }
+    .letter-in { padding-top: var(--s4); }
+  }
+
+  /* narrower catalog column (e.g. 960–1180px windows) */
+  @container cat (max-width: 720px) {
+    .rated { grid-template-columns: 1fr; }
+    .kit { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* ───────── mobile: stack the halves ───────── */
+  @media (max-width: 900px) {
+    /* top bar: two rows; the nav becomes a horizontal strip of pills */
+    :root { --bar: 90px; }
+    .bar { grid-template-columns: 1fr auto; grid-template-rows: 42px 48px; background: var(--cream-d); }
+    .bar .bl { grid-column: 1; grid-row: 1; padding: 0 var(--s2); gap: 12px; border-bottom: 0; }
+    .bar .bl a { padding: 10px 0; }
+    .bar .bl .club { font-size: 14px; letter-spacing: .2em; }
+    .bar .br { display: contents; }
+    .ver { grid-column: 2; grid-row: 1; align-self: center; margin-right: var(--s2); color: var(--rust-d); border-color: var(--rust-l); }
+    .bar nav { grid-column: 1 / -1; grid-row: 2; background: var(--night-0); color: var(--ice); display: flex; gap: 0; align-items: stretch; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x proximity; scrollbar-width: none; -webkit-overflow-scrolling: touch; padding: 0 10px; font-size: 13.5px; letter-spacing: .02em;
+      border-top: 2px solid var(--amber); border-bottom: 1px solid var(--line-2);
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 14px, #000 calc(100% - 26px), transparent); mask-image: linear-gradient(90deg, transparent, #000 14px, #000 calc(100% - 26px), transparent); }
+    .bar nav::-webkit-scrollbar { display: none; }
+    .bar nav a { display: flex; align-items: center; padding: 0 3px; border: 0; opacity: 1; scroll-snap-align: start; -webkit-tap-highlight-color: transparent; }
+    .bar nav a:last-child { padding-right: 22px; }
+    .bar nav a span { display: block; padding: 8px 14px; border-radius: 999px; border: 1px solid rgba(219,231,243,.3); transition: background .3s, border-color .3s, color .3s; }
+    .bar nav a:hover span { border-color: rgba(219,231,243,.65); }
+    .bar nav a.on span { background: var(--ice); border-color: var(--ice); color: var(--night); }
+    .bar nav a.go span { border-color: rgba(242,180,90,.65); }
+    .bar nav a.go.on span { background: var(--amber); border-color: var(--amber); color: #2a1708; }
+    .bar nav a:focus-visible { outline: none; }
+    .bar nav a:focus-visible span { outline: 2px solid var(--amber-l); outline-offset: 1px; }
+    @media (max-width: 370px) { .bar .bl .club { display: none; } }
+
+    .split, .meet .halves, footer { display: block; }
+    .left { display: none; }
+    .sec { padding: 40px 20px; }
+
+    /* the opening */
+    .open { min-height: 0; }
+    .open-in { grid-template-columns: 1fr; gap: 28px; padding: 32px 22px 26px; }
+    .open .hello { font-size: 16px; }
+    .open h1 { font-size: 46px; margin-bottom: 18px; }
+    .open .promise { font-size: 19px; margin-bottom: 24px; }
+    .open .btns { flex-direction: column; align-items: stretch; }
+    .open .btn { text-align: center; min-height: 48px; }
+    .open .hint { display: flex; gap: 10px; align-items: center; margin: 18px 0 0; padding-top: 14px; border-top: 1px dotted rgba(243,197,142,.45); font-size: 13.5px; line-height: 1.45; color: var(--candle); }
+    .open .hint .av { width: 26px; height: 26px; font-size: 14px; box-shadow: 0 0 0 2px var(--night-0), 0 0 0 3px rgba(242,180,90,.6); }
+    .portrait { max-width: 400px; }
+    .facts { padding: 0 22px; }
+    .facts .row { grid-template-columns: 1fr; padding: 6px 0 22px; }
+    .facts .row > div { border-left: 0; border-top: 1px solid var(--line); padding: 10px 0; display: grid; grid-template-columns: 96px 1fr; }
+    .facts .row > div:first-of-type { border-top: 0; }
+    .facts b { font-size: 21px; }
+
+    .cover h2 { font-size: 26px; }
+    .tagline { gap: var(--s2); padding: var(--s2); }
+    .tagline svg { width: 48px; height: 48px; }
+    .sh { flex-direction: column; align-items: start; gap: 4px; margin-bottom: var(--s3); }
+    .sh h2 { font-size: 26px; }
+    /* layers become compact rows: picture left, words right */
+    .layers { grid-template-columns: 1fr; }
+    .plus { width: auto; height: 22px; font-size: 18px; }
+    .lyr { flex-direction: row; }
+    .lyr .ph { width: 96px; height: auto; flex: none; border-bottom: 0; border-right: 1px solid var(--line); }
+    .lyr .ph svg { height: auto; width: 84px; }
+    .lyr .no { font-size: 18px; top: 6px; left: 8px; }
+    .lyr .bd { padding: 12px 14px; }
+    .lyr h3 { font-size: 16px; }
+    .lyr p { margin: 4px 0 8px; font-size: 14.5px; line-height: 1.5; }
+    .specs { font-size: 13.5px; }
+    .kit { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .card .top { grid-template-columns: 1fr; gap: 8px; padding: 10px; }
+    .card .top .ic { height: 54px; }
+    .card h3 { font-size: 14.5px; }
+    .card .rate { padding: 7px 10px; flex-wrap: wrap; gap: 2px 8px; }
+    .card .fine { padding: 8px 10px 10px 24px; font-size: 13.5px; }
+    .card .fine::before { left: 10px; top: 15px; }
+    .where { flex-direction: column; gap: 4px; font-size: 14.5px; }
+    .lede, .swap .sl p { font-size: 15px; }
+
+    /* Rated To: thumb-sized controls */
+    .rated { gap: var(--s2); }
+    .panel { padding: 18px 16px; }
+    .ctl label { font-size: 14px; align-items: baseline; }
+    .ctl label b { font-size: 18px; }
+    input[type=range] { height: 48px; margin: 0 0 10px; background: transparent; border-radius: 0; touch-action: pan-y; }
+    input[type=range]::-webkit-slider-runnable-track { height: 12px; border-radius: 12px; background: var(--track); }
+    input[type=range]::-moz-range-track { height: 12px; border-radius: 12px; background: var(--track); }
+    input[type=range]::-webkit-slider-thumb { width: 36px; height: 36px; margin-top: -12px; border-width: 4px; box-shadow: 0 3px 10px rgba(0,0,0,.5); }
+    input[type=range]::-moz-range-thumb { width: 28px; height: 28px; border-width: 4px; }
+    .readout .num { font-size: 64px; }
+    .presets { flex-direction: row; flex-wrap: wrap; gap: 8px; margin-top: var(--s2); }
+    .presets::before { content: "Try a real morning"; flex-basis: 100%; font-size: 10.5px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--mute); }
+    .presets button { flex: 1 1 auto; flex-direction: column; justify-content: center; align-items: center; text-align: center; gap: 0; min-height: 48px; padding: 6px 16px; border-radius: 999px; background: var(--card-2); font-size: 14px; line-height: 1.25; -webkit-tap-highlight-color: transparent; }
+    .presets button em { font-size: 15px; }
+    .presets button span { font-size: 12px; }
+    .presets button.on { background: var(--ice); border-color: var(--ice); color: var(--night); }
+    .presets button.on span { color: #3a5273; }
+    .presets button.meera.on { background: var(--amber); border-color: var(--amber); color: #2a1708; }
+    .presets button.meera.on em { color: #2a1708; }
+    .presets button.meera.on span { color: #5a3a18; }
+    table.wc { font-size: 12.5px; }
+    table.wc td { padding: 10px 0; }
+    .key { font-size: 12.5px; }
+
+    .swap { grid-template-columns: 1fr; }
+    .swap .sl { padding: var(--s3); border-right: 1px solid var(--line-2); }
+    .swap h3 { font-size: 38px; }
+    .swap .sr { display: none; }
+
+    .meet .strip { display: block; text-align: center; font-size: 17px; padding: 26px 20px 0;
+      background:
+        radial-gradient(ellipse 90% 40% at 50% 100%, rgba(255,214,150,.7), rgba(255,214,150,0) 70%),
+        linear-gradient(180deg, var(--night) 0, var(--night) 16%, #1a2236 28%, #3a2e3e 40%, #74463c 54%, #b8774c 68%, #dfa66c 80%, #f1cd98 91%, var(--cream-d) 100%); }
+    .meet .strip .sa, .meet .strip .sb { display: inline; padding: 0; text-align: center; background: none; color: var(--ice); }
+    .meet .strip .sb::before { display: none; }
+    .seal { position: relative; top: auto; left: auto; margin: 120px auto -50px; transform: rotate(-8deg); }
+    .meet .ml { padding: 84px 24px var(--s6); }
+    .meet .mr { padding: var(--s6) 20px var(--s6); }
+    .meet .mr .intro { flex-direction: column; align-items: start; gap: 4px; }
+    .meet .mr h2 { font-size: 27px; }
+    .peek { padding: 12px 14px 10px; }
+    .peek li small { display: block; }
+    .hx { display: none; }
+    .ofm .bdy { grid-template-columns: 1fr; }
+    .fld label { font-size: 11px; }
+    .fld input { font-size: 16px; padding: 10px 0; }      /* 16px: no iOS zoom */
+    .submit { flex-direction: column-reverse; align-items: stretch; }
+    .submit button { min-height: 52px; font-size: 16px; }
+    .slip ol { columns: 1; }
+    .next { grid-template-columns: 1fr; }
+    .next li { display: grid; grid-template-columns: 30px 1fr; padding: 12px 0 0; }
+    .next li::before { grid-row: span 2; margin: 0; }
+    .next li + li { padding-left: 0; border-left: 0; border-top: 1px solid var(--wline); margin-top: 12px; }
+    footer .fl { padding: var(--s3) 24px; }
+    footer .fr { padding: var(--s3) 20px calc(var(--s3) + env(safe-area-inset-bottom, 0px)); flex-direction: column; align-items: start; }
+
+    /* ── ONE bottom element: Meera, docked, with the checklist on her right ── */
+    .dock { display: flex; position: fixed; z-index: 40; left: 10px; right: 10px; bottom: calc(10px + env(safe-area-inset-bottom, 0px)); align-items: stretch; min-height: 64px;
+      background-color: var(--cream); background-image: radial-gradient(ellipse 70% 120% at 20% 50%, rgba(255,196,120,.35), rgba(255,196,120,0) 70%);
+      border: 1px solid rgba(242,180,90,.8); border-radius: 16px;
+      box-shadow: 0 0 0 1px rgba(11,21,36,.5), 0 16px 36px -12px rgba(0,0,0,.65), 0 0 44px -8px rgba(255,180,96,.6);
+      transition: transform .5s cubic-bezier(.3,.7,.2,1), opacity .35s ease, visibility 0s 0s; }
+    .dock.off { transform: translateY(calc(100% + 24px)); opacity: 0; visibility: hidden; pointer-events: none; transition: transform .5s cubic-bezier(.3,.7,.2,1), opacity .35s ease, visibility 0s .5s; }
+    .dock-open { position: relative; flex: 1; min-width: 0; display: flex; align-items: center; gap: 10px; margin: 0; padding: 10px 8px 10px 12px; border: 0; border-radius: 15px 0 0 15px; background: transparent;
+      font: inherit; text-align: left; color: var(--wink); cursor: pointer; -webkit-tap-highlight-color: transparent; }
+    .dock-open:active { background: rgba(242,180,90,.18); }
+    .dock-open:focus-visible { outline: 3px solid rgba(166,72,31,.6); outline-offset: -3px; }
+    .av { flex: none; width: 38px; height: 38px; border-radius: 50%; background: var(--rust); color: #fff6ec; display: grid; place-items: center; font-family: var(--serif); font-style: italic; font-size: 20px; line-height: 1; box-shadow: 0 0 0 3px var(--cream), 0 0 0 4px var(--rust-l), 0 0 14px 2px rgba(255,180,96,.55); }
+    .dock .stack { flex: 1; min-width: 0; display: grid; grid-template-columns: minmax(0, 1fr); }
+    .dock .lay { grid-area: 1 / 1; min-width: 0; display: block; opacity: 0; transform: translateY(4px); transition: opacity .55s ease, transform .55s ease; }
+    .dock .lay.show { opacity: 1; transform: none; }
+    .dock .lab { display: block; font-family: var(--sans); font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--rust-d); margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 12px; }
+    .dock .txt { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-family: var(--serif); font-size: 14.5px; line-height: 1.3; }
+    .dock .up { position: absolute; top: 9px; right: 6px; color: var(--rust); }
+    .dock-cta { flex: none; display: flex; align-items: center; justify-content: center; margin: 8px 8px 8px 2px; padding: 0 13px; min-height: 48px; border-radius: 11px;
+      background: var(--rust); color: #fff6ec; font-weight: 600; font-size: 13.5px; line-height: 1.15; text-decoration: none; white-space: nowrap; box-shadow: 0 6px 16px -8px rgba(166,72,31,.9); -webkit-tap-highlight-color: transparent; }
+    .dock-cta:active { background: var(--rust-d); }
+    .dock-cta:focus-visible { outline: 3px solid var(--amber); outline-offset: 2px; }
+    .dock-cta[hidden] { display: none; }
+
+    /* ── her letter, as a bottom sheet ── */
+    .scrim { display: block; position: fixed; inset: 0; z-index: 50; background: rgba(11,21,36,.62); opacity: 0; visibility: hidden; transition: opacity .35s, visibility 0s .35s; }
+    .scrim.open { opacity: 1; visibility: visible; transition: opacity .35s; }
+    .sheet { display: flex; flex-direction: column; position: fixed; z-index: 51; left: 0; right: 0; bottom: 0; max-height: min(78vh, 640px);
+      background-color: var(--cream); background-image: radial-gradient(ellipse 80% 40% at 50% 0%, var(--glow), rgba(255,196,120,0) 75%);
+      border-radius: 20px 20px 0 0; box-shadow: 0 -18px 50px -14px rgba(255,180,96,.45);
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+      transform: translateY(102%); visibility: hidden; transition: transform .45s cubic-bezier(.3,.7,.2,1), visibility 0s .45s; }
+    .sheet.open { transform: none; visibility: visible; transition: transform .45s cubic-bezier(.3,.7,.2,1); }
+    .grab { width: 40px; height: 5px; border-radius: 5px; background: var(--rust-l); margin: 10px auto 0; flex: none; }
+    .sheet-hd { flex: none; display: flex; align-items: center; gap: 12px; padding: 12px 12px 12px 20px; border-bottom: 1px dashed var(--rust-l); }
+    .sheet-hd > div { flex: 1; min-width: 0; }
+    .sheet-hd .pg { margin: 0; font-size: 10.5px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--wsoft); }
+    .sheet-hd h2 { margin: 1px 0 0; font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 20px; color: var(--rust-d); line-height: 1.25; }
+    .sheet-hd .x { flex: none; width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--rust-l); background: transparent; color: var(--wink); font-size: 24px; line-height: 1; cursor: pointer; }
+    .sheet-hd .x:focus-visible, .sheet-ft button:focus-visible { outline: 3px solid var(--amber); outline-offset: 2px; }
+    .sheet-bd { flex: 1; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; padding: 18px 22px 8px; font-size: 17px; line-height: 1.65; }
+    .sheet-ft { flex: none; display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 16px 14px 22px; border-top: 1px solid var(--cream-d); }
+    .sheet-ft .pips { display: flex; gap: 6px; }
+    .sheet-ft .pips i { width: 7px; height: 7px; border-radius: 50%; border: 1px solid var(--rust-l); }
+    .sheet-ft .pips i.on { background: var(--amber); border-color: var(--rust); }
+    .sheet-ft button { font: inherit; font-weight: 600; font-size: 14px; min-height: 44px; padding: 0 18px; border-radius: 999px; border: 0; background: var(--rust); color: #fff6ec; cursor: pointer; }
+    html.locked, html.locked body { overflow: hidden; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .letter-in, .beat, .card, .cta, .dock, .dock .lay, .sheet, .scrim, .btn { transition: none !important; }
+    .pps-reply.show, .slip.on { animation: none; }
+    .snowfx::before, .snowfx::after { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="bar" id="bar">
+  <div class="bl">
+    <a href="../">← Gallery</a>
+    <span class="club">First Winter Club</span>
+  </div>
+  <div class="br">
+    <nav aria-label="Catalog sections" id="navStrip">
+      <a href="#system" data-nav="system"><span>Layers</span></a>
+      <a href="#kit" data-nav="kit"><span>The Kit</span></a>
+      <a href="#rated" data-nav="rated"><span>Rated To</span></a>
+      <a href="#swap" data-nav="swap"><span>Gear Swap</span></a>
+      <a href="#get" data-nav="join" class="go"><span>Checklist</span></a>
+    </nav>
+    <span class="ver">v20<span class="vx"> · MERGE</span></span>
+  </div>
+</header>
+
+<!-- ═════════ OPENING: Meera, a lit window in the night ═════════ -->
+<section class="open" id="hello" data-beat="cover" aria-labelledby="hi">
+  <div class="snowfx" aria-hidden="true"></div>
+  <div class="open-in">
+    <div class="say">
+      <p class="hello"><span class="sc">First Winter Club</span> a note from Meera, third year, from Chennai</p>
+      <h1 id="hi">Three winters ago, <em>I was you.</em></h1>
+      <p class="promise">This is everything I wish someone had told me, and everything you’ll need, with prices.</p>
+      <div class="btns">
+        <a class="btn primary" href="#get">Get the free First Winter Checklist</a>
+        <a class="btn soft" href="#read" id="readBtn">Read my letter ↓</a>
+      </div>
+      <p class="sig"><b>Meera</b> and First Winter Club, a student-run peer group for UChicago international students</p>
+      <p class="hint"><span class="av" aria-hidden="true">M</span><span>As you scroll, I’ll follow along at the bottom of your screen.</span></p>
+    </div>
+    <figure class="portrait">
+      <svg viewBox="0 0 480 520" role="img" aria-label="Illustration: a January night. Meera, in a rust sweater, holds a mug of tea in her lamp-lit room; through the window behind her, snow falls on the dark city">
+        <defs>
+          <radialGradient id="pRoom" cx=".2" cy=".72" r=".95"><stop offset="0" stop-color="#ffd9a2"/><stop offset=".5" stop-color="#e8ad69"/><stop offset="1" stop-color="#a5653a"/></radialGradient>
+          <linearGradient id="pSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0b1524"/><stop offset=".72" stop-color="#16294a"/><stop offset="1" stop-color="#24405f"/></linearGradient>
+          <radialGradient id="pMoon" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#dbe7f3" stop-opacity=".45"/><stop offset="1" stop-color="#dbe7f3" stop-opacity="0"/></radialGradient>
+          <radialGradient id="pHalo" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#ffcf8a" stop-opacity=".7"/><stop offset="1" stop-color="#ffcf8a" stop-opacity="0"/></radialGradient>
+          <linearGradient id="pSheen" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#ffcf8a" stop-opacity="0"/><stop offset=".5" stop-color="#ffcf8a" stop-opacity=".13"/><stop offset="1" stop-color="#ffcf8a" stop-opacity="0"/></linearGradient>
+        </defs>
+        <!-- the warm room -->
+        <rect width="480" height="520" fill="url(#pRoom)"/>
+        <!-- window frame, lit from inside -->
+        <rect x="40" y="28" width="400" height="336" fill="#f2d19c"/>
+        <rect x="40" y="28" width="400" height="336" fill="none" stroke="#c48a52" stroke-width="2"/>
+        <!-- the night outside -->
+        <rect x="56" y="44" width="368" height="304" fill="url(#pSky)"/>
+        <circle cx="372" cy="96" r="38" fill="url(#pMoon)"/><circle cx="372" cy="96" r="12" fill="#eef5fc"/>
+        <g fill="#1a2d47">
+          <rect x="70" y="210" width="30" height="110"/><rect x="150" y="176" width="24" height="144"/><rect x="236" y="196" width="34" height="124"/><rect x="306" y="170" width="26" height="150"/><rect x="384" y="206" width="34" height="114"/>
+        </g>
+        <g fill="#0f1b2d">
+          <rect x="56" y="250" width="40" height="70"/><rect x="92" y="222" width="34" height="98"/><rect x="126" y="262" width="46" height="58"/>
+          <rect x="172" y="200" width="28" height="120"/><rect x="186" y="186" width="4" height="16"/><rect x="200" y="240" width="52" height="80"/>
+          <rect x="252" y="214" width="38" height="106"/><rect x="290" y="256" width="40" height="64"/><rect x="330" y="196" width="30" height="124"/>
+          <rect x="360" y="236" width="36" height="84"/><rect x="396" y="264" width="28" height="56"/>
+        </g>
+        <!-- other people's windows, also lit -->
+        <g fill="#ffcf8a">
+          <rect x="100" y="234" width="5" height="6"/><rect x="112" y="250" width="5" height="6"/><rect x="178" y="214" width="5" height="6"/><rect x="186" y="236" width="5" height="6"/>
+          <rect x="262" y="226" width="5" height="6"/><rect x="274" y="246" width="5" height="6"/><rect x="338" y="210" width="5" height="6"/><rect x="346" y="232" width="5" height="6"/>
+          <rect x="70" y="264" width="5" height="6"/><rect x="214" y="254" width="5" height="6"/><rect x="368" y="250" width="5" height="6"/>
+        </g>
+        <g fill="#8fb4d9" opacity=".55"><rect x="140" y="276" width="5" height="6"/><rect x="304" y="270" width="5" height="6"/><rect x="408" y="280" width="5" height="6"/></g>
+        <path d="M56 318 Q140 300 240 312 T424 306 L424 348 L56 348 Z" fill="#8ea6c0"/>
+        <path d="M56 324 Q150 310 240 318 T424 314" fill="none" stroke="#c9d8e8" stroke-width="2" opacity=".6"/>
+        <g fill="#f4f8fc" opacity=".9">
+          <circle cx="80" cy="70" r="2.6"/><circle cx="130" cy="112" r="2"/><circle cx="196" cy="64" r="2.4"/><circle cx="222" cy="140" r="1.8"/><circle cx="290" cy="84" r="2.6"/>
+          <circle cx="330" cy="62" r="2"/><circle cx="404" cy="140" r="2.4"/><circle cx="378" cy="176" r="1.8"/><circle cx="74" cy="196" r="2.2"/><circle cx="150" cy="166" r="2.6"/>
+          <circle cx="412" cy="226" r="2"/><circle cx="110" cy="290" r="2.2"/><circle cx="316" cy="150" r="1.6"/><circle cx="252" cy="176" r="2"/><circle cx="350" cy="290" r="1.8"/><circle cx="200" cy="292" r="2"/>
+        </g>
+        <!-- the lamp, reflected faintly in the glass -->
+        <path d="M56 348 L56 300 L190 44 L262 44 L110 348 Z" fill="url(#pSheen)"/>
+        <rect x="236" y="44" width="8" height="304" fill="#f2d19c"/>
+        <rect x="56" y="188" width="368" height="8" fill="#f2d19c"/>
+        <!-- string lights across the top of the window -->
+        <path d="M48 34 Q240 64 432 34" fill="none" stroke="#6b4a2e" stroke-width="1.2"/>
+        <g fill="url(#pHalo)"><circle cx="80" cy="38.6" r="10"/><circle cx="112" cy="42.3" r="10"/><circle cx="144" cy="45.3" r="10"/><circle cx="176" cy="47.3" r="10"/><circle cx="208" cy="48.6" r="10"/><circle cx="240" cy="49" r="10"/><circle cx="272" cy="48.6" r="10"/><circle cx="304" cy="47.3" r="10"/><circle cx="336" cy="45.3" r="10"/><circle cx="368" cy="42.3" r="10"/><circle cx="400" cy="38.6" r="10"/></g>
+        <g fill="#ffe6b3"><circle cx="80" cy="38.6" r="3"/><circle cx="112" cy="42.3" r="3"/><circle cx="144" cy="45.3" r="3"/><circle cx="176" cy="47.3" r="3"/><circle cx="208" cy="48.6" r="3"/><circle cx="240" cy="49" r="3"/><circle cx="272" cy="48.6" r="3"/><circle cx="304" cy="47.3" r="3"/><circle cx="336" cy="45.3" r="3"/><circle cx="368" cy="42.3" r="3"/><circle cx="400" cy="38.6" r="3"/></g>
+        <!-- sticky note on the glass -->
+        <g transform="rotate(-5 110 110)">
+          <rect x="78" y="76" width="70" height="62" fill="#f3c58e"/>
+          <text x="113" y="98" text-anchor="middle" font-family="Avenir Next, Helvetica Neue, Arial, sans-serif" font-size="9" font-weight="700" letter-spacing="1" fill="#8c3c1c">FEELS LIKE</text>
+          <text x="113" y="124" text-anchor="middle" font-family="Iowan Old Style, Palatino, Georgia, serif" font-size="24" fill="#3b2719">−20°</text>
+        </g>
+        <!-- sill -->
+        <rect x="24" y="360" width="432" height="16" fill="#d9a466"/>
+        <rect x="32" y="376" width="416" height="6" fill="#b98049"/>
+        <!-- plant -->
+        <g>
+          <ellipse cx="84" cy="318" rx="10" ry="22" fill="#5d7150" transform="rotate(-24 84 318)"/>
+          <ellipse cx="104" cy="312" rx="10" ry="26" fill="#74885f"/>
+          <ellipse cx="122" cy="320" rx="9" ry="20" fill="#5d7150" transform="rotate(26 122 320)"/>
+          <path d="M80 334 L128 334 L122 362 L86 362 Z" fill="#a6481f"/>
+          <rect x="76" y="330" width="56" height="8" rx="1" fill="#8c3c1c"/>
+        </g>
+        <!-- Meera, in the lamplight -->
+        <circle cx="300" cy="330" r="190" fill="url(#pHalo)" opacity=".45"/>
+        <path d="M244 214 Q236 300 250 350 L350 350 Q364 300 356 214 Z" fill="#2a1a14"/>
+        <rect x="284" y="280" width="32" height="40" fill="#9a6246"/>
+        <path d="M178 520 L186 400 Q192 344 258 330 L342 330 Q408 344 414 400 L422 520 Z" fill="#b0502a"/>
+        <path d="M262 316 Q300 338 338 316 L346 346 Q300 370 254 346 Z" fill="#4f5f74"/>
+        <path d="M258 330 Q300 350 342 330 M256 340 Q300 360 344 340" stroke="#dbe7f3" stroke-width="3" fill="none" opacity=".7"/>
+        <circle cx="300" cy="240" r="46" fill="#b27753"/>
+        <circle cx="255" cy="246" r="8" fill="#9a6246"/><circle cx="345" cy="246" r="8" fill="#9a6246"/>
+        <circle cx="255" cy="258" r="3" fill="#f2b45a"/><circle cx="345" cy="258" r="3" fill="#f2b45a"/>
+        <path d="M252 246 Q246 188 300 186 Q356 188 348 246 Q344 214 318 206 Q304 216 300 204 Q292 214 274 210 Q256 220 252 246 Z" fill="#2a1a14"/>
+        <path d="M278 246 q7 -6 14 0 M308 246 q7 -6 14 0" stroke="#2a1a14" stroke-width="3" stroke-linecap="round" fill="none"/>
+        <circle cx="274" cy="262" r="7" fill="#d98a66" opacity=".55"/><circle cx="326" cy="262" r="7" fill="#d98a66" opacity=".55"/>
+        <path d="M288 266 q12 10 24 0" stroke="#6e3420" stroke-width="3" stroke-linecap="round" fill="none"/>
+        <!-- arms, hands, mug -->
+        <path d="M196 410 Q182 478 232 486 Q262 488 284 462 L276 436 Q248 452 236 440 Q226 420 230 392 Z" fill="#9c4522"/>
+        <path d="M404 410 Q418 478 368 486 Q338 488 316 462 L324 436 Q352 452 364 440 Q374 420 370 392 Z" fill="#9c4522"/>
+        <g stroke="#fff6ec" stroke-width="3" stroke-linecap="round" fill="none" opacity=".85">
+          <path d="M288 400 q-8 -12 0 -24 t0 -24"/><path d="M304 396 q-8 -12 0 -24 t0 -24"/><path d="M320 400 q-8 -12 0 -24 t0 -24"/>
+        </g>
+        <path d="M338 422 q22 0 22 20 q0 20 -22 20" stroke="#fff6ec" stroke-width="8" fill="none"/>
+        <rect x="270" y="404" width="72" height="76" rx="6" fill="#fff6ec"/>
+        <rect x="270" y="424" width="72" height="9" fill="#4f5f74"/>
+        <ellipse cx="306" cy="406" rx="36" ry="5" fill="#e6cfae"/>
+        <ellipse cx="272" cy="452" rx="14" ry="18" fill="#b27753"/>
+        <ellipse cx="340" cy="452" rx="14" ry="18" fill="#b27753"/>
+      </svg>
+      <figcaption>Meera’s window, her first January. She kept the sticky note.</figcaption>
+    </figure>
+  </div>
+  <div class="facts">
+    <div class="row">
+      <p class="k">Your first winter,<br>in three numbers</p>
+      <div><b>31° / 18°</b><span>January average high / low, °F. Before the wind.</span></div>
+      <div><b>−30°</b><span>Wind chill can reach −30°F or lower. Below 0°F is routine.</span></div>
+      <div><b>4:20 PM</b><span>Sunset on Dec 21. About 9 h 08 m of daylight.</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="split" id="read">
+
+  <!-- ═════════ LEFT: Meera's letter, sticky, synced to the catalog; checklist card pinned below ═════════ -->
+  <aside class="left" aria-label="A letter from Meera">
+    <div class="stick">
+      <div class="letter" id="letter">
+        <div class="letter-in w" id="letterIn">
+          <header class="mast">
+            <p class="club">First Winter Club</p>
+            <span class="rule" aria-hidden="true"></span>
+            <h2>a letter, for your first Chicago winter</h2>
+          </header>
+
+          <div class="beat on" data-id="cover" data-label="Dear you" data-pull="It’s survivable if you prepare. I promise.">
+            <p class="salute">Dear you, arriving this fall,</p>
+            <p class="first">If you’re flying in from somewhere like Chennai, where January means 84°F, then I know a little about the winter you’re about to have. I had it first.</p>
+            <p>So, as promised: this side of the page is what I wish I’d known. The other side is what to buy, and where to get it cheap. The short version: <em>a Chicago winter is survivable if you prepare.</em></p>
+          </div>
+
+          <div class="beat" data-id="system" data-label="01 · Layers" data-pull="Three thin layers beat one thick hoodie.">
+            <a class="to" href="#system">→ 01 · Layers</a>
+            <p><span class="sc">I made the cotton hoodie mistake,</span> which everyone from somewhere warm makes exactly once. One thick hoodie under one enormous coat. I sweated on the walk to my nine o’clock, the cotton stayed damp, and by evening I was colder than if I’d worn less.</p>
+            <p>Three thin things beat one thick one.</p>
+          </div>
+
+          <div class="beat" data-id="kit" data-label="02 · The Kit" data-pull="A real hat, mittens, and boots with grip.">
+            <a class="to" href="#kit">→ 02 · The Kit</a>
+            <p><span class="sc">The small things matter more</span> than I expected. A hat over your ears. Mittens, so your fingers keep each other company. And boots with real grip: I fell twice on the ice in my sneakers before I gave in.</p>
+          </div>
+
+          <div class="beat" data-id="rated" data-label="03 · Rated To" data-pull="My phone said 2°F. It felt like −20°F.">
+            <a class="to" href="#rated">→ 03 · Rated To</a>
+            <p><span class="sc">My first really cold morning,</span> my phone said 2°F. Then the wind came off the lake, and the number that mattered was the small one underneath: <em>feels like −20°F.</em> My eyelashes stuck together. I copied this onto a sticky note by my door:</p>
+            <div class="sticky-note">
+              <p class="row" data-at="-18"><b>feels like −18°F</b><i></i><span>frostbite in ~30 min</span></p>
+              <p class="row" data-at="-35"><b>feels like −35°F</b><i></i><span>about 10 min</span></p>
+              <p class="row" data-at="-48"><b>feels like −48°F</b><i></i><span>about 5 min</span></p>
+            </div>
+            <p>It’s just the number to check before you leave, the way at home you’d glance at the sky for rain.</p>
+          </div>
+
+          <div class="beat" data-id="swap" data-label="04 · Gear Swap" data-pull="My first parka cost less than a textbook.">
+            <a class="to" href="#swap">→ 04 · The Gear Swap</a>
+            <p><span class="sc">You don’t need to spend much.</span> My first real parka came from a thrift store and cost less than a textbook. Half of what I wear now once kept someone else warm.</p>
+            <p>One more thing: by December the sun sets at 4:20. Step outside at midday, and let people check in on you.</p>
+            <p class="onward">The rest of this letter is at the bottom. ↓</p>
+          </div>
+        </div>
+        <div class="folio" aria-hidden="true"><span id="folioTxt">page 1 of 5</span><span class="pips" id="pips"></span></div>
+      </div>
+
+      <div class="cta" id="ctaCard">
+        <svg viewBox="0 0 30 38" aria-hidden="true"><path d="M2 2h20l6 6v28H2z" fill="#fffaf1" stroke="#3b2719" stroke-width="1.6" stroke-linejoin="round"/><path d="M22 2v6h6" fill="none" stroke="#3b2719" stroke-width="1.6" stroke-linejoin="round"/><g stroke="#a6481f" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M6 14l2 2 3-4M6 22l2 2 3-4M6 30l2 2 3-4"/></g><g stroke="#e2cba8" stroke-width="1.6" stroke-linecap="round"><path d="M14 15h10M14 23h10M14 31h8"/></g></svg>
+        <div class="t"><b>The First Winter Checklist</b><small>11 items · free · 1 page</small></div>
+        <a href="#get">Get my checklist →</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ═════════ RIGHT: the catalog ═════════ -->
+  <main class="right" id="top">
+    <div class="snow snowfx" aria-hidden="true"></div>
+
+    <section class="sec" id="cover" data-beat="cover">
+      <div class="cover">
+        <span class="kicker">The First Winter Catalog · Fall/Winter 2026</span>
+        <h2 id="coverTtl" tabindex="-1">Dressed for your first −20°. <em>Built on a student budget.</em></h2>
+        <p class="lede">Everything you need to walk to a 9 AM in a Chicago January, field-tested by First Winter Club. Nothing here is for sale. All of it is findable cheap.</p>
+      </div>
+      <div class="tagline">
+        <svg viewBox="0 0 92 92" aria-hidden="true">
+          <path d="M30 8 L84 8 L84 84 L30 84 L8 46 Z" fill="#dbe7f3"/>
+          <circle cx="22" cy="46" r="4" fill="#16263c"/>
+          <text x="58" y="47" text-anchor="middle" font-family="Avenir Next, Helvetica Neue, Arial, sans-serif" font-size="19" font-weight="600" fill="#0f1b2d">−19°</text>
+          <text x="58" y="62" text-anchor="middle" font-family="Avenir Next, Arial, sans-serif" font-size="7.5" font-weight="700" letter-spacing="1" fill="#3a5b80">FEELS LIKE</text>
+        </svg>
+        <p>The temperature is the price tag. <em>The wind chill is what you actually pay.</em> 0°F air plus a 15 mph lake wind feels like −19°F.</p>
+      </div>
+    </section>
+
+    <section class="sec alt" id="system" data-beat="system">
+      <div class="sh">
+        <div><span class="kicker">01 · The Layering System</span><h2>Three thin layers beat <em>one big coat.</em></h2></div>
+        <span class="pg">inside → out</span>
+      </div>
+      <div class="layers">
+        <article class="lyr">
+          <div class="ph"><span class="no">01</span>
+            <svg viewBox="0 0 200 130" aria-hidden="true"><g transform="translate(100 14) scale(.42)" stroke="#0b1524" stroke-width="4.5" stroke-linejoin="round"><path d="M-38 0 Q0 26 38 0 L92 14 L146 150 L120 162 L76 72 L76 240 L-76 240 L-76 72 L-120 162 L-146 150 L-92 14 Z" fill="#dbe7f3"/><path d="M-76 226 L76 226" fill="none"/></g><g stroke="#8fb4d9" stroke-width="2" fill="none" stroke-linecap="round"><path d="M36 96 q-7 -10 0 -20 t0 -20"/><path d="M164 96 q7 -10 0 -20 t0 -20"/></g></svg>
+          </div>
+          <div class="bd">
+            <h3>Base layer <small>next to skin</small></h3>
+            <p>Thin, snug, pulls sweat away. <b>Never cotton:</b> it stays wet.</p>
+            <dl class="specs"><dt>Get it cheap</dt><dd>Uniqlo HEATTECH, Costco packs</dd></dl>
+          </div>
+        </article>
+        <span class="plus" aria-hidden="true">+</span>
+        <article class="lyr">
+          <div class="ph"><span class="no">02</span>
+            <svg viewBox="0 0 200 130" aria-hidden="true"><defs><pattern id="fleece" width="8" height="8" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.1" fill="#8fb4d9"/><circle cx="6" cy="6" r="1.1" fill="#8fb4d9"/></pattern></defs><g transform="translate(100 16) scale(.42)" stroke="#0b1524" stroke-width="4.5" stroke-linejoin="round"><path d="M-40 -6 L40 -6 L42 6 L96 16 L150 156 L122 168 L80 74 L80 246 L-80 246 L-80 74 L-122 168 L-150 156 L-96 16 L-42 6 Z" fill="#5d7896"/><path d="M-40 -6 L40 -6 L42 6 L96 16 L150 156 L122 168 L80 74 L80 246 L-80 246 L-80 74 L-122 168 L-150 156 L-96 16 L-42 6 Z" fill="url(#fleece)" stroke="none"/><path d="M0 -6 L0 92" stroke="#dbe7f3" stroke-width="4"/></g></svg>
+          </div>
+          <div class="bd">
+            <h3>Mid layer <small>the warmth</small></h3>
+            <p>Fleece or light down. Take it off in a hot lecture hall.</p>
+            <dl class="specs"><dt>Get it cheap</dt><dd>Thrift stores, the gear swap</dd></dl>
+          </div>
+        </article>
+        <span class="plus" aria-hidden="true">+</span>
+        <article class="lyr">
+          <div class="ph"><span class="no">03</span>
+            <svg viewBox="0 0 200 130" aria-hidden="true"><g transform="translate(100 34) scale(.3)" stroke="#0b1524" stroke-width="6" stroke-linejoin="round"><path d="M-50 6 Q-56 -74 0 -80 Q56 -74 50 6 Z" fill="#3e5a7c"/><path d="M-34 0 Q-38 -56 0 -60 Q38 -56 34 0" fill="none" stroke="#dbe7f3" stroke-width="12"/><path d="M-42 0 Q0 18 42 0 L102 16 L152 172 L124 184 L86 82 L92 304 L-92 304 L-86 82 L-124 184 L-152 172 L-102 16 Z" fill="#6f8fb3"/><path d="M0 10 L0 304"/></g><g stroke="#8fb4d9" stroke-width="2" stroke-linecap="round" fill="none"><path d="M196 52 L168 52 M196 66 L164 66 M196 80 L168 80"/></g></svg>
+          </div>
+          <div class="bd">
+            <h3>Shell <small>the weather</small></h3>
+            <p>Windproof, hooded, past your hips. Stops the lake wind.</p>
+            <dl class="specs"><dt>Fit</dt><dd>Room for a fleece underneath</dd></dl>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="sec" id="kit" data-beat="kit">
+      <div class="sh">
+        <div><span class="kicker">02 · The Kit · Six essentials</span><h2>Everything you need. <em>Nothing you don’t.</em></h2></div>
+        <span class="pg">FW-01 – FW-06</span>
+      </div>
+      <div class="kit">
+        <article class="card">
+          <div class="top">
+            <div class="ic"><span class="badge">Start here</span><svg viewBox="0 0 200 150" aria-hidden="true"><g transform="translate(76 26) scale(.42)" stroke="#0b1524" stroke-width="5" stroke-linejoin="round"><path d="M-38 0 Q0 26 38 0 L92 14 L146 150 L120 162 L76 72 L76 240 L-76 240 L-76 72 L-120 162 L-146 150 L-92 14 Z" fill="#dbe7f3"/></g><g transform="translate(150 30)" stroke="#0b1524" stroke-width="2.4" stroke-linejoin="round"><path d="M-22 0 L22 0 L26 100 L8 100 L0 30 L-8 100 L-26 100 Z" fill="#6f8fb3"/></g></svg></div>
+            <div><span class="code">FW-01 · BASE</span><h3>Base Layer Set</h3></div>
+          </div>
+          <div class="rate"><span class="dots" aria-label="Warmth 2 of 4">●●<s>●●</s></span><span class="budget" aria-label="Budget: under $25">$<s>$$</s></span></div>
+          <p class="fine">“Buy two. One’s always in the wash.” — M.</p>
+        </article>
+
+        <article class="card">
+          <div class="top">
+            <div class="ic"><svg viewBox="0 0 200 150" aria-hidden="true"><circle cx="100" cy="30" r="13" fill="#dbe7f3" stroke="#0b1524" stroke-width="2.4"/><path d="M48 104 Q48 42 100 40 Q152 42 152 104 Z" fill="#6f8fb3" stroke="#0b1524" stroke-width="2.4"/><rect x="44" y="96" width="112" height="30" rx="3" fill="#3e5a7c" stroke="#0b1524" stroke-width="2.4"/><g stroke="#8fb4d9" stroke-width="2.5"><path d="M56 100 v22 M70 100 v22 M84 100 v22 M98 100 v22 M112 100 v22 M126 100 v22 M140 100 v22"/></g></svg></div>
+            <div><span class="code">FW-02 · HEAD</span><h3>Over-the-Ears Hat</h3></div>
+          </div>
+          <div class="rate"><span class="dots" aria-label="Warmth 3 of 4">●●●<s>●</s></span><span class="budget" aria-label="Budget: under $25">$<s>$$</s></span></div>
+          <p class="fine">“Not perched on top. All the way down.” — M.</p>
+        </article>
+
+        <article class="card">
+          <div class="top">
+            <div class="ic"><span class="badge">Staff pick</span><svg viewBox="0 0 200 150" aria-hidden="true"><g transform="translate(28 18)" stroke="#0b1524" stroke-width="2.4" stroke-linejoin="round"><path d="M20 96 L20 40 Q20 10 44 10 Q66 10 66 40 L66 96 Z" fill="#8fb4d9"/><path d="M20 58 Q2 52 4 36 Q8 26 20 36" fill="#8fb4d9"/><rect x="16" y="90" width="54" height="22" rx="2" fill="#dbe7f3"/></g><g transform="translate(172 18) scale(-1 1)" stroke="#0b1524" stroke-width="2.4" stroke-linejoin="round"><path d="M20 96 L20 40 Q20 10 44 10 Q66 10 66 40 L66 96 Z" fill="#8fb4d9"/><path d="M20 58 Q2 52 4 36 Q8 26 20 36" fill="#8fb4d9"/><rect x="16" y="90" width="54" height="22" rx="2" fill="#dbe7f3"/></g></svg></div>
+            <div><span class="code">FW-03 · HANDS</span><h3>Mittens, Not Gloves</h3></div>
+          </div>
+          <div class="rate"><span class="dots" aria-label="Warmth 4 of 4">●●●●</span><span class="budget" aria-label="Budget: under $25">$<s>$$</s></span></div>
+          <p class="fine">“Thin liners inside, for your phone.” — M.</p>
+        </article>
+
+        <article class="card">
+          <div class="top">
+            <div class="ic"><svg viewBox="0 0 200 150" aria-hidden="true"><path d="M58 34 Q100 22 142 34 L146 116 Q100 130 54 116 Z" fill="#5d7896" stroke="#0b1524" stroke-width="2.4" stroke-linejoin="round"/><ellipse cx="100" cy="32" rx="42" ry="9" fill="#3e5a7c" stroke="#0b1524" stroke-width="2.4"/><path d="M56 70 Q100 82 144 70 M56 84 Q100 96 144 84" stroke="#dbe7f3" stroke-width="4" fill="none"/></svg></div>
+            <div><span class="code">FW-04 · FACE</span><h3>Neck Gaiter</h3></div>
+          </div>
+          <div class="rate"><span class="dots" aria-label="Warmth 3 of 4">●●●<s>●</s></span><span class="budget" aria-label="Budget: under $25">$<s>$$</s></span></div>
+          <p class="fine">“Pull it over your nose.” — M.</p>
+        </article>
+
+        <article class="card">
+          <div class="top">
+            <div class="ic"><span class="badge">Biggest buy</span><svg viewBox="0 0 200 150" aria-hidden="true"><g transform="translate(100 36) scale(.34)" stroke="#0b1524" stroke-width="6" stroke-linejoin="round"><path d="M-50 6 Q-56 -74 0 -80 Q56 -74 50 6 Z" fill="#3e5a7c"/><path d="M-34 0 Q-38 -56 0 -60 Q38 -56 34 0" fill="none" stroke="#dbe7f3" stroke-width="14"/><path d="M-42 0 Q0 18 42 0 L102 16 L152 172 L124 184 L86 82 L92 304 L-92 304 L-86 82 L-124 184 L-152 172 L-102 16 Z" fill="#6f8fb3"/><path d="M0 10 L0 304"/></g></svg></div>
+            <div><span class="code">FW-05 · SHELL</span><h3>Past-the-Hips Parka</h3></div>
+          </div>
+          <div class="rate"><span class="dots" aria-label="Warmth 4 of 4">●●●●</span><span class="budget" aria-label="Budget: $25 to $75 and up">$$–$$$</span></div>
+          <p class="fine">“Mine cost less than a textbook.” — M.</p>
+        </article>
+
+        <article class="card">
+          <div class="top">
+            <div class="ic"><svg viewBox="0 0 200 150" aria-hidden="true"><g stroke="#0b1524" stroke-width="2.4" stroke-linejoin="round"><g transform="translate(34 24)"><path d="M4 10 L40 10 L42 70 Q72 72 80 90 L80 100 L0 100 Z" fill="#3e5a7c"/><rect x="0" y="0" width="46" height="16" rx="3" fill="#dbe7f3"/><rect x="-2" y="98" width="84" height="12" rx="2" fill="#0b1524"/></g><g transform="translate(90 32)"><path d="M4 10 L40 10 L42 70 Q72 72 80 90 L80 100 L0 100 Z" fill="#5d7896"/><rect x="0" y="0" width="46" height="16" rx="3" fill="#dbe7f3"/><rect x="-2" y="98" width="84" height="12" rx="2" fill="#0b1524"/></g></g></svg></div>
+            <div><span class="code">FW-06 · FEET</span><h3>Grip-Sole Boots</h3></div>
+          </div>
+          <div class="rate"><span class="dots" aria-label="Warmth 3 of 4">●●●<s>●</s></span><span class="budget" aria-label="Budget: $25 to $75">$$<s>$</s></span></div>
+          <p class="fine">“Check the tread before the color.” — M.</p>
+        </article>
+      </div>
+      <p class="where"><b>Where to look</b><span>Uniqlo, Costco, thrift stores, or free at the November gear swap.</span><small>Dots = warmth. $ under $25 · $$ $25–75 · $$$ $75+. Stores are examples, not sponsors.</small></p>
+    </section>
+
+    <section class="sec alt" id="rated" data-beat="rated">
+      <div class="sh">
+        <div><span class="kicker">03 · Rated To · Wind chill tool</span><h2>Dress for the number <em>that hits you.</em></h2></div>
+        <span class="pg">NWS formula</span>
+      </div>
+      <div class="rated">
+        <div class="panel ctl">
+          <div class="lbl"><span>Feels-like calculator</span><span>°F · mph</span></div>
+          <label for="tIn">Air temperature <b id="tOut">10°F</b></label>
+          <input id="tIn" type="range" min="-30" max="40" value="10" step="1">
+          <label for="vIn">Wind speed <b id="vOut">15 mph</b></label>
+          <input id="vIn" class="wind" type="range" min="3" max="45" value="15" step="1">
+          <div class="readout" aria-live="polite">
+            <span class="fl">Feels like</span>
+            <div class="num"><span id="wcOut">−7</span><sup>°F</sup></div>
+            <div><span class="risk zb" id="riskOut">Below zero: cover skin</span><div class="air" id="airOut">The wind takes 17° off.</div></div>
+          </div>
+          <div class="wear"><span class="k">Wear</span><b id="wearOut">Full kit, no bare skin</b><span id="wearSub">FW-01 to FW-06</span></div>
+          <div class="presets" aria-label="Try a real morning">
+            <button type="button" class="meera" data-t="2" data-v="21"><em>Meera’s first cold morning</em><span>2°F · 21 mph</span></button>
+            <button type="button" data-t="10" data-v="15">Typical January night<span>10°F · 15 mph</span></button>
+            <button type="button" data-t="-23" data-v="17">Polar vortex, Jan 2019<span>−23°F · 17 mph</span></button>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="lbl"><span>Wind chill chart · tap a cell</span><span>°F</span></div>
+          <table class="wc" id="wc" aria-label="Wind chill chart: air temperature across, wind speed down"></table>
+          <div class="key">
+            <span style="--c:var(--z0)">Cold, manageable</span>
+            <span style="--c:var(--zb)">Below zero, cover up</span>
+            <span style="--c:var(--z30)">≤ −18°: frostbite ~30 min</span>
+            <span style="--c:var(--z10)">≤ −35°: ~10 min</span>
+            <span style="--c:var(--z5)">≤ −48°: ~5 min</span>
+          </div>
+        </div>
+      </div>
+      <p class="caveat">Club guidance, not medical advice. If skin goes numb or pale, go inside and warm up slowly.</p>
+    </section>
+
+    <section class="sec" id="swap" data-beat="swap">
+      <div class="sh">
+        <div><span class="kicker">04 · The Gear Swap</span><h2>Free coats, <em>from last year’s first-years.</em></h2></div>
+        <span class="pg">November</span>
+      </div>
+      <div class="swap">
+        <div class="sl">
+          <span class="kicker">Feature</span>
+          <h3>The Gear Swap.</h3>
+          <em>November. Free. On campus.</em>
+          <p>Second-years bring the parkas, boots and mittens they’ve outgrown. You take what fits. Nothing to give? Come anyway.</p>
+          <dl>
+            <dt>When</dt><dd>Before the deep cold. Date sent to members.</dd>
+            <dt>Cost</dt><dd>$0.00</dd>
+          </dl>
+        </div>
+        <div class="sr">
+          <span class="cap">On the rack this year: whatever you bring.</span>
+          <svg viewBox="0 0 520 440" role="img" aria-label="Illustration: a clothing rack with four donated jackets, boots underneath, and a tag reading FREE">
+            <g stroke="#9fb3c8" stroke-width="3" stroke-linecap="round" fill="none"><path d="M40 60 L480 60"/><path d="M60 60 L40 400 M460 60 L480 400"/><path d="M20 400 L80 400 M440 400 L500 400"/></g>
+            <g stroke="#9fb3c8" stroke-width="2" fill="none"><path d="M120 60 q0 -14 10 -14 M130 46 q10 0 10 10 L140 70 L100 92 M140 70 L180 92"/><path d="M215 60 q0 -14 10 -14 M225 46 q10 0 10 10 L235 70 L195 92 M235 70 L275 92"/><path d="M310 60 q0 -14 10 -14 M320 46 q10 0 10 10 L330 70 L290 92 M330 70 L370 92"/><path d="M395 60 q0 -14 10 -14 M405 46 q10 0 10 10 L415 70 L375 92 M415 70 L455 92"/></g>
+            <g stroke="#0b1524" stroke-width="2" stroke-linejoin="round">
+              <path d="M112 90 L168 90 L184 110 L180 300 L100 300 L96 110 Z" fill="#6f8fb3"/><path d="M140 92 L140 300" stroke="#3e5a7c"/>
+              <path d="M206 90 L264 90 L282 110 L276 260 L194 260 L188 110 Z" fill="#3e5a7c"/><path d="M235 92 L235 260" stroke="#a9c8e8"/>
+              <path d="M302 90 L358 90 L374 110 L370 320 L290 320 L286 110 Z" fill="#a9c8e8"/>
+              <path d="M388 90 L442 90 L458 110 L452 240 L378 240 L374 110 Z" fill="#dbe7f3"/><path d="M388 130 L442 130 M388 160 L442 160 M388 190 L442 190" stroke="#8fb4d9"/>
+            </g>
+            <g transform="rotate(10 300 300)"><path d="M282 330 L300 312" stroke="#f3c58e" stroke-width="1.5"/><path d="M262 334 L304 334 L304 382 L262 382 L254 358 Z" fill="#fff6ec" stroke="#f2b45a" stroke-width="1.5"/><text x="282" y="364" text-anchor="middle" font-family="Avenir Next, Arial, sans-serif" font-weight="700" font-size="12" letter-spacing="1" fill="#8c3c1c">FREE</text></g>
+            <g stroke="#0b1524" stroke-width="1.7" stroke-linejoin="round"><path d="M120 350 L146 350 L148 384 Q168 386 172 396 L172 402 L116 402 Z" fill="#5d7896"/><path d="M176 356 L200 356 L202 386 Q220 388 224 398 L224 402 L172 402 Z" fill="#3e5a7c"/><path d="M360 352 L386 352 L388 384 Q408 386 412 396 L412 402 L356 402 Z" fill="#8fb4d9"/></g>
+            <path d="M0 404 L520 404" stroke="#3a5273" stroke-width="2"/>
+          </svg>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- ═════════ where both halves meet ═════════ -->
+<section class="meet" id="join" data-beat="join" aria-label="Join First Winter Club">
+  <div class="strip">
+    <span class="sa">Where the letter ends,</span> <span class="sb"><span>the list begins. <em>Come cold, leave warmer.</em></span></span>
+    <div class="seal" aria-hidden="true"><div><b>THU</b><span>6 PM</span><b>ON CAMPUS</b></div></div>
+  </div>
+  <div class="halves">
+    <div class="ml">
+      <div class="w">
+        <p><span class="sc">Thursday nights are what saved me.</span> My first November, a girl from Lagos in my lab section asked if I wanted to come to a thing at six. It was First Winter Club: a room on campus, a kettle, a pile of mismatched mittens, and people from Manila and São Paulo and Jakarta comparing the coldest they had ever been.</p>
+        <p>Nobody made me talk. Most weeks we just sat near the radiator and were warm together, which turned out to be the whole point.</p>
+        <div class="signoff">
+          <p>Warmly,</p>
+          <p class="name">Meera</p>
+          <p class="who">third year · still from Chennai · now also a little from here</p>
+        </div>
+        <p class="ps"><span class="tag">P.S.</span>Leave your name and I’ll send you the <em>First Winter Checklist</em>, the one page I wish someone had folded into my suitcase. It’s free, and so is the tea.</p>
+        <div class="pps-reply" id="ppsReply" role="status" aria-live="polite">
+          <p style="margin:0"><span class="sc">P.P.S.</span> Dear <em id="ppsName">friend</em>, I’ve saved you a seat by the radiator. See you Thursday. <em>— M.</em></p>
+        </div>
+      </div>
+    </div>
+    <div class="mr" id="get">
+      <div class="intro">
+        <div><span class="kicker">Item FW-00 · Free with membership</span><h2>The First Winter <em>Checklist.</em></h2></div>
+        <span class="meta">11 items · free · 1 page</span>
+      </div>
+      <div class="peek" id="peek" aria-label="Preview: three of the eleven checklist items">
+        <div class="lbl"><span>A peek at the page</span><span>3 of 11</span></div>
+        <ol>
+          <li><span>01</span><div>Base layer, merino or synthetic <small>· never cotton</small></div></li>
+          <li><span>08</span><div>Weather app set to <em>feels like</em> <small>· not the temperature</small></div></li>
+          <li><span>10</span><div>Gear swap date <small>· free coats, in November</small></div></li>
+        </ol>
+        <p class="more">+ 8 more: every layer in order, your frostbite numbers, and a routine for the dark months.</p>
+      </div>
+      <form class="ofm" id="of" novalidate>
+        <div class="hd"><span>Order form<span class="hx"> · First Winter Club</span></span><span>Total $0.00</span></div>
+        <div class="bdy">
+          <div class="fld"><label for="nm">Name</label><input id="nm" name="name" autocomplete="off" placeholder="your first name"></div>
+          <div class="fld"><label for="em">Email</label><input id="em" name="email" type="email" autocomplete="off" placeholder="cnetid@uchicago.edu"></div>
+          <div class="fld opt"><label for="hm">Where are you from? <span class="o">optional</span></label><input id="hm" name="home" autocomplete="off" placeholder="e.g. Chennai, Lagos, Manila"></div>
+          <p class="err" id="err" role="alert"></p>
+          <div class="submit">
+            <small>Prototype: nothing you type here is sent or stored.</small>
+            <button type="submit">Send my checklist · $0.00</button>
+          </div>
+        </div>
+      </form>
+      <div class="slip" id="slip" role="status" aria-live="polite">
+        <div class="hd"><span>Packing slip</span><span id="ono">Order FW-0000</span></div>
+        <div class="in">
+          <span class="stamp">Seat saved</span>
+          <h3 id="thx">Welcome to the club.</h3>
+          <p id="slipmsg">Your First Winter Checklist is packed. All 11 items:</p>
+          <ol>
+            <li>Base layer, merino or synthetic</li>
+            <li>Mid layer: fleece or light down</li>
+            <li>Past-the-hips windproof parka</li>
+            <li>Over-the-ears hat</li>
+            <li>Mittens, plus thin liners</li>
+            <li>Neck gaiter or long scarf</li>
+            <li>Grip-sole boots + wool socks</li>
+            <li>Weather app set to feels-like</li>
+            <li>Frostbite numbers by the door</li>
+            <li>Gear swap date, November</li>
+            <li>Fifteen minutes of midday light</li>
+          </ol>
+          <p class="fine2">See you Thursday at 6 PM. Prototype only: nothing was sent or stored.</p>
+        </div>
+      </div>
+      <ol class="next">
+        <li><b>Today</b><span>The checklist, in your inbox</span></li>
+        <li><b>Thursday, 6 PM</b><span>A seat by the radiator, tea included</span></li>
+        <li><b>November</b><span>The gear swap</span></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="fl"><span class="tag">P.P.S.</span>Bring the cotton hoodie anyway. It’s perfect for indoors.</div>
+  <div class="fr"><span>A student-run peer support group for UChicago international students. Not medical advice.</span><span style="white-space:nowrap"><a href="../">← Gallery</a> · v20 · Merge</span></div>
+</footer>
+
+<!-- ═════════ mobile: ONE bottom element. Meera, docked, with the checklist on her right ═════════ -->
+<div class="dock off" id="dock">
+  <button type="button" class="dock-open" id="dockOpen" aria-expanded="false" aria-controls="sheet">
+    <span class="av" aria-hidden="true">M</span>
+    <span class="stack">
+      <span class="lay show"><span class="lab"></span><span class="txt"></span></span>
+      <span class="lay" aria-hidden="true"><span class="lab"></span><span class="txt"></span></span>
+    </span>
+    <svg class="up" viewBox="0 0 16 16" width="12" height="12" aria-hidden="true"><path d="M3 10 L8 5 L13 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <a class="dock-cta" id="dockCta" href="#get">Get checklist</a>
+</div>
+<div class="scrim" id="scrim"></div>
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTtl">
+  <div class="grab" aria-hidden="true"></div>
+  <div class="sheet-hd">
+    <span class="av" aria-hidden="true">M</span>
+    <div><p class="pg" id="sheetPg">From Meera’s letter · page 1 of 5</p><h2 id="sheetTtl">Dear you</h2></div>
+    <button type="button" class="x" id="sheetX" aria-label="Close Meera’s letter">×</button>
+  </div>
+  <div class="sheet-bd w" id="sheetBody"></div>
+  <div class="sheet-ft"><span class="pips" id="sheetPips" aria-hidden="true"></span><button type="button" id="sheetBack">Back to the catalog</button></div>
+</div>
+
+<script>
+(function () {
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var neg = function (n) { return String(n).replace('-', '−'); };
+  var $ = function (id) { return document.getElementById(id); };
+
+  /* ── 1. One section picker drives everything: letter, nav, checklist card, Meera's dock ── */
+  var mobile = matchMedia('(max-width: 900px)');
+  var letter = $('letter'), inner = $('letterIn');
+  var beats = [].slice.call(document.querySelectorAll('.beat'));
+  var ids = beats.map(function (b) { return b.dataset.id; });
+  var secs = [].slice.call(document.querySelectorAll('[data-beat]'));
+  var navs = [].slice.call(document.querySelectorAll('[data-nav]'));
+  var strip = $('navStrip');
+  var pips = $('pips'), folio = $('folioTxt');
+  beats.forEach(function () { pips.appendChild(document.createElement('i')); });
+  var pipEls = [].slice.call(pips.children);
+  var current = null, beatIdx = 0;
+
+  function place(beat) {
+    if (!letter.offsetParent) return;          // letter hidden on mobile
+    var H = letter.clientHeight;
+    var y = 0;
+    if (beats.indexOf(beat) > 0) {
+      var room = H - beat.offsetHeight;
+      y = beat.offsetTop - Math.max(32, Math.min(room * .28, 160));
+      y = Math.max(0, Math.min(y, inner.scrollHeight - H));
+    }
+    inner.style.transform = 'translateY(' + (-y) + 'px)';
+  }
+
+  // keep the active pill visible in the mobile nav strip (horizontal only)
+  function revealChip(a) {
+    if (!a || !mobile.matches) return;
+    var l = a.offsetLeft, r = l + a.offsetWidth;
+    if (l < strip.scrollLeft + 12 || r > strip.scrollLeft + strip.clientWidth - 24) {
+      strip.scrollTo({ left: Math.max(0, l - 16), behavior: reduce ? 'auto' : 'smooth' });
+    }
+  }
+
+  function activate(id) {
+    if (id === current) return;
+    current = id;
+    var onNav = null;
+    navs.forEach(function (a) { var on = a.dataset.nav === id; a.classList.toggle('on', on); if (on) onNav = a; });
+    revealChip(onNav);
+    var i = id === 'join' ? beats.length - 1 : ids.indexOf(id);   // at the form, the letter rests on its last page
+    if (i < 0) return;
+    beatIdx = i;
+    beats.forEach(function (b, k) {
+      b.classList.toggle('on', k === i);
+      pipEls[k].classList.toggle('on', k === i);
+    });
+    folio.textContent = 'page ' + (i + 1) + ' of ' + beats.length;
+    place(beats[i]);
+    dockShow(i);
+  }
+
+  /* Which section is current? The last one whose top has crossed a line ~43% down
+     the viewport. IntersectionObserver and a rAF-throttled scroll listener both
+     just schedule this one measurement, so they can't disagree, and the scroll
+     fallback still works where IO doesn't fire. */
+  var hello = $('hello'), formEl = $('of'), slip = $('slip');
+  var joined = false, formFocus = false;
+  var queued = false;
+  function schedule() { if (!queued) { queued = true; requestAnimationFrame(update); } }
+  function update() {
+    queued = false;
+    var line = innerHeight * .43, pick = secs[0];
+    for (var k = 0; k < secs.length; k++) { if (secs[k].getBoundingClientRect().top <= line) pick = secs[k]; }
+    if (innerHeight + scrollY >= document.documentElement.scrollHeight - 2) pick = secs[secs.length - 1];
+    activate(pick.dataset.beat);
+    // the form (or, after joining, the packing slip) has been reached
+    var formReached = (joined ? slip : formEl).getBoundingClientRect().top < innerHeight - 60;
+    setCta(joined || formReached);
+    dockVisibility(formReached);
+  }
+
+  /* ── 2. Desktop: the checklist card pinned under the letter ── */
+  var ctaCard = $('ctaCard'), ctaOff = null;
+  function setCta(off) {
+    if (off === ctaOff) return;
+    ctaOff = off;
+    ctaCard.classList.toggle('off', off);
+    ctaCard.setAttribute('aria-hidden', off ? 'true' : 'false');
+  }
+
+  /* ── 3. Mobile: Meera docked at the bottom (with the checklist button), expandable into a sheet ── */
+  var dock = $('dock'), dockOpen = $('dockOpen'), dockCta = $('dockCta');
+  var lays = [].slice.call(dock.querySelectorAll('.lay'));
+  var front = 0, dockIdx = -1;
+  var sheet = $('sheet'), scrim = $('scrim');
+  var sheetBody = $('sheetBody'), sheetX = $('sheetX'), sheetBack = $('sheetBack');
+  var sheetPips = $('sheetPips');
+  beats.forEach(function () { sheetPips.appendChild(document.createElement('i')); });
+  var opener = null, fromHello = false, lastFormReached = false;
+
+  function fill(lay, b) {
+    lay.firstChild.textContent = 'Meera says · ' + b.dataset.label;
+    lay.lastChild.textContent = b.dataset.pull;
+  }
+  function dockShow(i) {
+    if (i === dockIdx) return;
+    var b = beats[i];
+    if (dockIdx < 0) { fill(lays[front], b); }
+    else {                                      // crossfade: fill the hidden layer, then swap
+      var back = lays[1 - front];
+      fill(back, b);
+      back.classList.add('show'); back.removeAttribute('aria-hidden');
+      lays[front].classList.remove('show'); lays[front].setAttribute('aria-hidden', 'true');
+      front = 1 - front;
+    }
+    dockIdx = i;
+    dockOpen.setAttribute('aria-label', 'Meera says: ' + b.dataset.pull + ' Open this page of her letter.');
+  }
+  function dockVisibility(formReached) {
+    if (formReached === undefined) formReached = lastFormReached;
+    lastFormReached = formReached;
+    var off = !mobile.matches
+      || hello.getBoundingClientRect().bottom > 140      // the opening (with its own CTA) is still on screen
+      || formReached                                     // never cover the form
+      || formFocus                                       // the keyboard is up
+      || sheet.classList.contains('open');
+    dock.classList.toggle('off', off);
+  }
+
+  function openSheet(i, from) {
+    if (i === undefined || i < 0) i = 0;
+    opener = from || dockOpen;
+    fromHello = opener !== dockOpen;
+    var b = beats[i];
+    var c = b.cloneNode(true);
+    [].slice.call(c.querySelectorAll('.to, .onward')).forEach(function (n) { n.remove(); });
+    sheetBody.innerHTML = c.innerHTML;
+    sheetBody.scrollTop = 0;
+    $('sheetTtl').textContent = b.dataset.id === 'cover' ? 'Dear you, arriving this fall' : b.dataset.label;
+    $('sheetPg').textContent = 'From Meera’s letter · page ' + (i + 1) + ' of ' + beats.length;
+    sheetBack.textContent = fromHello ? 'On to the catalog ↓' : 'Back to the catalog';
+    [].slice.call(sheetPips.children).forEach(function (p, k) { p.classList.toggle('on', k === i); });
+    sheet.classList.add('open'); scrim.classList.add('open');
+    document.documentElement.classList.add('locked');
+    dockOpen.setAttribute('aria-expanded', 'true');
+    dockVisibility();
+    sheetX.focus({ preventScroll: true });
+  }
+  function closeSheet(silent, goOn) {
+    if (!sheet.classList.contains('open')) return;
+    sheet.classList.remove('open'); scrim.classList.remove('open');
+    document.documentElement.classList.remove('locked');
+    dockOpen.setAttribute('aria-expanded', 'false');
+    var goRead = goOn && fromHello;
+    if (goRead) $('read').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    dockVisibility();
+    if (silent) return;
+    if (goRead) $('coverTtl').focus({ preventScroll: true });   // keep focus where the reader now is
+    else if (opener) opener.focus({ preventScroll: true });
+  }
+  dockOpen.addEventListener('click', function () { openSheet(dockIdx); });
+  sheetX.addEventListener('click', function () { closeSheet(); });
+  sheetBack.addEventListener('click', function () { closeSheet(false, true); });
+  scrim.addEventListener('click', function () { closeSheet(); });
+  sheet.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') { closeSheet(); return; }
+    if (e.key === 'Tab') {                      // keep focus inside the open sheet
+      var first = sheetX, last = sheetBack;
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  });
+  // swipe the sheet down to close it
+  var y0 = null;
+  sheet.addEventListener('touchstart', function (e) { y0 = sheetBody.scrollTop <= 0 ? e.touches[0].clientY : null; }, { passive: true });
+  sheet.addEventListener('touchend', function (e) { if (y0 !== null && e.changedTouches[0].clientY - y0 > 70) closeSheet(); y0 = null; });
+  // on a phone, "Read my letter" opens her letter right here instead of jumping past it
+  $('readBtn').addEventListener('click', function (e) {
+    if (!mobile.matches) return;
+    e.preventDefault();
+    openSheet(0, e.currentTarget);
+  });
+  // the keyboard is up: get out of the way (the Rated To sliders don't count)
+  document.addEventListener('focusin', function (e) { formFocus = !!(e.target.closest && e.target.closest('input, textarea, select') && !e.target.closest('.panel')); dockVisibility(); });
+  document.addEventListener('focusout', function () { formFocus = false; setTimeout(dockVisibility, 0); });
+
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(schedule, { rootMargin: '-42% 0px -56% 0px' });
+    secs.forEach(function (s) { io.observe(s); });
+    var io2 = new IntersectionObserver(schedule, { rootMargin: '0px 0px -60px 0px' });
+    [hello, formEl, slip].forEach(function (s) { io2.observe(s); });
+  }
+  addEventListener('scroll', schedule, { passive: true });
+  addEventListener('resize', function () {
+    if (!mobile.matches) closeSheet(true);
+    var b = beats[beatIdx]; if (b) place(b);
+    schedule();
+  });
+  update();
+
+  /* ── 4. Rated To: calculator + chart ── */
+  var tIn = $('tIn'), vIn = $('vIn');
+  var TEMPS = [40, 30, 20, 10, 0, -10, -20, -30];
+  var WINDS = [5, 10, 15, 20, 25, 30, 35, 40];
+  function chill(t, v) {
+    if (t > 50 || v < 3) return t;
+    var p = Math.pow(v, 0.16);
+    return 35.74 + 0.6215 * t - 35.75 * p + 0.4275 * t * p;
+  }
+  function zone(w) { return w <= -48 ? 'z5' : w <= -35 ? 'z10' : w <= -18 ? 'z30' : w < 0 ? 'zb' : 'z0'; }
+
+  var tbl = $('wc');
+  var html = '<thead><tr><th scope="col">mph</th>' + TEMPS.map(function (t) { return '<th scope="col" data-t="' + t + '">' + neg(t) + '°</th>'; }).join('') + '</tr></thead><tbody>';
+  WINDS.forEach(function (v) {
+    html += '<tr><th scope="row" data-v="' + v + '">' + v + '</th>' + TEMPS.map(function (t) {
+      var w = Math.round(chill(t, v));
+      return '<td class="' + zone(w) + '" data-t="' + t + '" data-v="' + v + '" title="' + neg(t) + '°F air, ' + v + ' mph wind: feels like ' + neg(w) + '°F">' + neg(w) + '</td>';
+    }).join('') + '</tr>';
+  });
+  tbl.innerHTML = html + '</tbody>';
+  tbl.addEventListener('click', function (e) {
+    var td = e.target.closest('td'); if (!td) return;
+    tIn.value = td.dataset.t; vIn.value = td.dataset.v; calc();
+  });
+
+  var RISK = { z0: 'Cold, manageable: layers', zb: 'Below zero: cover skin', z30: 'Frostbite in ~30 min', z10: 'Frostbite in ~10 min', z5: 'Frostbite in ~5 min' };
+  var noteRows = [].slice.call(document.querySelectorAll('.sticky-note .row'));
+  var presetBtns = [].slice.call(document.querySelectorAll('.presets button'));
+
+  function calc() {
+    var t = +tIn.value, v = +vIn.value, w = Math.round(chill(t, v)), z = zone(w);
+    $('tOut').textContent = neg(t) + '°F';
+    $('vOut').textContent = v + ' mph';
+    $('wcOut').textContent = neg(w);
+    var r = $('riskOut'); r.textContent = RISK[z]; r.className = 'risk ' + z;
+    var d = t - w;
+    $('airOut').textContent = d > 0 ? 'The wind takes ' + d + '° off.' : 'Barely any wind chill.';
+    var wear, sub;
+    if (w > 32) { wear = 'Hoodie + light jacket'; sub = 'Fine for October. Enjoy it.'; }
+    else if (w > 0) { wear = 'Three layers + hat'; sub = 'Base, mid layer, parka, hat'; }
+    else if (w > -25) { wear = 'Full kit, no bare skin'; sub = 'FW-01 to FW-06'; }
+    else { wear = 'Full kit, short trips only'; sub = 'Cover everything. Stay inside when you can.'; }
+    $('wearOut').textContent = wear;
+    $('wearSub').textContent = sub;
+
+    // highlight the nearest chart cell
+    var nt = Math.max(-30, Math.min(40, Math.round(t / 10) * 10));
+    var nv = Math.max(5, Math.min(40, Math.round(v / 5) * 5));
+    tbl.querySelectorAll('.hit, th.on').forEach(function (el) { el.classList.remove('hit', 'on'); });
+    var cell = tbl.querySelector('td[data-t="' + nt + '"][data-v="' + nv + '"]');
+    if (cell) cell.classList.add('hit');
+    var ch = tbl.querySelector('thead th[data-t="' + nt + '"]'); if (ch) ch.classList.add('on');
+    var rh = tbl.querySelector('tbody th[data-v="' + nv + '"]'); if (rh) rh.classList.add('on');
+
+    // the matching line on Meera's sticky note
+    var hot = null;
+    noteRows.forEach(function (row) { if (w <= +row.dataset.at) hot = row; });
+    noteRows.forEach(function (row) { row.classList.toggle('hot', row === hot); });
+
+    // and the matching preset, if any
+    presetBtns.forEach(function (b) { var on = +b.dataset.t === t && +b.dataset.v === v; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); });
+  }
+  tIn.addEventListener('input', calc); vIn.addEventListener('input', calc);
+  presetBtns.forEach(function (b) {
+    b.addEventListener('click', function () { tIn.value = b.dataset.t; vIn.value = b.dataset.v; calc(); });
+  });
+  calc();
+
+  /* ── 5. The checklist form: two fields, nothing leaves the page ── */
+  formEl.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var err = $('err');
+    var nm = $('nm'), em = $('em'), hm = $('hm');
+    if (!nm.value.trim()) { err.textContent = 'Just your first name is fine.'; nm.focus(); return; }
+    if (!em.value.trim() || !em.checkValidity()) { err.textContent = 'Please add an email Meera can write to.'; em.focus(); return; }
+    err.textContent = '';
+    var first = nm.value.trim().split(/\s+/)[0];
+    var home = hm.value.trim();
+    $('ono').textContent = 'Order FW-' + String(Math.floor(1000 + Math.random() * 9000));
+    $('thx').textContent = 'Welcome to the club, ' + first + '.';
+    $('slipmsg').textContent = 'Your First Winter Checklist is packed' +
+      (home ? ', shipping from ' + home + ' to Hyde Park' : '') + '. All 11 items:';
+    formEl.style.display = 'none';
+    $('peek').style.display = 'none';
+    slip.classList.add('on');
+    $('ppsName').textContent = first;
+    $('ppsReply').classList.add('show');
+    joined = true;
+    dockCta.hidden = true;                       // the dock keeps Meera, drops the button
+    if (document.activeElement) document.activeElement.blur();
+    schedule();
+    $('get').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+  });
+})();
+</script>
+</body>
+</html>
