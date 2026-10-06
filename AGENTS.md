@@ -19,7 +19,7 @@ Design, Build, Ship (MPCS 51238), Assignment 1: Accelerated Prototyping. Due Tue
 ## Constraints
 - Plain HTML and CSS, plus optional vanilla JS. No frameworks, packages, build step, external APIs, or data storage.
 - Each version is self-contained (inline `<style>` is fine). Don't share CSS between versions.
-- Deployed on Vercel Hobby from a GitHub repo (pushes to `main` auto-deploy). Live: https://design-build-shipassignment1.vercel.app/ · Repo: https://github.com/DarryDarius/design-build-ship_assignment1 Commit after each batch so the history shows iteration.
+- Deployed on Vercel Hobby from a GitHub repo (pushes to `main` auto-deploy). Live: https://design-build-shipassignment1.vercel.app/ · Repo: https://github.com/DarryDarius/design-build-ship_assignment1. Commit after each batch so the history shows iteration.
 
 ## How we work
 - The student (me) makes the design decisions. Claude proposes and builds, and I pick, drop, and combine.
